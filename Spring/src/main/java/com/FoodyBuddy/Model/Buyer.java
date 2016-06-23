@@ -27,11 +27,13 @@ public class Buyer{
 
 	@Column(name="email")
 	private String email;
-	
+
 	@Column(name="flatNumber")
 	private String flatNumber;
 	
-	Buyer(Apartment apartment, String name, String phoneNumber, String email, String flatNumber){
+	public Buyer(){}
+	
+	public Buyer(Apartment apartment, String name, String phoneNumber, String email, String flatNumber){
 		
 		this.apartment = apartment;
 		this.name = name;

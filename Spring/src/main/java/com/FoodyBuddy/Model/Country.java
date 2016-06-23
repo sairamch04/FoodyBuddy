@@ -18,7 +18,11 @@ public class Country{
 	@Column(name="countryName")
 	private String countryName;
 
-	Country(){}
+	public Country(){}
+
+	public Country(String countryName){
+		this.countryName = countryName;
+	}
 
 	public int getCountryId(){
 		return countryId;
