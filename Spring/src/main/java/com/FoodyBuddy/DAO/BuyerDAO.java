@@ -5,7 +5,7 @@ public interface BuyerDAO{
 
 	public List<Buyer> getAllBuyers();
 	public Buyer getBuyer(int id);
-	public boolean insertBuyer(Buyer buyer);
-	public boolean updateBuyer(Buyer buyer);
-	public boolean deleteBuyer(int id);
+	public void insertBuyer(Buyer buyer);
+	public void updateBuyer(Buyer buyer);
+	public void deleteBuyer(int id);
 }
