@@ -12,23 +12,23 @@ import javax.persistence.Table;
 public class Country{
 	
 	@Id
-	@Column(name="CountryId")
+	@Column(name="id")
 	@GeneratedValue
 	private int countryID;
-	@Column(name="countryName")
-	private String countryName;
+	@Column(name="name")
+	private String name;
 
 	public Country(){}
 
-	public Country(String countryName){
-		this.countryName = countryName;
+	public Country(String name){
+		this.name = name;
 	}
 
-	public int getCountryId(){
-		return countryId;
+	public int getId(){
+		return id;
 	}
 
-	public String getCountryName(){
+	public String getName(){
 		return countryName;
 	}
 
