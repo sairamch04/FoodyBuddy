@@ -1,4 +1,4 @@
-package com.FoodyBuddy;
+package com.FoodyBuddy.Controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
