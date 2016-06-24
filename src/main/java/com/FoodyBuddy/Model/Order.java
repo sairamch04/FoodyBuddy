@@ -29,7 +29,7 @@ public class Order{
     @JoinColumn(name = "id")
     private Buyer  buyer;
 	
-	@Column(name ="status")
+	@Column(name ="status", nullable = false, columnDefinition ="STRING default 'intiated'")
 	private String status;
 	
 	@Column(name = "net_order_amount")

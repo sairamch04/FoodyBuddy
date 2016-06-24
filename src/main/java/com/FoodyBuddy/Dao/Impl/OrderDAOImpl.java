@@ -5,17 +5,18 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.springframework.stereotype.Repository;
 
 import com.FoodyBuddy.Dao.OrderDAO;
 import com.FoodyBuddy.Model.Order;
 
-
+@Repository
 public class OrderDAOImpl implements OrderDAO {
 
 	private SessionFactory sessionFactory;
 
-    public void setSessionFactory(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
+    public OrderDAOImpl(SessionFactory sessionFactory){
+    	 this.sessionFactory = sessionFactory;
     }
     
 	public void save(Order c) {
@@ -38,12 +39,12 @@ public class OrderDAOImpl implements OrderDAO {
 		
 	}
 	@SuppressWarnings("unchecked")
-	public List<Order> getByOrderId(Integer orderId){
+	public Order getByOrderId(Integer orderId){
 		Session session = this.sessionFactory.openSession();
 		String query= "FROM Order O WHERE O.id = " + orderId;
-		List<Order> orders = session.createQuery(query).list();
+		Order order = (Order) session.createQuery(query).list().get(0);
 		session.close();
-		return orders;
+		return order;
 		
 	}
 	
@@ -71,5 +72,6 @@ public class OrderDAOImpl implements OrderDAO {
 		session.close();	
 		
 	}
+
 	
 }
