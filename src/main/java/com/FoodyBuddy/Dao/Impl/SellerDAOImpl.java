@@ -1,12 +1,10 @@
 package com.FoodyBuddy.Dao.Impl;
 
 import java.util.List;
-
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-
 import com.FoodyBuddy.Dao.SellerDAO;
 import com.FoodyBuddy.Model.Seller;
 
@@ -75,6 +73,6 @@ public class SellerDAOImpl implements SellerDAO {
         List<Seller> seller_by_apartment_id = session.createQuery(query).list();
         session.close();
         return seller_by_apartment_id;    
-    }
-	
+    }	
+
 }

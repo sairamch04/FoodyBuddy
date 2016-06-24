@@ -51,6 +51,7 @@ public class Seller{
 	@Temporal(TemporalType.TIMESTAMP)
     @Column(name = "deleted_at", nullable = false)
     private Date deletedAt;
+
 	
 	public int getId() {
 		return id;
@@ -87,7 +88,6 @@ public class Seller{
 	public void setFlatNo(String flatNo) {
 		this.flatNo = flatNo;
 	}
-
 
 	public Apartment getApartment() {
 		return apartment;
@@ -183,8 +183,6 @@ public class Seller{
 		return "Seller [id=" + id + ", name=" + name + ", email=" + email + ", mobile=" + mobile + ", flatNo=" + flatNo
 				+ ", isActive=" + isActive + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + ", deletedAt="
 				+ deletedAt + "]";
-	}
-	
-	
+	}	
 	
 }
