@@ -1,20 +1,25 @@
-package com.FoodyBuddy.Service;
+package com.FoodyBuddy.Service.Impl;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.springframework.stereotype.Service;
 
 import com.FoodyBuddy.Dao.OrderDishDAO;
 import com.FoodyBuddy.Dao.Impl.OrderDishDAOImpl;
 import com.FoodyBuddy.Model.OrderDish;
+import com.FoodyBuddy.Service.OrderDishService;
 
-public class OrderDishServiceImpl {
-	 private SessionFactory sessionFactory;
+@Service
+public class OrderDishServiceImpl  implements OrderDishService{
+	private SessionFactory sessionFactory;
+
 	public OrderDish OrderDishQuantity(int orderDishId, int updatedQuantity) throws Exception {
 		Session session = null;
 		Transaction transaction = null;
 		try {
 			if (orderDishId < 0 || updatedQuantity < 0) {
-				throw new RuntimeException("invalid dishId or quantity");
+				throw new RuntimeException("invalid dishId or updated quantity");
 			}
 			session = this.sessionFactory.openSession();
 			transaction = session.beginTransaction();
@@ -22,26 +27,24 @@ public class OrderDishServiceImpl {
 
 			OrderDishDAO orderDishDAO = new OrderDishDAOImpl(sessionFactory);
 			OrderDish orderDish = orderDishDAO.listById(orderDishId);
-			//Check if available quantity is greater than updated quantity
+			// Check if available quantity is greater than updated quantity
 			Dish dish = orderDish.getDish();
-			if (dish.getAvailableQuantity() > updatedQuantity){
+			if (dish.getAvailableQuantity() > updatedQuantity) {
 				orderDish.setQuantity(updatedQuantity);
 				dish.setAvailableQuantity(dish.getAvailableQuantity() - updatedQuantity);
-				//TODO:: Check whether code below is needed or no
-				//write updated dish quantity values
+				// TODO:: Check whether code below is needed or no
+				// write updated dish quantity values
 				DishDAO dishDAO = new DishDAOImpl(sessionFactory);
-	            dishDAO.save(dish);
-	            orderDishDAO.save(orderDish);
-			}						
+				dishDAO.save(dish);
+				orderDishDAO.save(orderDish);
+			}
 			transaction.commit();
 		} catch (Exception ex) {
 			try {
 				transaction.rollback();
-				throw new Exception(
-						"Transaction could not be completed will be rollbacked: " + ex.getMessage(), ex);
+				throw new Exception("Transaction could not be completed will be rollbacked: " + ex.getMessage(), ex);
 			} catch (RuntimeException rbe) {
-				throw new Exception(
-						"Transaction could not be completed and rollback failed: " + ex.getMessage(), ex);
+				throw new Exception("Transaction could not be completed and rollback failed: " + ex.getMessage(), ex);
 			}
 		} finally {
 			if (session != null) {
