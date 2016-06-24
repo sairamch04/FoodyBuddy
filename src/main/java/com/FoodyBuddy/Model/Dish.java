@@ -62,6 +62,22 @@ public class Dish{
     @Column(name = "deleted_at", nullable = false)
     private Date deletedAt;
 
+	
+	
+	public Dish(String name, String description, Seller seller, String price, Date orderBy, Date dishAvailableStart,
+			Date dishAvailableEnd, Boolean isVeg, int quantityAvailable) {
+		super();
+		this.name = name;
+		this.description = description;
+		this.seller = seller;
+		this.price = price;
+		this.orderBy = orderBy;
+		this.dishAvailableStart = dishAvailableStart;
+		this.dishAvailableEnd = dishAvailableEnd;
+		this.isVeg = isVeg;
+		this.quantityAvailable = quantityAvailable;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

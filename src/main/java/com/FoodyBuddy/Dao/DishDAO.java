@@ -10,6 +10,6 @@ public interface DishDAO {
 	public void update(Dish d);
 	public void delete(Integer id);
 	public List<Dish> listdish();
-	public List<Dish> listdishByDishId(Integer DishId);
-	public List<Dish> listdishBySellerId(Integer SellerId);
+	public Dish listByDishId(Integer DishId);
+	public List<Dish> listBySellerId(Integer SellerId);
 }

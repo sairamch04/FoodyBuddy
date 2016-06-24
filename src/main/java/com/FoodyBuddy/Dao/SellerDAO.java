@@ -8,6 +8,6 @@ public interface SellerDAO {
 	public void update(Seller s);
 	public void delete(Integer id);
 	public List<Seller> listseller();
-	public List<Seller> listsellerBySellerId(Integer sellerId);
-	public List<Seller> listsellerByApartmentId(Integer apartmentId);
+	public Seller listBySellerId(Integer sellerId);
+	public List<Seller> listByApartmentId(Integer apartmentId);
 }

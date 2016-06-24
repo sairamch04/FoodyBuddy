@@ -1,8 +1,6 @@
 package com.FoodyBuddy.Dao.Impl;
 
 import java.util.List;
-
-import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -15,7 +13,7 @@ public class SellerDAOImpl implements SellerDAO {
 
 	private SessionFactory sessionFactory;
 
-    public void setSessionFactory(SessionFactory sessionFactory) {
+    public SellerDAOImpl(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
     
@@ -59,17 +57,16 @@ public class SellerDAOImpl implements SellerDAO {
 		return SellerList;
 	}
 
-	@SuppressWarnings("unchecked")
-    public List<Seller> listsellerBySellerId(Integer sellerId){
+    public Seller listBySellerId(Integer sellerId){
         Session session = this.sessionFactory.openSession();
         String query= "FROM Seller WHERE id = " + sellerId;
-        List<Seller> seller_by_id = session.createQuery(query).list();
+        Seller seller = (Seller) session.createQuery(query).list().get(0);
         session.close();
-        return seller_by_id;    
+        return seller;    
     }
 	
 	@SuppressWarnings("unchecked")
-    public List<Seller> listsellerByApartmentId(Integer apartmentId){
+    public List<Seller> listByApartmentId(Integer apartmentId){
         Session session = this.sessionFactory.openSession();
         String query= "FROM Seller WHERE apartment_id = " + apartmentId;
         List<Seller> seller_by_apartment_id = session.createQuery(query).list();

@@ -15,7 +15,7 @@ public class DishDAOImpl implements DishDAO {
 
 	private SessionFactory sessionFactory;
 
-    public void setSessionFactory(SessionFactory sessionFactory) {
+    public DishDAOImpl(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
     
@@ -61,16 +61,16 @@ public class DishDAOImpl implements DishDAO {
 
 
 	@SuppressWarnings("unchecked")
-    public List<Dish> listdishByDishId(Integer DishId){
+    public Dish listByDishId(Integer DishId){
         Session session = this.sessionFactory.openSession();
         String query= "FROM Dish WHERE id = " + DishId;
-        List<Dish> Dish_by_id = session.createQuery(query).list();
+        Dish dish = (Dish) session.createQuery(query).list().get(0);
         session.close();
-        return Dish_by_id;    
+        return dish;    
     }
 	
 	@SuppressWarnings("unchecked")
-    public List<Dish> listdishBySellerId(Integer sellerid){
+    public List<Dish> listBySellerId(Integer sellerid){
         Session session = this.sessionFactory.openSession();
         String query= "FROM Dish WHERE aseller_id = " + sellerid;
         List<Dish> Dish_by_seller_id = session.createQuery(query).list();
