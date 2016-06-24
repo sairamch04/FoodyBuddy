@@ -2,6 +2,7 @@ package com.FoodyBuddy.Service;
 
 import com.FoodyBuddy.Model.Locality;
 import java.util.List;
+import org.hibernate.TransactionException;
 
 public interface LocalityService {
 

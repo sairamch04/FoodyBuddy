@@ -18,7 +18,7 @@ import com.FoodyBuddy.DAO.Impl.StateDAOImpl;
 import com.FoodyBuddy.Model.State;
 
 
-@Service("buyerService")
+@Service("cityService")
 public class CityServiceIml implements CityService{
 
 	HibernateTransactionException TransactionFailureException = new HibernateTransactionException("Transaction could not be completed and rollback inititated!");

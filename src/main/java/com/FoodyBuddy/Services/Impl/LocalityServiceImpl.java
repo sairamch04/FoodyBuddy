@@ -9,39 +9,39 @@ import org.hibernate.Transaction;
 import org.hibernate.TransactionException;
 import java.lang.RuntimeException;
 
-import com.FoodyBuddy.DAO.CityDAO;
-import com.FoodyBuddy.DAO.Impl.CityDAOImpl;
-import com.FoodyBuddy.Model.City;
+import com.FoodyBuddy.DAO.LocalityDAO;
+import com.FoodyBuddy.DAO.Impl.LocalityDAOImpl;
+import com.FoodyBuddy.Model.Locality;
 
 import com.FoodyBuddy.DAO.CityDAO;
 import com.FoodyBuddy.DAO.Impl.CityDAOImpl;
 import com.FoodyBuddy.Model.City;
 
 
-@Service("buyerService")
-public class CityServiceIml implements CityService{
+@Service("localityService")
+public class LocalityServiceIml implements LocalityService{
 
 	HibernateTransactionException TransactionFailureException = new HibernateTransactionException("Transaction could not be completed and rollback inititated!");
 	HibernateTransactionException RollbackFailureException = new HibernateTransactionException("Transaction and Rollback Failed!");
 
-	public City getCity(int id) {
+	public Locality getLocality(int id) {
 		Session session = null;
 
 		session = this.SessionFactory.openSession();
-		CityDAO cityDAO = new CityDAOImpl(session);
-		return cityDAO.getCity(id);
+		LocalityDAO localityDAO = new LocalityDAOImpl(session);
+		return localityDAO.getLocality(id);
 	}
 
-	public List<City> getAllCitys(){
+	public List<Locality> getAllLocalities(){
 		Session session = null;
 
 		session = this.SessionFactory.openSession();
 
-		CityDAO cityDAO = new CityDAOImpl(session);
-		return cityDAO.getAllCitys();
+		LocalityDAO localityDAO = new LocalityDAOImpl(session);
+		return localityDAO.getAllLocalitys();
 	}
 
-	public void insertCity(String name, int cityId) throws TransactionException {
+	public void insertLocality(String name, int cityId) throws TransactionException {
 		Session session = null;
 		Transaction transaction = null;
 
@@ -53,10 +53,10 @@ public class CityServiceIml implements CityService{
 				cityDAO = new cityDAOimpl(session);
 				City city = CityDAO.getCity(cityId);
 
-				City city = new City(name, city);
+				Locality locality = new Locality(name, city);
 
-				CityDAO cityDAO = new CityDAOImpl(session);
-				cityDAO.insertCity(buyer);
+				LocalityDAO localityDAO = new LocalityDAOImpl(session);
+				localityDAO.insertLocality(locality);
 				transaction.commit();
 		}
 		
@@ -78,13 +78,13 @@ public class CityServiceIml implements CityService{
 		}
 	}
 
-	public void updateCity(City city) throws TransactionException {
+	public void updateLocality(Locality locality) throws TransactionException {
 
 		Session session = null;
 		Transaction transaction = null;
 
 		try {
-				if(city == null) {
+				if(locality == null) {
 					throw ObjectNullexception;
 				}
 
@@ -92,8 +92,8 @@ public class CityServiceIml implements CityService{
 				transaction = session.beginTransaction();
 				transaction.setTimeout(10);
 
-				CityDAO cityDAO = new CityDAOImpl(session);
-				cityDAO.updateCity(city);
+				LocalityDAO localityDAO = new LocalityDAOImpl(session);
+				localityDAO.updateLocality(locality);
 				transaction.commit();
 		}
 		
@@ -116,7 +116,7 @@ public class CityServiceIml implements CityService{
 		
 	}
 
-	public void deleteCity(int id) throws TransactionException {
+	public void deleteLocality(int id) throws TransactionException {
 		Session session = null;
 		Transaction transaction = null;
 
@@ -125,8 +125,8 @@ public class CityServiceIml implements CityService{
 				transaction = session.beginTransaction();
 				transaction.setTimeout(10);
 
-				CityDAO cityDAO = new CityDAOImpl(session);
-				cityDAO.deleteCity(city);
+				LocalityDAO localityDAO = new LocalityDAOImpl(session);
+				localityDAO.deleteLocality(locality);
 				transaction.commit();
 		}
 		
