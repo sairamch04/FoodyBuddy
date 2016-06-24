@@ -10,4 +10,7 @@ public interface OrderDishDAO {
 	public void delete(Integer id);
 	public List<OrderDish> listByOrderId(Integer OrderId);
 	public List<OrderDish> listByDishId(Integer DishId);
+	public List<OrderDish> listById(Integer Id);
+	public List<OrderDish> list();
+	
 }
