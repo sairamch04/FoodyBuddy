@@ -34,6 +34,7 @@ public class OrderServiceImpl implements OrderService {
 			BuyerDAO buyerDAO = new BuyerDAOImpl(sessionFactory);
 			OrderDishDAO orderDishDAO = new OrderDishDAOImpl(sessionFactory);
 			OrderDishDAO orderDishDAO = new OrderDishDAOImpl(sessionFactory);
+			OrderDAO orderDAO = new OrderDAOImpl(sessionFactory);
 			
 			Buyer buyer = buyerDAO.listById(buyerId);
 			Order order = new Order();
@@ -51,7 +52,8 @@ public class OrderServiceImpl implements OrderService {
 
 				// set the data to Orderdish
 				orderDish.setOrder(order);
-				//TODO:: Check whether  quantity of Dish is available, If available reduce the quantity in Dish table
+				//TODO:: Check whether  quantity of Dish is available and whether the Dish booking time has expired .
+				//TODO:: If valid quantity, reduce the quantity in Dish table
 				orderDish.setQuantity(quantity);
 				orderDish.setNetDishPrice(quantity * dish.getPrice());
 				orderDish.setDish(dish);
@@ -63,8 +65,7 @@ public class OrderServiceImpl implements OrderService {
 				// Inserting orderDish to db				
 				orderDishDAO.save(orderDish);
 			}
-			// Inserting order to db
-			OrderDAO orderDAO = new OrderDAOImpl(sessionFactory);
+			// Inserting order to db			
 			orderDAO.save(order);
 
 			transaction.commit();
