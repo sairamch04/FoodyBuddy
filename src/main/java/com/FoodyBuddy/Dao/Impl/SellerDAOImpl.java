@@ -1,7 +1,6 @@
 package com.FoodyBuddy.Dao.Impl;
 
 import java.util.List;
-
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -11,45 +10,36 @@ import com.FoodyBuddy.Model.Seller;
 
 
 public class SellerDAOImpl implements SellerDAO {
+	private Session session;
 
-	private SessionFactory sessionFactory;
-
-    public void setSessionFactory(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
+    public SellerDAOImpl(Session session) {
+        this.session = session;
     }
-    
 	public void save(Seller s) {
-		Session session = this.sessionFactory.openSession();
-		Transaction tx = session.beginTransaction();
 		session.persist(s);
-		tx.commit();
-		session.close();
 	}
-	
+	public void update(Seller seller ){
+		   session.update(seller); 
+	}
+	public void delete(Integer id) {
+		Seller seller = (Seller) session.load(Seller.class, new Integer(id));
+		session.delete(seller);
+	}
 	@SuppressWarnings("unchecked")
-	public List<Seller> list() {
-		Session session = this.sessionFactory.openSession();
+	public List<Seller> getListSeller() {
 		List<Seller> SellerList = session.createQuery("from Seller").list();
-		session.close();
 		return SellerList;
 	}
-
-	public void update(Seller s) {
-		Session session = this.sessionFactory.openSession();
-		Transaction tx = session.beginTransaction();
-		session.update(s);
-		tx.commit();
-		session.close();
-		
-	}
-
-	public void delete(Integer id) {
-		Session session = this.sessionFactory.getCurrentSession();
-		Seller seller = (Seller) session.load(Seller.class, new Integer(id));
-		if(null != seller)
-		{
-			session.delete(seller);
-		}
-	}
-
+    public Seller getListBySellerId(Integer sellerId){
+        String query= "FROM Seller WHERE id = " + sellerId;
+        Seller seller = (Seller) session.createQuery(query).list().get(0);
+        return seller;    
+    }
+	@SuppressWarnings("unchecked")
+    public List<Seller> getListByApartmentId(Integer apartmentId){
+        String query= "FROM Seller WHERE apartment_id = " + apartmentId;
+        List<Seller> sellerList = session.createQuery(query).list();
+        return sellerList;    
+    }
+	
 }
