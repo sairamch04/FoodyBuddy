@@ -18,43 +18,42 @@ import org.hibernate.envers.Audited;
 @Audited
 @Table(name="order_dish")
 public class OrderDish{
-	
+
 	@Id
 	@Column(name="id")
 	@GeneratedValue
 	private int id;
-	
+
 	@Column(name = "order_id", nullable = false)
-    @ManyToOne
-    @JoinColumn(name = "id")
-    private Order  order;
-	
+	@ManyToOne
+	@JoinColumn(name = "id")
+	private Order  order;
+
 	@Column(name = "dish_id", nullable = false)
-    @ManyToOne
-    @JoinColumn(name = "id")
-    private Dish dish;
-	
+	@ManyToOne
+	@JoinColumn(name = "id")
+	private Dish dish;
+
 	@Column(name="quantity")
 	private int quantity;
 
 	@Column(name="net_dish_price")
 	private int netDishPrice;
-	
+
 	@Temporal(TemporalType.TIMESTAMP)
-	   @Column(name = "created_at", nullable = false)
-	   private Date createdAt;
-	    
-	    @Temporal(TemporalType.TIMESTAMP)
-	   @Column(name = "updated_at", nullable = false)
-	   private Date updatedAt;
-	    
-	    @Temporal(TemporalType.TIMESTAMP)
-	   @Column(name = "deleted_at", nullable = false)
-	   private Date deletedAt;
-	
-	
+	@Column(name = "created_at", nullable = false)
+	private Date createdAt;
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "updated_at", nullable = false)
+	private Date updatedAt;
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "deleted_at", nullable = false)
+	private Date deletedAt;
+
+
 	public OrderDish(int netDishPrice, int quantity, Order order, Dish dish) {
-		
 		this.netDishPrice = netDishPrice;
 		this.quantity = quantity;
 		this.order = order;
@@ -134,7 +133,7 @@ public class OrderDish{
 		this.deletedAt = deletedAt;
 	}
 
-	
+
 
 	@Override
 	public int hashCode() {
@@ -167,5 +166,5 @@ public class OrderDish{
 				+ createdAt + ", updatedAt=" + updatedAt + ", deletedAt=" + deletedAt + "]";
 	}	
 
-	
+
 }
