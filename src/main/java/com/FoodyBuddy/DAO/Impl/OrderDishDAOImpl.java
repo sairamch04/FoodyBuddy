@@ -1,9 +1,8 @@
-package com.FoodyBuddy.Dao.Impl;
+package com.FoodyBuddy.DAO.Impl;
 
 import java.util.List;
 
 import org.hibernate.Session;
-import org.hibernate.Transaction;
 import org.springframework.stereotype.Repository;
 
 import com.FoodyBuddy.Dao.OrderDishDAO;
@@ -19,10 +18,8 @@ public class OrderDishDAOImpl implements OrderDishDAO {
     }
     
     // saves orderdish object to db
-	public void save(OrderDish c) {
-		Transaction tx = session.beginTransaction();
+	public void insert(OrderDish c) {
 		session.persist(c);
-		tx.commit();
 	}
 	
 	// returns list of dishs's by Id
@@ -39,7 +36,6 @@ public class OrderDishDAOImpl implements OrderDishDAO {
 		return orderDish;
 	}
 	
-	// 
 	@SuppressWarnings("unchecked")
 	public OrderDish getById(Integer Id) {
 		OrderDish orderDish = (OrderDish) session.createQuery("from Order_dish").list().get(0);
@@ -57,17 +53,13 @@ public class OrderDishDAOImpl implements OrderDishDAO {
 		}
 	
 
-	public void delete(Integer id) {
-		OrderDish orderDish = (OrderDish) session.load(OrderDish.class, new Integer(id));
-		if(null != orderDish){
-			session.delete(orderDish);
+	public void delete(OrderDish c) {
+		session.delete(c);
 		}
-		
-	}
 
 	public Integer sumDishPrice(Integer OrderId) {
 		Integer netDishPrice = (Integer)session.createQuery("SELECT SUM(net_dish_price) FROM order_dish GROUP BY order_id").uniqueResult();
 		return netDishPrice;
-	}
+		}
 
 }
