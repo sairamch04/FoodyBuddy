@@ -63,7 +63,6 @@ public class Order{
 	public void setName(String name) {
 		this.name = name;
 	}
-
 	public Buyer getBuyer() {
 		return buyer;
 	}
