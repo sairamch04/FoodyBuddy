@@ -6,12 +6,11 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
-import com.FoodyBuddy.Dao.CountryDAO;
-import com.FoodyBuddy.Model.Country;
+import com.FoodyBuddy.Dao.SellerDAO;
 import com.FoodyBuddy.Model.Seller;
 
 
-public class CountryDAOImpl implements CountryDAO {
+public class SellerDAOImpl implements SellerDAO {
 
 	private SessionFactory sessionFactory;
 
@@ -19,37 +18,38 @@ public class CountryDAOImpl implements CountryDAO {
         this.sessionFactory = sessionFactory;
     }
     
-	public void save(Country c) {
+	public void save(Seller s) {
 		Session session = this.sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();
-		session.persist(c);
+		session.persist(s);
 		tx.commit();
 		session.close();
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<Country> list() {
+	public List<Seller> list() {
 		Session session = this.sessionFactory.openSession();
-		List<Country> CountryList = session.createQuery("from Country").list();
+		List<Seller> SellerList = session.createQuery("from Seller").list();
 		session.close();
-		return CountryList;
+		return SellerList;
 	}
-	
-	public void update(Country c) {
+
+	public void update(Seller s) {
 		Session session = this.sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();
-		session.update(c);
+		session.update(s);
 		tx.commit();
-		session.close();	
+		session.close();
+		
 	}
 
 	public void delete(Integer id) {
 		Session session = this.sessionFactory.getCurrentSession();
-		Country country = (Country) session.load(Country.class, new Integer(id));
-		if(null != country){
-			session.delete(country);
+		Seller seller = (Seller) session.load(Seller.class, new Integer(id));
+		if(null != seller)
+		{
+			session.delete(seller);
 		}
-		
 	}
 
 }
