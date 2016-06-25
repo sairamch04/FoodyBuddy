@@ -14,71 +14,62 @@ import com.FoodyBuddy.Model.OrderDish;
 public class OrderDishDAOImpl implements OrderDishDAO {
 
 	private SessionFactory sessionFactory;
+	Session session;
 
-    public OrderDishDAOImpl(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
+    public OrderDishDAOImpl(Session session) {
+        this.session = session;
     }
     
+    // saves orderdish object to db
 	public void save(OrderDish c) {
 		Session session = this.sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();
 		session.persist(c);
 		tx.commit();
-		session.close();
 	}
 	
+	// returns list of dishs's by Id
 	@SuppressWarnings("unchecked")
-	public List<OrderDish> listByDishId(Integer DishId) {
+	public OrderDish getByDishId(Integer DishId) {
 		Session session = this.sessionFactory.openSession();
-		List<OrderDish> OrderDishList = session.createQuery("from Order_dish where Order_dish.dish_id =" + DishId).list();
-		session.close();
-		return OrderDishList;
+		OrderDish orderDish = (OrderDish) session.createQuery("from Order_dish where Order_dish.dish_id =" + DishId).list().get(0);
+		return orderDish;
 	}
 	
+	// returns list of orders by Id
 	@SuppressWarnings("unchecked")
-	public List<OrderDish> listByOrderId(Integer OrderId ) {
+	public OrderDish getByOrderId(Integer OrderId ) {
 		Session session = this.sessionFactory.openSession();
-		List<OrderDish> OrderDishList = session.createQuery("from Order_dish where Order_dish.order_id =" + OrderId).list();
-		session.close();
-		return OrderDishList;
+		OrderDish orderDish = (OrderDish) session.createQuery("from Order_dish where Order_dish.order_id =" + OrderId).list().get(0);
+		return orderDish;
 	}
 	
+	// 
 	@SuppressWarnings("unchecked")
-	public OrderDish listById(Integer Id) {
+	public OrderDish getById(Integer Id) {
 		Session session = this.sessionFactory.openSession();
-		List<OrderDish> OrderDishList = session.createQuery("from Order_dish").list();
-		session.close();
-		return OrderDishList.get(0);
+		OrderDish orderDish = (OrderDish) session.createQuery("from Order_dish").list().get(0);
+		return orderDish;
 	}
 
 	@SuppressWarnings("unchecked")
 	public List<OrderDish> list() {
 		Session session = this.sessionFactory.openSession();
-		List<OrderDish> OrderDishList = session.createQuery("from Order_dish").list();
-		session.close();
-		return OrderDishList;
+		List<OrderDish> orderDishList = session.createQuery("from Order_dish").list();
+		return orderDishList;
 	}
 
-	public void  update(OrderDish c) throws Exception{
+	public void update(OrderDish c) {
 		Session session = this.sessionFactory.openSession();
-		try {
-			Transaction tx = session.beginTransaction();
-			session.update(c);
-			tx.commit();
-			session.close();	
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			throw new Exception("Not updated ");
-			
+		session.update(c);
 		}
-	}
+	
 
 	public void delete(Integer id) {
 		Session session = this.sessionFactory.getCurrentSession();
-		OrderDish OrderDish = (OrderDish) session.load(OrderDish.class, new Integer(id));
-		if(null != OrderDish){
-			session.delete(OrderDish);
+		OrderDish orderDish = (OrderDish) session.load(OrderDish.class, new Integer(id));
+		if(null != orderDish){
+			session.delete(orderDish);
 		}
 		
 	}
@@ -86,7 +77,6 @@ public class OrderDishDAOImpl implements OrderDishDAO {
 	public Integer sumDishPrice(Integer OrderId) {
 		Session session = this.sessionFactory.openSession();
 		int netDishPrice = session.createQuery("SELECT SUM(net_dish_price) FROM order_dish GROUP BY order_id").getFirstResult();
-		session.close();
 		return netDishPrice;
 	}
 
