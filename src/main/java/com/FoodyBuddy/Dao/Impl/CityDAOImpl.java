@@ -37,7 +37,7 @@ public class CityDAOImpl implements CityDAO {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<City> getAllCountries() {
+	public List<City> getAllCities() {
 		List<City> CitiesList = session.createQuery("from City").list();
 		for(City city : CitiesList){
 			logger.info("City List :: " + city);

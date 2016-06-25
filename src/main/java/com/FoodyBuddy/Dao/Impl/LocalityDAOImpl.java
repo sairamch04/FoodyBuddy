@@ -38,8 +38,8 @@ public class LocalityDAOImpl implements LocalityDAO {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Locality> getAllLocalities() {
-		List<Locality> CountriesList = session.createQuery("from Locality").list();
-		for(Locality locality : CountriesList){
+		List<Locality> LocalitiesList = session.createQuery("from Locality").list();
+		for(Locality locality : LocalitiesList){
 			logger.info("Locality List :: " + locality);
 		}
 		return LocalitiesList;
