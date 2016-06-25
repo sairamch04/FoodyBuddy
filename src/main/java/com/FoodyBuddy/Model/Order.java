@@ -13,6 +13,7 @@ import javax.persistence.TemporalType;
 
 @Entity
 @Table(name="Order")
+@Audited
 public class Order{
 	
 	@Id
