@@ -19,8 +19,7 @@ public class Order{
 	@Id
 	@Column(name="id")
 	@GeneratedValue
-	private int id;
-	
+	private int id;	
 	
 	@Column(name="name" , nullable = false)
 	private String name;
@@ -83,7 +82,7 @@ public class Order{
 	public int getNetOrderAmount() {
 		return netOrderAmount;
 	}
-
+	
 	public void setNetOrderAmount(int netOrderAmount) {
 		this.netOrderAmount = netOrderAmount;
 	}
@@ -147,6 +146,8 @@ public class Order{
 		return true;
 	}
 	
-
-	
+	@Override
+	public String toString() {
+		return "Order [name=" + name + ", status=" + status + ", netOrderAmount=" + netOrderAmount + "]";
+	}
 }
