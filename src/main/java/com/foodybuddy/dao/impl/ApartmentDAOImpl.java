@@ -1,47 +1,45 @@
-package com.FoodyBuddy.Dao.Impl;
+package com.foodybuddy.dao.impl;
 
 import java.util.List;
 
 import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 
-import com.FoodyBuddy.Dao.ApartmentDao;
-import com.FoodyBuddy.Model.Apartment;
+import com.foodybuddy.dao.ApartmentDAO;
+import com.foodybuddy.model.Apartment;
 
 
 @Repository
-public class ApartmentDaoImpl implements ApartmentDao {
+public class ApartmentDAOImpl implements ApartmentDAO {
 	
 	private Session session = null;
 	
-	public ApartmentDaoImpl(Session session){
+	public ApartmentDAOImpl(Session session){
 		this.session = session;
 	}
 
-	public void saveApartment(Apartment apartment) {
+	public void insert(Apartment apartment) {
 		session.persist(apartment);
 	}
 
-	public void updateApartment(Apartment apartment) {
+	public void update(Apartment apartment) {
 		session.update(apartment);
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Apartment> getAllApartments() {
-		List<Apartment> ApartmentsList = session.createQuery("from Apartment").list();
+	public List<Apartment> getAll() {
+		List<Apartment> ApartmentsList = session.createQuery("FROM Apartment").list();
 		return ApartmentsList;
 	}
 
-	public Apartment getApartment(int id) {		
-		Apartment apartment = (Apartment) session.load(Apartment.class, new Integer(id));
+	public Apartment getById(int id) {		
+		String query = "FROM Apartment WHERE id = " + id;
+		Apartment apartment = (Apartment)session.createQuery(query).uniqueResult();
 		return apartment;
 	}
 
-	public void deleteApartment(int id) {
-		Apartment apartment = (Apartment) session.load(Apartment.class, new Integer(id));
-		if(null != apartment){
-			session.delete(apartment);
-		}
+	public void delete(Apartment apartment) {
+		session.delete(apartment);
 	}
 
 }

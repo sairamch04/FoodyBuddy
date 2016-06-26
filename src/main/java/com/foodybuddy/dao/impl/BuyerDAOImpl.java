@@ -1,48 +1,44 @@
-package com.FoodyBuddy.Dao.Impl;
+package com.foodybuddy.dao.impl;
 
 import java.util.List;
 
 import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 
-import com.FoodyBuddy.Dao.BuyerDao;
-import com.FoodyBuddy.Model.Buyer;
+import com.foodybuddy.dao.BuyerDao;
+import com.foodybuddy.model.Buyer;
 
 
 @Repository
-public class BuyerDaoImpl implements BuyerDao {
-	
+public class BuyerDAOImpl implements BuyerDAO {
 	private Session session = null;
 	
-	public BuyerDaoImpl(Session session){
+	public BuyerDAOImpl(Session session){
 		this.session = session;
 	}
 
-	public void saveBuyer(Buyer buyer) {
+	public void insert(Buyer buyer) {
 		session.persist(buyer);
 	}
 
-	public void updateBuyer(Buyer buyer) {
-
+	public void update(Buyer buyer) {
 		session.update(buyer);
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Buyer> getAllBuyers() {
-		List<Buyer> BuyersList = session.createQuery("from Buyer").list();
-		return BuyersList;
+	public List<Buyer> getAll() {
+		List<Buyer> buyersList = session.createQuery("FROM Buyer").list();
+		return buyersList;
 	}
 
-	public Buyer getBuyer(int id) {		
-		Buyer buyer = (Buyer) session.load(Buyer.class, new Integer(id));
+	public Buyer getById(int id) {
+		String query = "From Buyer WHERE id = " + id;
+		Buyer buyer = (Buyer)session.createQuery(query).uniqueResult();
 		return buyer;
 	}
 
-	public void deleteBuyer(int id) {
-		Buyer buyer = (Buyer) session.load(Buyer.class, new Integer(id));
-		if(null != buyer){
-			session.delete(buyer);
-		}
+	public void delete(Buyer buyer) {
+		session.delete(buyer);
 	}
 
 }

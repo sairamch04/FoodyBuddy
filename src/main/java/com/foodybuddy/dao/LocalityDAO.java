@@ -1,12 +1,12 @@
-package com.FoodyBuddy.Dao;
+package com.foodybuddy.dao;
 
 import java.util.List;
-import com.FoodyBuddy.Model.Locality;
+import com.foodybuddy.model.Locality;
 
-public interface LocalityDao {
-	public List<Locality> getAllLocalities();
-	public Locality getLocality(int id);
-	public void saveLocality(Locality locality);
-	public void updateLocality(Locality locality);
-	public void deleteLocality(Locality locality);
+public interface LocalityDAO {
+	public List<Locality> getAll();
+	public Locality getById(int id);
+	public void save(Locality locality);
+	public void update(Locality locality);
+	public void delete(Locality locality);
 }

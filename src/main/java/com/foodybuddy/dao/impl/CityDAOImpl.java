@@ -1,7 +1,7 @@
-package com.FoodyBuddy.Dao.Impl;
+package com.foodybuddy.dao.impl;
 
-import com.FoodyBuddy.Dao.CityDao;
-import com.FoodyBuddy.Model.City;
+import com.foodybuddy.dao.CityDAO;
+import com.foodybuddy.model.City;
 
 import java.util.List;
 
@@ -10,39 +10,37 @@ import org.springframework.stereotype.Repository;
 
 
 @Repository
-public class CityDaoImpl implements CityDao {
+public class CityDAOImpl implements CityDAO {
 	
 	private Session session = null;
 	
-	public CityDaoImpl(Session session){
+	public CityDAOImpl(Session session){
 		this.session = session;
 	}
 
-	public void saveCity(City city) {
+	public void insert(City city) {
 		session.persist(city);
 	}
 
-	public void updateCity(City city) {
-
+	public void update(City city) {
 		session.update(city);
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<City> getAllCities() {
-		List<City> CitiesList = session.createQuery("from City").list();
-		return CitiesList;
+	public List<City> getAll() {
+		String query = "FROM City";
+		List<City> citiesList = session.createQuery(query).list();
+		return citiesList;
 	}
 
-	public City getCity(int id) {		
-		City city = (City) session.load(City.class, new Integer(id));
+	public City getById(int id) {		
+		String query = "FROM City WHERE id = "+id;
+		City city = session.createQuery(query).uniqueResult();
 		return city;
 	}
 
-	public void deleteCity(int id) {
-		City city = (City) session.load(City.class, new Integer(id));
-		if(null != city){
-			session.delete(city);
-		}
+	public void delete(City city) {
+		session.delete(city);
 	}
 
 }

@@ -1,16 +1,13 @@
-package com.FoodyBuddy.Dao;
+package com.foodybuddy.dao;
 
 import java.util.List;
 
-import com.FoodyBuddy.Model.Country;
-import com.FoodyBuddy.Model.Seller;
+import com.foodybuddy.model.Country;
 
 public interface CountryDAO {
-
-	public void save(Country c);
-	
-	public List<Country> list();
-	
-	public void update(Country c);
-	public void delete(Integer id);
+	public Country getById(int id);
+	public List<Country> getAll();
+	public void insert(Country country);
+	public void update(Country country);
+	public void delete(Country country);
 }

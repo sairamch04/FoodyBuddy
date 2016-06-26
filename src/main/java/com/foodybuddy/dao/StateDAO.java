@@ -1,12 +1,12 @@
-package com.FoodyBuddy.Dao;
+package com.foodybuddy.dao;
 
 import java.util.List;
-import com.FoodyBuddy.Model.State;
+import com.foodybuddy.model.State;
 
-public interface StateDao {
-	public List<State> getAllStates();
-	public State getState(int id);
-	public void saveState(State state);
-	public void updateState(State state);
-	public void deleteState(int id);
+public interface StateDAO {
+	public List<State> getAll();
+	public State getById(int id);
+	public void save(State state);
+	public void update(State state);
+	public void delete(State state);
 }

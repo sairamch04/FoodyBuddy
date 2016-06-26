@@ -1,48 +1,46 @@
-package com.FoodyBuddy.Dao.Impl;
+package com.foodybuddy.dao.impl;
 
 import java.util.List;
 
 import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 
-import com.FoodyBuddy.Dao.LocalityDao;
-import com.FoodyBuddy.Model.Locality;
+import com.foodybuddy.dao.LocalityDAO;
+import com.foodybuddy.model.Locality;
 
 
 @Repository
-public  class LocalityDaoImpl implements LocalityDao {
+public  class LocalityDAOImpl implements LocalityDAO {
 	
 	private Session session = null;
 	
-	public LocalityDaoImpl(Session session){
+	public LocalityDAOImpl(Session session){
 		this.session = session;
 	}
 
-	public void saveLocality(Locality locality) {
+	public void insert(Locality locality) {
 		session.persist(locality);
 	}
 
-	public void updateLocality(Locality locality) {
-
+	public void update(Locality locality) {
 		session.update(locality);
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Locality> getAllLocalities() {
-		List<Locality> LocalitiesList = session.createQuery("from Locality").list();
-		return LocalitiesList;
+	public List<Locality> getAll() {
+		String query = "FROM Locality";
+		List<Locality> localitiesList = session.createQuery(query).list();
+		return localitiesList;
 	}
 
-	public Locality getLocality(int id) {		
-		Locality locality = (Locality) session.load(Locality.class, new Integer(id));
+	public Locality getById(int id) {		
+		String query = "FROM Locality where id = "+id;
+		Locality locality = (Locality)session.createQuery(query).uniqueResult();
 		return locality;
 	}
-
 	
-	public void deleteLocality(Locality locality) {
-		if(null != locality){
-			session.delete(locality);
-		}
+	public void delete(Locality locality) {
+		session.delete(locality);
 	}
 
 }

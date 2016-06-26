@@ -1,12 +1,12 @@
-package com.FoodyBuddy.Dao;
+package com.foodybuddy.dao;
 
 import java.util.List;
-import com.FoodyBuddy.Model.City;
+import com.foodybuddy.model.City;
 
 public interface CityDao {
-	public List<City> getAllCities();
-	public City getCity(int id);
-	public void saveCity(City city);
-	public void updateCity(City city);
-	public void deleteCity(int id);
+	public City getById(int id);
+	public List<City> getAll();
+	public void insert(City city);
+	public void update(City city);
+	public void delete(City city);
 }
