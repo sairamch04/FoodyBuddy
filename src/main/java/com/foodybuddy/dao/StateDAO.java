@@ -6,7 +6,7 @@ import com.foodybuddy.model.State;
 public interface StateDAO {
 	public List<State> getAll();
 	public State getById(int id);
-	public void save(State state);
+	public void insert(State state);
 	public void update(State state);
 	public void delete(State state);
 }
