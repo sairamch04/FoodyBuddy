@@ -129,6 +129,9 @@ public class Seller{
 		this.isActive = isActive;
 	}
 	
+	public Seller(){
+	}
+	
 	public Seller(String name, String email, String mobile, String flatNo, Apartment apartment) {
 		super();
 		this.name = name;
