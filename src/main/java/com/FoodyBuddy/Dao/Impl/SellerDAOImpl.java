@@ -1,12 +1,8 @@
-package com.FoodyBuddy.Dao.Impl;
-
+ppackage com.foodybuddy.dao.impl;
 import java.util.List;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
-
-import com.FoodyBuddy.Dao.SellerDAO;
-import com.FoodyBuddy.Model.Seller;
+import com.foodybuddy.dao.SellerDAO;
+import com.foodybuddy.model.Seller;
 
 
 public class SellerDAOImpl implements SellerDAO {
@@ -15,7 +11,7 @@ public class SellerDAOImpl implements SellerDAO {
     public SellerDAOImpl(Session session) {
         this.session = session;
     }
-	public void save(Seller s) {
+	public void insert(Seller s) {
 		session.persist(s);
 	}
 	public void update(Seller seller ){
