@@ -20,7 +20,7 @@ public class Buyer{
 	
 	@Id
 	@Column(name = "id", nullable = false)
-	@GeneratedValue
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	
 	
