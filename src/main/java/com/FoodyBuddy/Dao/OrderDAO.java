@@ -1,14 +1,14 @@
-package com.FoodyBuddy.DAO;
+package com.foodybuddy.dao;
 
 import java.util.List;
 
-import com.FoodyBuddy.Model.Order;
+import com.foodybuddy.model.Order;
 
 public interface OrderDAO {
 	
-	public void save(Order c);
-	public List<Order> getListByBuyerId(Integer buyerId);
-	public Order getById(Integer id);
+	public void insert(Order c);
+	public List<Order> getListByBuyerId(int buyerId);
+	public Order getById(int id);
 	public void update(Order order);	
 	public void delete(Order order);
 
