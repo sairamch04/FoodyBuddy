@@ -42,11 +42,9 @@ public class StateDAOImpl implements StateDAO {
 	}
 
 	
-	public void deleteState(int id) {
+	public void delete(State state) {
 		State state = (State) session.load(State.class, new Integer(id));
-		if(null != state){
-			session.delete(state);
-		}
+		session.delete(state);
 	}
 
 }
