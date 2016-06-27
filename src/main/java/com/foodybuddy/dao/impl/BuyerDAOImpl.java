@@ -5,7 +5,7 @@ import java.util.List;
 import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 
-import com.foodybuddy.dao.BuyerDao;
+import com.foodybuddy.dao.BuyerDAO;
 import com.foodybuddy.model.Buyer;
 
 

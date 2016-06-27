@@ -35,7 +35,7 @@ public class CityDAOImpl implements CityDAO {
 
 	public City getById(int id) {		
 		String query = "FROM City WHERE id = "+id;
-		City city = session.createQuery(query).uniqueResult();
+		City city = (City)session.createQuery(query).uniqueResult();
 		return city;
 	}
 
