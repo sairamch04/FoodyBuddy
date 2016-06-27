@@ -1,9 +1,10 @@
-package com.FoodyBuddy.Model;
+package com.foodybuddy.model;
 
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -22,9 +23,9 @@ public class Buyer{
 	@GeneratedValue
 	private int id;
 	
-	@Column(name = "apartment_id", nullable = false)
+	
 	@ManyToOne
-	@JoinColumn(name = "id")
+	@JoinColumn(name = "apartment_id")
 	private Apartment apartment;
 	
 	@Column(name = "last_modified_by_id")
@@ -43,15 +44,15 @@ public class Buyer{
 	private String flatNumber;
 	
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "created_at")
+	@Column(name = "created_at", columnDefinition="TIMESTAMP default CURRENT_TIMESTAMP")
 	private Date createdAt;
 	
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "updated_at")
+	@Column(name = "updated_at", columnDefinition="TIMESTAMP default CURRENT_TIMESTAMP")
 	private Date updatedAt;
 	
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "deleted_at")
+	@Column(name = "deleted_at", columnDefinition="TIMESTAMP default CURRENT_TIMESTAMP")
 	private Date deletedAt;
 
 	@Column(name="is_active" , nullable = false , columnDefinition = "boolean default true")
