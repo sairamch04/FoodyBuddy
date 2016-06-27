@@ -1,12 +1,12 @@
-package com.FoodyBuddy.Dao;
+package com.foodybuddy.dao;
 
 import java.util.List;
 
-import com.FoodyBuddy.Model.Dish;
+import com.foodybuddy.model.Dish;
 
 public interface DishDAO {
 
-	public void save(Dish d);
+	public void insert(Dish d);
 	public void update(Dish d);
 	public void delete(Integer id);
 	public List<Dish> getListdish();
