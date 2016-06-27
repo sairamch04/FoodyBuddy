@@ -142,7 +142,10 @@ public class Dish{
 	public void setQuantityAvailable(int quantityAvailable) {
 		this.quantityAvailable = quantityAvailable;
 	}
-
+	
+	public Dish(){
+	}
+	
 	public Dish(String name, String description, Seller seller, int price, Date orderBy, Date dishAvailableStart,
 			Date dishAvailableEnd, Boolean isVeg, int quantityAvailable) {
 		super();
