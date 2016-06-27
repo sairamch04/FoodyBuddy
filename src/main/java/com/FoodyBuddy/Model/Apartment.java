@@ -1,7 +1,8 @@
-package com.FoodyBuddy.Model;
+package com.foodybuddy.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -16,15 +17,14 @@ public class Apartment {
 	
 	@Id
 	@Column(name = "id", nullable = false)
-	@GeneratedValue
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	
 	@Column(name = "name")
 	private String name;
 	
-	@Column(name = "locality_id", nullable = false)
 	@ManyToOne
-	@JoinColumn(name = "id")
+	@JoinColumn(name = "locality_id")
 	private Locality locality;
 	
 	@Column(name = "block_number")
