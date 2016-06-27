@@ -43,7 +43,6 @@ public class StateDAOImpl implements StateDAO {
 
 	
 	public void delete(State state) {
-		State state = (State) session.load(State.class, new Integer(id));
 		session.delete(state);
 	}
 
