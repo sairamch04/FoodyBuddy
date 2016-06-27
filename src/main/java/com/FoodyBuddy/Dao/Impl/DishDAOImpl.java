@@ -1,15 +1,16 @@
-package com.FoodyBuddy.Dao.Impl;
+package com.foodybuddy.dao.impl;
 import java.util.List;
 import org.hibernate.Session;
-import com.FoodyBuddy.Dao.DishDAO;
-import com.FoodyBuddy.Model.Dish;
+import com.foodybuddy.dao.DishDAO;
+import com.foodybuddy.model.Dish;
+
 
 public class DishDAOImpl implements DishDAO {
 	private Session session;
 	public DishDAOImpl(Session session) {
         this.session = session;
     }
-	public void save(Dish d) {
+	public void insert(Dish d) {
 		session.persist(d);
 	}
 	public void update(Dish Dish ){
