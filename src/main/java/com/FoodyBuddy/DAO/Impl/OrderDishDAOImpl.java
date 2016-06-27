@@ -1,12 +1,12 @@
-package com.FoodyBuddy.DAO.Impl;
+package com.foodyBuddy.dao.impl;
 
 import java.util.List;
 
 import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 
-import com.FoodyBuddy.Dao.OrderDishDAO;
-import com.FoodyBuddy.Model.OrderDish;
+import com.foodybuddy.dao.OrderDishDAO;
+import com.foodybuddy.model.OrderDish;
 
 @Repository
 public class OrderDishDAOImpl implements OrderDishDAO {
