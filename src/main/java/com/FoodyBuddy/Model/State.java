@@ -1,8 +1,9 @@
-package com.FoodyBuddy.Model;
+package com.foodybuddy.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -15,16 +16,15 @@ import org.hibernate.envers.Audited;
 public class State {
 	
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name = "id", nullable = false)
 	private int id;
 	
 	@Column(name = "name")
 	private String name;
 	
-	@Column(name = "country_id", nullable = false)
 	@ManyToOne
-	@JoinColumn(name = "id")
+	@JoinColumn(name = "country_id")
 	private Country country;
 	
 	public State(String name, Country country){
