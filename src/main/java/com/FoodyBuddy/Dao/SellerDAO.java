@@ -1,10 +1,10 @@
-package com.FoodyBuddy.Dao;
+package com.foodybuddy.dao;
 import java.util.List;
-import com.FoodyBuddy.Model.Seller;
+import com.foodybuddy.model.Seller;
 
 public interface SellerDAO {
 
-	public void save(Seller s);
+	public void insert(Seller s);
 	public void update(Seller s);
 	public void delete(Integer id);
 	public List<Seller> getListSeller();
