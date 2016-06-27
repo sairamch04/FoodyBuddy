@@ -1,8 +1,9 @@
-package com.FoodyBuddy.Model;
+package com.foodybuddy.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import org.hibernate.envers.Audited;
@@ -15,7 +16,7 @@ public class Country{
 	
 	@Id
 	@Column(name="id", nullable = false)
-	@GeneratedValue
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	
 	@Column(name="name")
