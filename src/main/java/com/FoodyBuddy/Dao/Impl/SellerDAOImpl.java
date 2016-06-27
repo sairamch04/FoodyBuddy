@@ -1,4 +1,4 @@
-ppackage com.foodybuddy.dao.impl;
+package com.foodybuddy.dao.impl;
 import java.util.List;
 import org.hibernate.Session;
 import com.foodybuddy.dao.SellerDAO;
@@ -23,7 +23,7 @@ public class SellerDAOImpl implements SellerDAO {
 	}
 	@SuppressWarnings("unchecked")
 	public List<Seller> getListSeller() {
-		List<Seller> SellerList = session.createQuery("from Seller").list();
+		List<Seller> SellerList = session.createQuery("FROM Seller").list();
 		return SellerList;
 	}
     public Seller getListBySellerId(Integer sellerId){
