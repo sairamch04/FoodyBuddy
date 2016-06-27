@@ -1,4 +1,4 @@
-package com.FoodyBuddy.Model;
+package com.foodyBuddy.model;
 
 import java.util.Date;
 
@@ -24,14 +24,12 @@ public class OrderDish{
 	@GeneratedValue
 	private int id;
 
-	@Column(name = "order_id", nullable = false)
 	@ManyToOne
-	@JoinColumn(name = "id")
-	private Order  order;
+	@JoinColumn(name = "order_id")
+	private Order order;
 
-	@Column(name = "dish_id", nullable = false)
 	@ManyToOne
-	@JoinColumn(name = "id")
+	@JoinColumn(name = "dish_id")
 	private Dish dish;
 
 	@Column(name="quantity")
