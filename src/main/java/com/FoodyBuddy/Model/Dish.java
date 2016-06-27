@@ -1,4 +1,4 @@
-package com.FoodyBuddy.Model;
+package com.foodybuddy.model;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -17,7 +17,7 @@ public class Dish{
 	
 	@Id
 	@Column(name="id")
-	@GeneratedValue
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	
 	@Column(name="name")
@@ -26,13 +26,12 @@ public class Dish{
 	@Column(name="description")
 	private String description;
 	
-	@Column(name = "seller_id", nullable = false)
     @ManyToOne
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "seller_id")
     private Seller  seller;
 
 	@Column(name="price")
-	private String price;
+	private int price;
 
 	@Column(name="order_by")
 	private Date orderBy;
@@ -51,20 +50,100 @@ public class Dish{
 	
 
 	@Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "created_at", nullable = false)
+    @Column(name = "created_at", columnDefinition="TIMESTAMP default CURRENT_TIMESTAMP")
     private Date createdAt;
 	
 	@Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "updated_at", nullable = false)
+    @Column(name = "updated_at", columnDefinition="TIMESTAMP default CURRENT_TIMESTAMP")
     private Date updatedAt;
 	
 	@Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "deleted_at", nullable = false)
+	 @Column(name = "deleted_at", columnDefinition="TIMESTAMP default CURRENT_TIMESTAMP")
     private Date deletedAt;
 
 	
-	
-	public Dish(String name, String description, Seller seller, String price, Date orderBy, Date dishAvailableStart,
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public Seller getSeller() {
+		return seller;
+	}
+
+	public void setSeller(Seller seller) {
+		this.seller = seller;
+	}
+
+	public int getPrice() {
+		return price;
+	}
+
+	public void setPrice(int price) {
+		this.price = price;
+	}
+
+	public Date getOrderBy() {
+		return orderBy;
+	}
+
+	public void setOrderBy(Date orderBy) {
+		this.orderBy = orderBy;
+	}
+
+	public Date getDishAvailableStart() {
+		return dishAvailableStart;
+	}
+
+	public void setDishAvailableStart(Date dishAvailableStart) {
+		this.dishAvailableStart = dishAvailableStart;
+	}
+
+	public Date getDishAvailableEnd() {
+		return dishAvailableEnd;
+	}
+
+	public void setDishAvailableEnd(Date dishAvailableEnd) {
+		this.dishAvailableEnd = dishAvailableEnd;
+	}
+
+	public Boolean getIsVeg() {
+		return isVeg;
+	}
+
+	public void setIsVeg(Boolean isVeg) {
+		this.isVeg = isVeg;
+	}
+
+	public int getQuantityAvailable() {
+		return quantityAvailable;
+	}
+
+	public void setQuantityAvailable(int quantityAvailable) {
+		this.quantityAvailable = quantityAvailable;
+	}
+
+	public Dish(String name, String description, Seller seller, int price, Date orderBy, Date dishAvailableStart,
 			Date dishAvailableEnd, Boolean isVeg, int quantityAvailable) {
 		super();
 		this.name = name;
@@ -88,7 +167,7 @@ public class Dish{
 		result = prime * result + ((isVeg == null) ? 0 : isVeg.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + ((orderBy == null) ? 0 : orderBy.hashCode());
-		result = prime * result + ((price == null) ? 0 : price.hashCode());
+		result = prime * result + price;
 		result = prime * result + quantityAvailable;
 		result = prime * result + ((seller == null) ? 0 : seller.hashCode());
 		return result;
@@ -133,10 +212,7 @@ public class Dish{
 				return false;
 		} else if (!orderBy.equals(other.orderBy))
 			return false;
-		if (price == null) {
-			if (other.price != null)
-				return false;
-		} else if (!price.equals(other.price))
+		if (price != other.price)
 			return false;
 		if (quantityAvailable != other.quantityAvailable)
 			return false;
@@ -152,10 +228,7 @@ public class Dish{
 	public String toString() {
 		return "Dish [id=" + id + ", name=" + name + ", description=" + description + ", seller=" + seller + ", price="
 				+ price + ", orderBy=" + orderBy + ", dishAvailableStart=" + dishAvailableStart + ", dishAvailableEnd="
-				+ dishAvailableEnd + ", isVeg=" + isVeg + ", quantityAvailable=" + quantityAvailable + ", createdAt="
-				+ createdAt + ", updatedAt=" + updatedAt + ", deletedAt=" + deletedAt + "]";
+				+ dishAvailableEnd + ", isVeg=" + isVeg + ", quantityAvailable=" + quantityAvailable + "]";
 	}
-
-	
 	
 }
