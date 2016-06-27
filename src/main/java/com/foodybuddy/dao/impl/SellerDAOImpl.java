@@ -8,9 +8,9 @@ import com.foodybuddy.model.Seller;
 public class SellerDAOImpl implements SellerDAO {
 	private Session session;
 
-    public SellerDAOImpl(Session session) {
+    	public SellerDAOImpl(Session session) {
         this.session = session;
-    }
+    	}
 	public void insert(Seller s) {
 		session.persist(s);
 	}
@@ -26,17 +26,17 @@ public class SellerDAOImpl implements SellerDAO {
 		List<Seller> SellerList = session.createQuery("from Seller").list();
 		return SellerList;
 	}
-    public Seller getListBySellerId(Integer sellerId){
+    	public Seller getListBySellerId(Integer sellerId){
         String query= "FROM Seller WHERE id = " + sellerId;
         Seller seller = (Seller) session.createQuery(query).uniqueResult();
         return seller;    
-    }
+    	}
 	@SuppressWarnings("unchecked")
-    public List<Seller> getListByApartmentId(Integer apartmentId){
+    	public List<Seller> getListByApartmentId(Integer apartmentId){
         String query= "FROM Seller WHERE apartment_id = " + apartmentId;
         List<Seller> sellerList = session.createQuery(query).list();
         return sellerList;    
-    }
+    	}
 	public Seller getListByEmail(String email) {
 	    String query= "FROM Seller WHERE email = " + email;
 	    Seller seller = (Seller) session.createQuery(query).uniqueResult();
