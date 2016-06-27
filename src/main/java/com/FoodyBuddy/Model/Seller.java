@@ -1,4 +1,4 @@
-package com.FoodyBuddy.Model;
+package com.foodybuddy.model;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -17,7 +17,7 @@ public class Seller{
 	
 	@Id
 	@Column(name="id")
-	@GeneratedValue
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	
 	@Column(name="name")
@@ -41,15 +41,15 @@ public class Seller{
 	private Boolean isActive;
 
 	@Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "created_at", nullable = false)
+    @Column(name = "created_at", columnDefinition="TIMESTAMP default CURRENT_TIMESTAMP")
     private Date createdAt;
 	
 	@Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "updated_at", nullable = false)
+    @Column(name = "updated_at", columnDefinition="TIMESTAMP default CURRENT_TIMESTAMP")
     private Date updatedAt;
 	
 	@Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "deleted_at", nullable = false)
+	 @Column(name = "deleted_at", columnDefinition="TIMESTAMP default CURRENT_TIMESTAMP")
     private Date deletedAt;
 	
 	public int getId() {
@@ -128,7 +128,16 @@ public class Seller{
 	public void setIsActive(Boolean isActive) {
 		this.isActive = isActive;
 	}
-
+	
+	public Seller(String name, String email, String mobile, String flatNo, Apartment apartment) {
+		super();
+		this.name = name;
+		this.email = email;
+		this.mobile = mobile;
+		this.flatNo = flatNo;
+		this.apartment = apartment;
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
