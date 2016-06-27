@@ -4,7 +4,6 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -35,8 +34,9 @@ public class Seller{
 	@Column(name="flat_no")
 	private String flatNo;
 	
+	@Column(name = "apartment_id", nullable = false)
     @ManyToOne
-    @JoinColumn(name = "apartment_id")
+    @JoinColumn(name = "id")
     private Apartment apartment;
 	
 	@Column(name="is_active" , nullable = false , columnDefinition = "boolean default true")
@@ -130,7 +130,10 @@ public class Seller{
 	public void setIsActive(Boolean isActive) {
 		this.isActive = isActive;
 	}
-
+	
+	public Seller(){
+	}
+	
 	public Seller(String name, String email, String mobile, String flatNo, Apartment apartment) {
 		super();
 		this.name = name;
@@ -139,7 +142,7 @@ public class Seller{
 		this.flatNo = flatNo;
 		this.apartment = apartment;
 	}
-
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
