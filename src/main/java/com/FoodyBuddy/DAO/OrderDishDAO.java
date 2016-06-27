@@ -1,7 +1,7 @@
-package com.FoodyBuddy.DAO;
+package com.foodybuddy.dao;
 import java.util.List;
 
-import com.FoodyBuddy.Model.OrderDish;
+import com.foodybuddy.model.OrderDish;
 
 public interface OrderDishDAO {
 
