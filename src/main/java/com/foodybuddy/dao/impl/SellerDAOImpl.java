@@ -42,5 +42,4 @@ public class SellerDAOImpl implements SellerDAO {
 	    Seller seller = (Seller) session.createQuery(query).uniqueResult();
         return seller;    
 	}
-	
 }
