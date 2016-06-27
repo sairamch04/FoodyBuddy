@@ -1,4 +1,4 @@
-package com.foodyBuddy.dao.impl;
+package com.foodybuddy.dao.impl;
 
 import java.util.List;
 
@@ -18,8 +18,8 @@ public class OrderDishDAOImpl implements OrderDishDAO {
     }
     
     // saves orderdish object to db
-	public void insert(OrderDish c) {
-		session.persist(c);
+	public void insert(OrderDish orderDish) {
+		session.persist(orderDish);
 	}
 	
 	// returns list of dishs's by Id

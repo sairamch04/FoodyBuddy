@@ -37,7 +37,7 @@ public class StateDAOImpl implements StateDAO {
 
 	public State getById(int id) {
 		String query = "FROM State WHERE id = " + id; 
-		State state = (Locality)session.createQuery(query).uniqueResult();
+		State state = (State)session.createQuery(query).uniqueResult();
 		return state;
 	}
 
