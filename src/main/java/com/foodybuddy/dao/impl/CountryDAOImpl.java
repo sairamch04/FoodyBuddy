@@ -1,55 +1,45 @@
-package com.FoodyBuddy.Dao.Impl;
+package com.foodybuddy.dao.impl;
 
 import java.util.List;
 
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
-import com.FoodyBuddy.Dao.CountryDAO;
-import com.FoodyBuddy.Model.Country;
-import com.FoodyBuddy.Model.Seller;
+import com.foodybuddy.dao.CountryDAO;
 
+import com.foodybuddy.model.Country;
 
 public class CountryDAOImpl implements CountryDAO {
 
-	private SessionFactory sessionFactory;
+	private Session session;
 
-    public void setSessionFactory(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
+    public CountryDAOImpl(Session session) {
+    	this.session = session;
     }
     
-	public void save(Country c) {
-		Session session = this.sessionFactory.openSession();
-		Transaction tx = session.beginTransaction();
-		session.persist(c);
-		tx.commit();
-		session.close();
+	public void insert(Country country) {
+		session.persist(country);
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<Country> list() {
-		Session session = this.sessionFactory.openSession();
-		List<Country> CountryList = session.createQuery("from Country").list();
-		session.close();
-		return CountryList;
+	public List<Country> getAll() {
+		String query = "FROM Country";
+		List<Country> countryList = session.createQuery(query).list();
+		return countryList;
 	}
 	
-	public void update(Country c) {
-		Session session = this.sessionFactory.openSession();
-		Transaction tx = session.beginTransaction();
-		session.update(c);
-		tx.commit();
-		session.close();	
+	public Country getById(int id) {
+		String query = "FROM Country WHERE id = "+id;
+		Country country = (Country)session.createQuery(query).uniqueResult();
+		return country;
+	}
+	
+	public void update(Country country) {
+		session.update(country);
 	}
 
-	public void delete(Integer id) {
-		Session session = this.sessionFactory.getCurrentSession();
-		Country country = (Country) session.load(Country.class, new Integer(id));
-		if(null != country){
-			session.delete(country);
-		}
-		
+	public void delete(Country country) {
+		session.delete(country);
 	}
 
 }
