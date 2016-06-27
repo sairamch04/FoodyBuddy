@@ -1,4 +1,4 @@
-package com.foodyBuddy.model;
+package com.foodybuddy.model;
 
 import java.util.Date;
 
