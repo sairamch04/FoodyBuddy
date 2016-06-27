@@ -22,7 +22,7 @@ public class DishDAOImpl implements DishDAO {
 
 	@SuppressWarnings("unchecked")
 	public List<Dish> getListdish() {
-		List<Dish> DishList = session.createQuery("from Dish").list();
+		List<Dish> DishList = session.createQuery("FROM Dish").list();
 		return DishList;
 	}
     public Dish getListByDishId(Integer DishId){
