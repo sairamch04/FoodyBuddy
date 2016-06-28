@@ -33,7 +33,7 @@ public class OrderDAOImpl implements OrderDAO {
 	 * @see com.foodybuddy.dao.OrderDAO#insert(com.foodybuddy.model.Order)
 	 */
 	public Order insert(Order order) {
-		session.save(order);
+		session.persist(order);
 		return order;
 	}
 
