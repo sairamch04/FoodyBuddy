@@ -2,11 +2,13 @@ package com.foodybuddy.dao;
 
 import java.util.List;
 import com.foodybuddy.model.Buyer;
-
+/***
+ * Interface for accessing Buyer Table
+ */
 public interface BuyerDAO{
-	public Buyer getById(int id);
+	public Buyer insert(Buyer buyer) throws NullPointerException;
+	public Buyer update(Buyer buyer) throws NullPointerException;
+	//public Buyer delete(Buyer buyer) throws NullPointerException;
 	public List<Buyer> getAll();
-	public void insert(Buyer buyer);
-	public void update(Buyer buyer);
-	public void delete(Buyer buyer);
+	public Buyer getById(Integer id) throws NullPointerException;
 }

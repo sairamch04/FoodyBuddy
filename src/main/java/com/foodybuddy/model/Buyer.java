@@ -1,6 +1,7 @@
 package com.foodybuddy.model;
 
 import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,36 +12,42 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
 import org.hibernate.envers.Audited;
 
+/**
+ * 
+ * Model for Buyer Table
+ *
+ */
 @Entity
 @Audited
-@Table(name = "Buyer")
+@Table(name="Buyer")
 public class Buyer{
 	
 	@Id
-	@Column(name = "id", nullable = false)
+	@Column(name="id")
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private int id;
+	private Integer id;
 	
 	
 	@ManyToOne
-	@JoinColumn(name = "apartment_id")
+	@JoinColumn(name="apartment_id", nullable=false)
 	private Apartment apartment;
 	
-	@Column(name = "last_modified_by_id")
-	private int lastModifiedById;
+	@Column(name="last_modified_by_id")
+	private Integer lastModifiedById;
 	
-	@Column(name = "name")
+	@Column(name="name", nullable=false)
 	private String name;
 	
-	@Column(name = "mobile_no")
+	@Column(name="mobile_no", nullable=false)
 	private String mobileNumber;
 	
-	@Column(name = "email")
+	@Column(name="email", nullable=false)
 	private String email;
 	
-	@Column(name = "flat_no")
+	@Column(name="flat_no")
 	private String flatNumber;
 	
 	@Temporal(TemporalType.TIMESTAMP)
@@ -56,28 +63,39 @@ public class Buyer{
 	private Date deletedAt;
 
 	@Column(name="is_active" , nullable = false , columnDefinition = "boolean default true")
-    	private Boolean isActive;
+    private Boolean isActive;
 	
-	public Buyer(){}
+	public Buyer() {}
 	
-	public Buyer(Apartment apartment, int lastModifiedById, String name, String mobileNumber, String email, String flatNumber, Date createdAt, Date updatedAt, Date deletedAt, Boolean isActive){		
+	/***
+	 * Buyer Constructor
+	 * 
+	 * @param apartment
+	 * @param lastModifiedById
+	 * @param name
+	 * @param mobileNumber
+	 * @param email
+	 * @param flatNumber
+	 * @param createdAt
+	 * @param updatedAt
+	 * @param deletedAt
+	 * @param isActive
+	 */
+	public Buyer(Apartment apartment, Integer lastModifiedById, String name, String mobileNumber, String email, String flatNumber, Boolean isActive){		
 		this.apartment = apartment;
 		this.lastModifiedById = lastModifiedById;
 		this.name = name;
 		this.mobileNumber = mobileNumber;
 		this.email = email;
 		this.flatNumber = flatNumber;
-		this.createdAt = createdAt;
-		this.updatedAt = updatedAt;
-		this.deletedAt = deletedAt;
 		this.isActive = isActive;
 	}
 
-	public int getId(){
+	public Integer getId(){
 		return id;
 	}
 
-	public void setId(int id){
+	public void setId(Integer id){
 		this.id = id;
 	}
 
@@ -89,11 +107,11 @@ public class Buyer{
 		this.apartment = apartment;
 	}
 	
-	public int getLastModifiedById(){
+	public Integer getLastModifiedById(){
 		return lastModifiedById;
 	}
 	
-	public void setLastModifiedById(int lastModifiedById){
+	public void setLastModifiedById(Integer lastModifiedById){
 		this.lastModifiedById = lastModifiedById;
 	}
 
@@ -152,16 +170,41 @@ public class Buyer{
 	public void setDeletedAt(Date deletedAt){
 		this.deletedAt = deletedAt;
 	}
-	
+
+    @Override
+    public String toString() {
+        return "Buyer [id=" + id + ", apartment=" + apartment
+                + ", lastModifiedById=" + lastModifiedById + ", name=" + name
+                + ", mobileNumber=" + mobileNumber + ", email=" + email
+                + ", flatNumber=" + flatNumber + ", createdAt=" + createdAt
+                + ", updatedAt=" + updatedAt + ", deletedAt=" + deletedAt
+                + ", isActive=" + isActive + "]";
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
+        result = prime * result
+                + ((apartment == null) ? 0 : apartment.hashCode());
+        result = prime * result
+                + ((createdAt == null) ? 0 : createdAt.hashCode());
+        result = prime * result
+                + ((deletedAt == null) ? 0 : deletedAt.hashCode());
         result = prime * result + ((email == null) ? 0 : email.hashCode());
-        result = prime * result + ((flatNumber == null) ? 0 : flatNumber.hashCode());
-        result = prime * result + ((isActive == null) ? 0 : isActive.hashCode());
-        result = prime * result + ((mobileNumber == null) ? 0 : mobileNumber.hashCode());
+        result = prime * result
+                + ((flatNumber == null) ? 0 : flatNumber.hashCode());
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        result = prime * result
+                + ((isActive == null) ? 0 : isActive.hashCode());
+        result = prime
+                * result
+                + ((lastModifiedById == null) ? 0 : lastModifiedById.hashCode());
+        result = prime * result
+                + ((mobileNumber == null) ? 0 : mobileNumber.hashCode());
         result = prime * result + ((name == null) ? 0 : name.hashCode());
+        result = prime * result
+                + ((updatedAt == null) ? 0 : updatedAt.hashCode());
         return result;
     }
 
@@ -174,6 +217,21 @@ public class Buyer{
         if (getClass() != obj.getClass())
             return false;
         Buyer other = (Buyer) obj;
+        if (apartment == null) {
+            if (other.apartment != null)
+                return false;
+        } else if (!apartment.equals(other.apartment))
+            return false;
+        if (createdAt == null) {
+            if (other.createdAt != null)
+                return false;
+        } else if (!createdAt.equals(other.createdAt))
+            return false;
+        if (deletedAt == null) {
+            if (other.deletedAt != null)
+                return false;
+        } else if (!deletedAt.equals(other.deletedAt))
+            return false;
         if (email == null) {
             if (other.email != null)
                 return false;
@@ -184,10 +242,20 @@ public class Buyer{
                 return false;
         } else if (!flatNumber.equals(other.flatNumber))
             return false;
+        if (id == null) {
+            if (other.id != null)
+                return false;
+        } else if (!id.equals(other.id))
+            return false;
         if (isActive == null) {
             if (other.isActive != null)
                 return false;
         } else if (!isActive.equals(other.isActive))
+            return false;
+        if (lastModifiedById == null) {
+            if (other.lastModifiedById != null)
+                return false;
+        } else if (!lastModifiedById.equals(other.lastModifiedById))
             return false;
         if (mobileNumber == null) {
             if (other.mobileNumber != null)
@@ -199,13 +267,12 @@ public class Buyer{
                 return false;
         } else if (!name.equals(other.name))
             return false;
+        if (updatedAt == null) {
+            if (other.updatedAt != null)
+                return false;
+        } else if (!updatedAt.equals(other.updatedAt))
+            return false;
         return true;
     }
-    
-    @Override
-    public String toString() {
-        return "Seller [id=" + id + ", name=" + name + ", email=" + email + ", mobileNumber=" + mobileNumber + ", flatNumber=" + flatNumber
-                + ", isActive=" + isActive + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + ", deletedAt="
-                + deletedAt + "lastModifiedById" + lastModifiedById + "]";
-    }
+	
 }
