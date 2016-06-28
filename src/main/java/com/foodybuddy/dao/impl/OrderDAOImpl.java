@@ -2,8 +2,6 @@ package com.foodybuddy.dao.impl;
 
 import java.util.List;
 
-import javax.transaction.Status;
-
 import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 
@@ -34,8 +32,9 @@ public class OrderDAOImpl implements OrderDAO {
 	/* (non-Javadoc)
 	 * @see com.foodybuddy.dao.OrderDAO#insert(com.foodybuddy.model.Order)
 	 */
-	public void insert(Order order) {
+	public Order insert(Order order) {
 		session.persist(order);
+		return order;
 	}
 
 	/* (non-Javadoc)
