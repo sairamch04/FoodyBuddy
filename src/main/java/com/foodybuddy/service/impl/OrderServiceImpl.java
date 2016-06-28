@@ -2,8 +2,8 @@ package com.foodybuddy.service.impl;
 
 import java.util.List;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Logger;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -22,89 +22,158 @@ import com.foodybuddy.model.Dish;
 import com.foodybuddy.model.Order;
 import com.foodybuddy.model.OrderDish;
 import com.foodybuddy.service.OrderService;
+import com.foodybuddy.utils.OrderStatus;
 
 @Service
 public class OrderServiceImpl implements OrderService {
 
 	private SessionFactory sessionFactory;
-	static Log log = LogFactory.getLog(OrderServiceImpl.class.getName());
-	OrderServiceImpl(SessionFactory sessionFactory){
+	static Logger log = Logger.getLogger(OrderServiceImpl.class.getName());
+
+	OrderServiceImpl(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}
 
-	//TODO::javadoc comments
-	public void placeOrder(int buyerId, List<Integer> dishIds, List<Integer> orderedQuantitys) throws Exception {
+	public void placeOrder(int buyerId, List<Integer> dishIds, List<Integer> orderedQuantitys)
+			throws HibernateException {
 		Transaction transaction = null;
 		Session session = null;
 		try {
 			session = this.sessionFactory.openSession();
-			transaction = this.sessionFactory.openSession().beginTransaction();
+			transaction = session.beginTransaction();
 			OrderDAO orderDAO = new OrderDAOImpl(session);
 			BuyerDAO buyerDAO = new BuyerDAOImpl(session);
 			Order order = new Order();
+			// TODO:: change this to enum
+			order.setStatus(1);
 			Buyer buyer = buyerDAO.getById(buyerId);
-			
+
 			for (int index = 0; index < dishIds.size(); index++) {
 				int dishId = dishIds.get(index);
 				int orderedQuantity = orderedQuantitys.get(index);
-				//set properties for Order and also for depended models  OrderDish and Dish
-				setPropertiesForOrder(order,buyer,dishId,orderedQuantity,session);
-						
+				// set properties for Order and also for depended models
+				// OrderDish and Dish
+				setPropertiesForOrder(order, buyer, dishId, orderedQuantity, session);
 			}
-			// Inserting order to db			
+			// Inserting order to db
 			orderDAO.insert(order);
-
 			transaction.commit();
 			log.info("The transaction for update was done succesfully");
-		}
-		catch (Exception ex) {
-			
+		} catch (Exception ex) {
+
 			try {
+				if(transaction == null){
+					log.error("Transaction could not be completed" + ex.getMessage());
+					throw new HibernateException(
+							"Transaction could not be completed: " + ex.getMessage(), ex);
+				}
 				transaction.rollback();
 				log.error("Transaction could not be completed will be rollbacked: " + ex.getMessage());
-				throw new Exception("Transaction could not be completed will be rollbacked: " + ex.getMessage(), ex);
+				throw new HibernateException(
+						"Transaction could not be completed will be rollbacked: " + ex.getMessage(), ex);
 			} catch (RuntimeException rbe) {
 				log.error("Transaction could not be completed and rollback failed: " + ex.getMessage());
-				throw new Exception("Transaction could not be completed and rollback failed: " + ex.getMessage(), ex);
+				throw new HibernateException(
+						"Transaction could not be completed and rollback failed: " + ex.getMessage(), ex);
 			}
-		}
-		finally {
+		} finally {
 			if (session != null) {
 				session.close();
 			}
 		}
+	}
+
+	public Order getOrder(int orderId) throws HibernateException {
+		Transaction transaction = null;
+		Session session = null;
+		Order order = null;
+		try {
+			session = this.sessionFactory.openSession();
+			OrderDAO orderDAO = new OrderDAOImpl(session);
+			order = orderDAO.getById(orderId);
+			log.info("seccesfully obtained object for " + orderId);
+
+		} catch (Exception ex) {
+
+			try {
+				log.error("Transaction could not be completed will be rollbacked: " + ex.getMessage());
+				throw new HibernateException(
+						"Transaction could not be completed will be rollbacked: " + ex.getMessage(), ex);
+			} catch (RuntimeException rbe) {
+				log.error("Transaction could not be completed and rollback failed: " + ex.getMessage());
+				throw new HibernateException(
+						"Transaction could not be completed and rollback failed: " + ex.getMessage(), ex);
+			}
+		} finally {
+			if (session != null) {
+				session.close();
+			}
+		}
+		return order;
 
 	}
-	private void setPropertiesForOrder(Order order,Buyer buyer,int dishId,int orderedQuantity,Session session) throws Exception{
+
+	// TODO:: check if the action is within availableTill
+	public void cancelOrder(int orderId) throws HibernateException {
+		Transaction transaction = null;
+		Session session = null;
+		try {
+			session = this.sessionFactory.openSession();
+			transaction = session.beginTransaction();
+			OrderDAO orderDAO = new OrderDAOImpl(session);
+			Order order = orderDAO.getById(orderId);
+			// TODO:: change this to enum
+			order.setStatus(0);
+			orderDAO.update(order);
+			transaction.commit();
+			log.info("cancel of order was succesfull" + orderId);
+		} catch (Exception ex) {
+
+			try {
+				transaction.rollback();
+				log.error("Transaction could not be completed will be rollbacked: " + ex.getMessage());
+				throw new HibernateException(
+						"Transaction could not be completed will be rollbacked: " + ex.getMessage(), ex);
+			} catch (RuntimeException rbe) {
+				log.error("Transaction could not be completed and rollback failed: " + ex.getMessage());
+				throw new HibernateException(
+						"Transaction could not be completed and rollback failed: " + ex.getMessage(), ex);
+			}
+		} finally {
+			if (session != null) {
+				session.close();
+			}
+		}
+	}
+
+	private void setPropertiesForOrder(Order order, Buyer buyer, int dishId, int orderedQuantity, Session session)
+			throws Exception {
 		// create the required DAOs
-		DishDAO dishDAO = new DishDAOImpl(session);		
+		DishDAO dishDAO = new DishDAOImpl(session);
 		OrderDishDAO orderDishDAO = new OrderDishDAOImpl(session);
-								
+
 		Dish dish = dishDAO.getListByDishId(dishId);
-		if(dish == null){
+		if (dish == null) {
 			log.info(dishId + " is not valid ");
 			throw new Exception("Invalid dishId : " + dishId);
 		}
-
-		
-		//TODO:: check if ordered times is before AvialaleTill
-		if(dish.getQuantityAvailable() >= orderedQuantity){
+		// TODO:: check if ordered times is before AvialaleTill
+		if (dish.getQuantityAvailable() >= orderedQuantity) {
 			OrderDish orderDish = new OrderDish();
 			orderDish.setOrder(order);
-			dish.setQuantityAvailable(dish.getQuantityAvailable()- orderedQuantity);
+			orderDish.setDish(dish);
+			dish.setQuantityAvailable(dish.getQuantityAvailable() - orderedQuantity);
 			orderDish.setQuantity(orderedQuantity);
 			orderDish.setNetDishPrice(orderedQuantity * dish.getPrice());
 			order.setBuyer(buyer);
-			order.setNetOrderAmount(orderDishDAO.sumDishPrice(order.getId()));
-			
-			// Inserting orderDish to db				
+
 			orderDishDAO.insert(orderDish);
-		}
-		else{
+			order.setNetOrderAmount(order.getNetOrderAmount() + orderDish.getNetDishPrice());
+		} else {
 			log.info("Quantity not available");
 			throw new Exception("Quantity not available");
 		}
-		
+
 	}
 
 }

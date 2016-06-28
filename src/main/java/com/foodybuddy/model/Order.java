@@ -4,6 +4,7 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -15,22 +16,19 @@ import org.hibernate.envers.Audited;
 
 @Entity
 @Audited
-@Table(name="_order")
+@Table(name="orders")
 public class Order{
 	
 	@Id
 	@Column(name="id")
-	@GeneratedValue
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;	
-	
-	@Column(name="name" , nullable = false)
-	private String name;
 	
     @ManyToOne
     @JoinColumn(name = "buyer_id")
     private Buyer  buyer;
 	
-	@Column(name ="status", nullable = false, columnDefinition ="int default 1")
+	@Column(name ="status", nullable = false)
 	private int status;
 	
 	@Column(name = "net_order_amount")
@@ -55,14 +53,6 @@ public class Order{
 
 	public void setId(int id) {
 		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
 	}
 	public Buyer getBuyer() {
 		return buyer;
@@ -117,7 +107,6 @@ public class Order{
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + netOrderAmount;
 		result = prime * result + status;
 		return result;
@@ -132,11 +121,6 @@ public class Order{
 		if (getClass() != obj.getClass())
 			return false;
 		Order other = (Order) obj;
-		if (name == null) {
-			if (other.name != null)
-				return false;
-		} else if (!name.equals(other.name))
-			return false;
 		if (netOrderAmount != other.netOrderAmount)
 			return false;
 		if (status != other.status)
@@ -146,6 +130,6 @@ public class Order{
 
 	@Override
 	public String toString() {
-		return "Order [name=" + name + ", status=" + status + ", netOrderAmount=" + netOrderAmount + "]";
+		return "Order [id=" + id +"status=" + status + ", netOrderAmount=" + netOrderAmount + "]";
 	}
 }

@@ -39,15 +39,15 @@ public class OrderDish{
 	private int netDishPrice;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "created_at",columnDefinition="TIMESTAMP default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP")
+	@Column(name = "created_at",columnDefinition="TIMESTAMP default CURRENT_TIMESTAMP")
 	private Date createdAt;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "updated_at", columnDefinition="TIMESTAMP default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP")
+	@Column(name = "updated_at", columnDefinition="TIMESTAMP default CURRENT_TIMESTAMP")
 	private Date updatedAt;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "deleted_at", columnDefinition="TIMESTAMP default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP")
+	@Column(name = "deleted_at", columnDefinition="TIMESTAMP default CURRENT_TIMESTAMP")
 	private Date deletedAt;
 
 

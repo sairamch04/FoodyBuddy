@@ -11,7 +11,10 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.envers.Audited;
+
 @Entity
+@Audited
 @Table(name="Dish")
 public class Dish{
 	
@@ -26,9 +29,9 @@ public class Dish{
 	@Column(name="description")
 	private String description;
 	
-//	@Column(name = "seller_id", nullable = false)
+//	
 //    @ManyToOne
-//    @JoinColumn(name = "id")
+//    @JoinColumn(name = "seller_id")
 //    private Seller  seller;
 
 	@Column(name="price")
@@ -43,7 +46,7 @@ public class Dish{
 	@Column(name="dish_available_end")
 	private Date dishAvailableEnd;
 	
-	@Column(name="is_veg" , nullable = false , columnDefinition = "boolean default false")
+	@Column(name="is_veg" , columnDefinition = "boolean default false")
 	private Boolean isVeg;
 
 	@Column(name="quantity_available")	

@@ -17,7 +17,7 @@ import org.hibernate.envers.Audited;
 public class Buyer{
 	
 	@Id
-	@Column(name = "id", nullable = false)
+	@Column(name = "id")
 	@GeneratedValue
 	private int id;
 	
@@ -202,7 +202,7 @@ public class Buyer{
     
     @Override
     public String toString() {
-        return "Seller [id=" + id + ", name=" + name + ", email=" + email + ", mobileNumber=" + mobileNumber + ", flatNumber=" + flatNumber
+        return "Buyer [id=" + id + ", name=" + name + ", email=" + email + ", mobileNumber=" + mobileNumber + ", flatNumber=" + flatNumber
                 + ", isActive=" + isActive + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + ", deletedAt="
                 + deletedAt + "lastModifiedById" + lastModifiedById + "]";
     }

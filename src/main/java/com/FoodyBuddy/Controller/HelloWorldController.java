@@ -32,16 +32,6 @@ public class HelloWorldController {
 		System.out.println("Did session connect ? " + session.isConnected());
 		session.close();
 
-        
-//        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("hibernate.cfg.xml");
-//		
-//		OrDAO CountryDAO = context.getBean(CountryDAO.class);
-//		
-//		Country Country = new Country();
-//		Country.setName("Pakisthan");
-//		
-//		CountryDAO.save(Country);
-     //   model.addAttribute("mesg", message);
         return "hello";
     }
 }  

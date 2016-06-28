@@ -20,6 +20,7 @@ import com.foodybuddy.dao.impl.BuyerDAOImpl;
 import com.foodybuddy.dao.impl.DishDAOImpl;
 import com.foodybuddy.model.Buyer;
 import com.foodybuddy.model.Dish;
+import com.foodybuddy.model.Order;
 import com.foodybuddy.service.OrderService;
 import com.foodybuddy.utils.SessionFactoryUtils;
 
@@ -27,54 +28,136 @@ import com.foodybuddy.utils.SessionFactoryUtils;
 @ContextConfiguration(locations = "/hibernate.cfg.xml")
 public class OrderServiceImplTest {
 	static Log log = LogFactory.getLog(OrderServiceImplTest.class.getName());
+	
+	/**
+	 * Test for placeOrder
+	 */
 	@Test
-	public void testSample() {
+	public void placeOrderTest() {
 		try{
 			OrderService orderService = new OrderServiceImpl(SessionFactoryUtils.getSessionFactory());
 			//set parameters
 			int buyerId = 1;
 			int dishId =1;
-			int orderedQuantity = 1;
-			
-			insertRequiredData(buyerId, dishId, orderedQuantity,SessionFactoryUtils.getSessionFactory());
-			
+			int orderedQuantity = 2;
+			//The pre-process phase of adding depending objects to database
+			insertRequiredData(buyerId, dishId, orderedQuantity,SessionFactoryUtils.getSessionFactory());			
 			
 			//prepare the arguments to be passed
 			List<Integer> dishIds = new ArrayList<Integer>();
 			dishIds.add(dishId);
 			List<Integer> orderedQuantitys = new ArrayList<Integer>();
 			orderedQuantitys.add(orderedQuantity);
+			
 			//place the order
 			orderService.placeOrder(buyerId, dishIds, orderedQuantitys);
+					
+			//Fetch the inserted order
+			int orderId =1 ;			
+			Order order = orderService.getOrder(orderId);
 			
-			assertTrue(true);
+			//Test the fetched object
+			assertNotNull(order);
+			assertNotNull(order.getBuyer());
+			assertEquals(order.getNetOrderAmount(), 200); //2 biryani's cost 2*100
+			assertEquals(order.getBuyer().getId(), buyerId);
+			assertEquals(order.getBuyer().getName(), "Indra");
+			assertEquals(order.getStatus(), 1 );
 		}
 		catch(Exception ex){
 			assertTrue(false);
+			System.out.println(ex);
 			log.error(ex);			
+		}
+	}
+	/**
+	 * Test for canceling the order, basically setting the status flag to 0
+	 */
+	@Test
+	public void cancelOrderTest(){
+		try{
+			OrderService orderService = new OrderServiceImpl(SessionFactoryUtils.getSessionFactory());
+			//set parameters
+			int orderId = 1;
+			
+			//cancel the order
+			orderService.cancelOrder(orderId);
+			
+			//Fetch the cancelled order
+			Order order = orderService.getOrder(orderId);
+			
+			//Test the fetched object
+			assertNotNull(order);
+			assertEquals(order.getStatus(), 0);					
 			
 		}
-
-	}
-	private void insertRequiredData(int buyerId, int dishId, int orderedQuantity,SessionFactory sessionFcatory){
-		Session session = sessionFcatory.openSession();
-		session.beginTransaction();
-		//create dependent models before placing order
-		Buyer buyer = new Buyer();
-		Dish dish = new Dish();
-		buyer.setName("Indra");
-		dish.setName("Biryani");
-		dish.setPrice(100);
-		dish.setQuantityAvailable(10);
-		DishDAO dishDAO = new DishDAOImpl(session);
-		BuyerDAO buyerDAO = new BuyerDAOImpl(session);
-		buyerDAO.insert(buyer);
-		dishDAO.insert(dish);
-		session.getTransaction().commit();
-		session.close();
+		catch(Exception ex){
+			assertTrue(false);
+			System.out.println(ex);
+			log.error(ex);				
+		}
 		
 	}
-
+	/**
+	 * Test for getting the order object by orderId
+	 */
+	@Test
+	public void getOrderTest(){
+		try{
+			OrderService orderService = new OrderServiceImpl(SessionFactoryUtils.getSessionFactory());
+			//set parameters
+			int orderId = 1;
+			
+			//get the order
+			orderService.getOrder(orderId);
+			
+			//Fetch the cancelled order
+			Order order = orderService.getOrder(orderId);
+			
+			//Test the fetched object
+			assertNotNull(order);
+			assertEquals(order.getStatus(), 1);
+			assertNotNull(order.getBuyer());
+			System.out.println(order.getBuyer());
+			System.out.println(order.getBuyer().getId());
+		    assertEquals(order.getBuyer().getId(), 1);
+			
+		}
+		catch(Exception ex){
+			assertTrue(false);
+			System.out.println(ex);
+			log.error(ex);				
+		}
+		
+	}
+	/**
+	 * This is required for inserting buyer, dish into the database because placeOrder depends on them
+	 */
+	private void insertRequiredData(int buyerId, int dishId, int orderedQuantity,SessionFactory sessionFactory){
+		try{
+			Session session = sessionFactory.openSession();
+			session.beginTransaction();
+			Buyer buyer = new Buyer();			
+			buyer.setName("Indra");
+			//
+			Dish dish = new Dish();
+			dish.setName("Biryani");
+			dish.setPrice(100);
+			dish.setQuantityAvailable(10);
+			//
+			DishDAO dishDAO = new DishDAOImpl(session);
+			BuyerDAO buyerDAO = new BuyerDAOImpl(session);
+			buyerDAO.insert(buyer);
+			dishDAO.insert(dish);
+			//
+			session.getTransaction().commit();
+			session.close();
+		}
+		catch(Exception ex){
+			ex.printStackTrace();
+			log.error(ex);
+		}
+	}
 }
 
 
