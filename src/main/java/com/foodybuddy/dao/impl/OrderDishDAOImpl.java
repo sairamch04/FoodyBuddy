@@ -14,11 +14,11 @@ public class OrderDishDAOImpl implements OrderDishDAO {
 	Session session;
 	
 	public OrderDishDAOImpl(Session session) throws Exception {
-		this.session = session;
 	    if (this.session == null) {
 	      throw new Exception(
 	          "Hibernate Session is null in OrderDishDaoImpl");
 	    }
+		this.session = session;
     }
     
     // saves OrderDish object to db
