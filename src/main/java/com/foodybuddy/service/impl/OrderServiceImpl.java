@@ -24,16 +24,30 @@ import com.foodybuddy.model.OrderDish;
 import com.foodybuddy.service.OrderService;
 import com.foodybuddy.utils.OrderStatus;
 
+/**
+ * The Class OrderServiceImpl.
+ */
 @Service
 public class OrderServiceImpl implements OrderService {
 
+	/** The session factory. */
 	private SessionFactory sessionFactory;
+	
+	/** The log. */
 	static Logger log = Logger.getLogger(OrderServiceImpl.class.getName());
 
-	OrderServiceImpl(SessionFactory sessionFactory) {
+	/**
+	 * Instantiates a new order service impl.
+	 *
+	 * @param sessionFactory the session factory
+	 */
+	public OrderServiceImpl(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.foodybuddy.service.OrderService#placeOrder(int, java.util.List, java.util.List)
+	 */
 	public void placeOrder(int buyerId, List<Integer> dishIds, List<Integer> orderedQuantitys)
 			throws HibernateException {
 		Transaction transaction = null;
@@ -62,10 +76,9 @@ public class OrderServiceImpl implements OrderService {
 		} catch (Exception ex) {
 
 			try {
-				if(transaction == null){
+				if (transaction == null) {
 					log.error("Transaction could not be completed" + ex.getMessage());
-					throw new HibernateException(
-							"Transaction could not be completed: " + ex.getMessage(), ex);
+					throw new HibernateException("Transaction could not be completed: " + ex.getMessage(), ex);
 				}
 				transaction.rollback();
 				log.error("Transaction could not be completed will be rollbacked: " + ex.getMessage());
@@ -83,6 +96,9 @@ public class OrderServiceImpl implements OrderService {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see com.foodybuddy.service.OrderService#getOrder(int)
+	 */
 	public Order getOrder(int orderId) throws HibernateException {
 		Transaction transaction = null;
 		Session session = null;
@@ -113,6 +129,9 @@ public class OrderServiceImpl implements OrderService {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see com.foodybuddy.service.OrderService#cancelOrder(int)
+	 */
 	// TODO:: check if the action is within availableTill
 	public void cancelOrder(int orderId) throws HibernateException {
 		Transaction transaction = null;
@@ -146,6 +165,16 @@ public class OrderServiceImpl implements OrderService {
 		}
 	}
 
+	/**
+	 * Sets the properties for order.
+	 *
+	 * @param order the order
+	 * @param buyer the buyer
+	 * @param dishId the dish id
+	 * @param orderedQuantity the ordered quantity
+	 * @param session the session
+	 * @throws Exception the exception
+	 */
 	private void setPropertiesForOrder(Order order, Buyer buyer, int dishId, int orderedQuantity, Session session)
 			throws Exception {
 		// create the required DAOs

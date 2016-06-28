@@ -44,12 +44,12 @@ public class Order {
 
 	/** The created at. */
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "created_at", nullable = false)
+	@Column(name = "created_at")
 	private Date createdAt;
 
 	/** The updated at. */
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "updated_at", nullable = false)
+	@Column(name = "updated_at")
 	private Date updatedAt;
 
 	/** The deleted at. */
