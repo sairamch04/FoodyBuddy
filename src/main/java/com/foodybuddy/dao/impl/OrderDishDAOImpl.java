@@ -14,7 +14,7 @@ public class OrderDishDAOImpl implements OrderDishDAO {
 	Session session;
 	
 	public OrderDishDAOImpl(Session session) throws Exception {
-	    if (this.session == null) {
+	    if (session == null) {
 	      throw new Exception(
 	          "Hibernate Session is null in OrderDishDaoImpl");
 	    }
@@ -30,26 +30,26 @@ public class OrderDishDAOImpl implements OrderDishDAO {
 	// returns list of dishs's by Id
 	@SuppressWarnings("unchecked")
 	public List<OrderDish> getListByDishId(Integer DishId) {
-		List<OrderDish> orderDishList = session.createQuery("from Order_dish where dish_id =" + DishId).list();
+		List<OrderDish> orderDishList = session.createQuery("from OrderDish where dish_id =" + DishId).list();
 		return orderDishList;
 	}
 	
 	// returns list of orders by Id
 	@SuppressWarnings("unchecked")
 	public List<OrderDish> getListByOrderId(Integer OrderId ) {
-		List<OrderDish> orderDishList = session.createQuery("from Order_dish where order_id =" + OrderId).list();
+		List<OrderDish> orderDishList = session.createQuery("from OrderDish where order_id =" + OrderId).list();
 		return orderDishList;
 	}
 	
 	@SuppressWarnings("unchecked")
 	public OrderDish getById(Integer Id) {
-		OrderDish orderDish = (OrderDish) session.createQuery("from Order_dish").list().get(0);
+		OrderDish orderDish = (OrderDish) session.createQuery("from OrderDish where id=" + Id).list().get(0);
 		return orderDish;
 	}
 
 	@SuppressWarnings("unchecked")
 	public List<OrderDish> list() {
-		List<OrderDish> orderDishList = session.createQuery("from Order_dish").list();
+		List<OrderDish> orderDishList = session.createQuery("from OrderDish").list();
 		return orderDishList;
 	}
 
