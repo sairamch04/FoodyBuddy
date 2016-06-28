@@ -26,17 +26,17 @@ public class OrderDish{
 	private int id;
 
 	@ManyToOne
-	@JoinColumn(name = "order_id")
+	@JoinColumn(name = "order_id", nullable = false)
 	private Order order;
 
 	@ManyToOne
-	@JoinColumn(name = "dish_id")
+	@JoinColumn(name = "dish_id", nullable = false)
 	private Dish dish;
 
-	@Column(name="quantity")
+	@Column(name="quantity", nullable = false)
 	private int quantity;
 
-	@Column(name="net_dish_price")
+	@Column(name="net_dish_price", nullable = false)
 	private int netDishPrice;
 
 	@Temporal(TemporalType.TIMESTAMP)
@@ -57,6 +57,9 @@ public class OrderDish{
 		this.quantity = quantity;
 		this.order = order;
 		this.dish = dish;
+	}
+
+	public OrderDish() {
 	}
 
 	public int getId() {

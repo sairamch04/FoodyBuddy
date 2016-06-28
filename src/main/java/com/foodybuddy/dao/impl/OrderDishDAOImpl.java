@@ -13,53 +13,59 @@ public class OrderDishDAOImpl implements OrderDishDAO {
 
 	Session session;
 	
-	public OrderDishDAOImpl(Session session) {
-        this.session = session;
+	public OrderDishDAOImpl(Session session) throws Exception {
+	    if (session == null) {
+	      throw new Exception(
+	          "Hibernate Session is null in OrderDishDaoImpl");
+	    }
+		this.session = session;
     }
     
-    // saves orderdish object to db
-	public void insert(OrderDish orderDish) {
-		session.persist(orderDish);
+    // saves OrderDish object to database
+	public OrderDish insert(OrderDish orderDish) {
+		this.session.persist(orderDish);
+		return orderDish;
 	}
 	
 	// returns list of dishs's by Id
 	@SuppressWarnings("unchecked")
-	public OrderDish getByDishId(Integer DishId) {
-		OrderDish orderDish = (OrderDish) session.createQuery("from Order_dish where Order_dish.dish_id =" + DishId).list().get(0);
-		return orderDish;
+	public List<OrderDish> getListByDishId(Integer DishId) {
+		List<OrderDish> orderDishList = session.createQuery("from OrderDish where dish_id =" + DishId).list();
+		return orderDishList;
 	}
 	
 	// returns list of orders by Id
 	@SuppressWarnings("unchecked")
-	public OrderDish getByOrderId(Integer OrderId ) {
-		OrderDish orderDish = (OrderDish) session.createQuery("from Order_dish where Order_dish.order_id =" + OrderId).list().get(0);
-		return orderDish;
+	public List<OrderDish> getListByOrderId(Integer OrderId ) {
+		List<OrderDish> orderDishList = session.createQuery("from OrderDish where order_id =" + OrderId).list();
+		return orderDishList;
 	}
 	
 	@SuppressWarnings("unchecked")
 	public OrderDish getById(Integer Id) {
-		OrderDish orderDish = (OrderDish) session.createQuery("from Order_dish").list().get(0);
+		OrderDish orderDish = (OrderDish) session.createQuery("from OrderDish where id=" + Id).list().get(0);
 		return orderDish;
 	}
 
 	@SuppressWarnings("unchecked")
 	public List<OrderDish> list() {
-		List<OrderDish> orderDishList = session.createQuery("from Order_dish").list();
+		List<OrderDish> orderDishList = session.createQuery("from OrderDish").list();
 		return orderDishList;
 	}
 
-	public void update(OrderDish c) {
-		session.update(c);
+	public OrderDish update(OrderDish orderDish) {
+		this.session.update(orderDish);
+		return orderDish;
 		}
 	
 
 	public void delete(OrderDish c) {
-		session.delete(c);
+		this.session.delete(c);
+		return;
 		}
 
 	public Integer sumDishPrice(Integer OrderId) {
-		Integer netDishPrice = (Integer)session.createQuery("SELECT SUM(net_dish_price) FROM order_dish GROUP BY order_id").uniqueResult();
+		Integer netDishPrice = (Integer)this.session.createQuery("SELECT SUM(net_dish_price) FROM order_dish GROUP BY order_id").uniqueResult();
 		return netDishPrice;
 		}
-
 }
