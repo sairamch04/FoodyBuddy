@@ -59,6 +59,9 @@ public class OrderDish{
 		this.dish = dish;
 	}
 
+	public OrderDish() {
+	}
+
 	public int getId() {
 		return id;
 	}
