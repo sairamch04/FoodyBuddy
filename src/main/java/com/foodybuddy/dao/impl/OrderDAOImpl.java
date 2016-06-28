@@ -1,10 +1,14 @@
-package com.FoodyBuddy.DAO.Impl;
+package com.foodybuddy.dao.impl;
 
 import java.util.List;
+
+import javax.transaction.Status;
+
 import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
-import com.FoodyBuddy.DAO.OrderDAO;
-import com.FoodyBuddy.Model.Order;
+
+import com.foodybuddy.dao.OrderDAO;
+import com.foodybuddy.model.Order;
 
 @Repository
 public class OrderDAOImpl implements OrderDAO {
@@ -13,20 +17,21 @@ public class OrderDAOImpl implements OrderDAO {
 
     public OrderDAOImpl(Session session){
     	 this.session = session;
-    }    
-    public void save(Order order) {
+    }
+    
+    public void insert(Order order) {
 		session.persist(order);
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<Order> getListByBuyerId(Integer buyerId){
+	public List<Order> getListByBuyerId(int buyerId){
 		String query= "FROM Order WHERE buyer_id = " + buyerId;
 		List<Order> orders = session.createQuery(query).list();
 		return orders;		
 	}
 	
 	@SuppressWarnings("unchecked")
-	public Order getById(Integer orderId){
+	public Order getById(int orderId){
 		String query= "FROM Order WHERE id = " + orderId;
 		Order order = (Order) session.createQuery(query).list().get(0);
 		return order;		
@@ -39,6 +44,4 @@ public class OrderDAOImpl implements OrderDAO {
 	public void delete(Order  order) {
 		session.delete(order);		
 	}
-
-	
 }
