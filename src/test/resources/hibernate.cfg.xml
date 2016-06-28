@@ -7,22 +7,22 @@
 
    <session-factory>
         <!-- Database connection settings -->
-        <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
-        <property name="connection.url">jdbc:mysql://localhost:3306/FoodyBuddy</property>
-        <property name="connection.username">guest</property>
-        <property name="connection.password">guest</property>
+        <property name="connection.driver_class">org.h2.Driver</property>
+        <property name="connection.url">jdbc:h2:~/test</property>
+        <property name="connection.username">sa</property>
+        <property name="connection.password"></property>
 
         <!-- JDBC connection pool (use the built-in) -->
-        <property name="connection.pool_size">1</property>
+        <property name="connection.pool_size">10</property>
 
         <!-- SQL dialect -->
-        <property name="dialect">org.hibernate.dialect.MySQLDialect</property>
+        <property name="dialect">org.hibernate.dialect.H2Dialect</property>
 
         <!-- Echo all executed SQL to stdout -->
         <property name="show_sql">true</property>
         
         <property name="hbm2ddl.auto">create</property>
-         <!-- "Import" the mapping resources here -->
+        <!-- "Import" the mapping resources here -->
 		<mapping class="com.foodybuddy.model.Order"/>
 		<mapping class="com.foodybuddy.model.OrderDish"/>
 		<mapping class="com.foodybuddy.model.Buyer"/>
@@ -32,3 +32,6 @@
     </session-factory>
 
 </hibernate-configuration>
+
+
+
