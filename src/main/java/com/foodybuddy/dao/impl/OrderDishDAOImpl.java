@@ -13,26 +13,31 @@ public class OrderDishDAOImpl implements OrderDishDAO {
 
 	Session session;
 	
-	public OrderDishDAOImpl(Session session) {
-        this.session = session;
+	public OrderDishDAOImpl(Session session) throws Exception {
+		this.session = session;
+	    if (this.session == null) {
+	      throw new Exception(
+	          "Hibernate Session is null in OrderDishDaoImpl");
+	    }
     }
     
-    // saves orderdish object to db
-	public void insert(OrderDish orderDish) {
-		session.persist(orderDish);
+    // saves OrderDish object to db
+	public OrderDish insert(OrderDish orderDish) {
+		this.session.persist(orderDish);
+		return orderDish;
 	}
 	
 	// returns list of dishs's by Id
 	@SuppressWarnings("unchecked")
 	public OrderDish getByDishId(Integer DishId) {
-		OrderDish orderDish = (OrderDish) session.createQuery("from Order_dish where Order_dish.dish_id =" + DishId).list().get(0);
+		OrderDish orderDish = (OrderDish) session.createQuery("from Order_dish where dish_id =" + DishId).list().get(0);
 		return orderDish;
 	}
 	
 	// returns list of orders by Id
 	@SuppressWarnings("unchecked")
 	public OrderDish getByOrderId(Integer OrderId ) {
-		OrderDish orderDish = (OrderDish) session.createQuery("from Order_dish where Order_dish.order_id =" + OrderId).list().get(0);
+		OrderDish orderDish = (OrderDish) session.createQuery("from Order_dish where order_id =" + OrderId).list().get(0);
 		return orderDish;
 	}
 	
@@ -48,17 +53,19 @@ public class OrderDishDAOImpl implements OrderDishDAO {
 		return orderDishList;
 	}
 
-	public void update(OrderDish c) {
-		session.update(c);
+	public OrderDish update(OrderDish orderDish) {
+		this.session.update(orderDish);
+		return orderDish;
 		}
 	
 
 	public void delete(OrderDish c) {
-		session.delete(c);
+		this.session.delete(c);
+		return;
 		}
 
 	public Integer sumDishPrice(Integer OrderId) {
-		Integer netDishPrice = (Integer)session.createQuery("SELECT SUM(net_dish_price) FROM order_dish GROUP BY order_id").uniqueResult();
+		Integer netDishPrice = (Integer)this.session.createQuery("SELECT SUM(net_dish_price) FROM order_dish GROUP BY order_id").uniqueResult();
 		return netDishPrice;
 		}
 
