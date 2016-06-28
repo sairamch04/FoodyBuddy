@@ -9,8 +9,8 @@ public interface OrderDishDAO {
 	public OrderDish update(OrderDish orderDish);
 	public void delete(OrderDish orderDish);
 	public Integer sumDishPrice(Integer OrderId);
-	public OrderDish getByOrderId(Integer OrderId);
-	public OrderDish getByDishId(Integer DishId);
+	public List<OrderDish> getListByOrderId(Integer OrderId);
+	public List<OrderDish> getListByDishId(Integer DishId);
 	public OrderDish getById(Integer Id);
 	public List<OrderDish> list();
 	

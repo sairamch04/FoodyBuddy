@@ -21,7 +21,7 @@ public class OrderDishDAOImpl implements OrderDishDAO {
 		this.session = session;
     }
     
-    // saves OrderDish object to db
+    // saves OrderDish object to database
 	public OrderDish insert(OrderDish orderDish) {
 		this.session.persist(orderDish);
 		return orderDish;
@@ -29,16 +29,16 @@ public class OrderDishDAOImpl implements OrderDishDAO {
 	
 	// returns list of dishs's by Id
 	@SuppressWarnings("unchecked")
-	public OrderDish getByDishId(Integer DishId) {
-		OrderDish orderDish = (OrderDish) session.createQuery("from Order_dish where dish_id =" + DishId).list().get(0);
-		return orderDish;
+	public List<OrderDish> getListByDishId(Integer DishId) {
+		List<OrderDish> orderDishList = session.createQuery("from Order_dish where dish_id =" + DishId).list();
+		return orderDishList;
 	}
 	
 	// returns list of orders by Id
 	@SuppressWarnings("unchecked")
-	public OrderDish getByOrderId(Integer OrderId ) {
-		OrderDish orderDish = (OrderDish) session.createQuery("from Order_dish where order_id =" + OrderId).list().get(0);
-		return orderDish;
+	public List<OrderDish> getListByOrderId(Integer OrderId ) {
+		List<OrderDish> orderDishList = session.createQuery("from Order_dish where order_id =" + OrderId).list();
+		return orderDishList;
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -68,5 +68,4 @@ public class OrderDishDAOImpl implements OrderDishDAO {
 		Integer netDishPrice = (Integer)this.session.createQuery("SELECT SUM(net_dish_price) FROM order_dish GROUP BY order_id").uniqueResult();
 		return netDishPrice;
 		}
-
 }
