@@ -13,8 +13,9 @@ public interface OrderDAO {
 	 * Insert.
 	 *
 	 * @param c the c
+	 * @return 
 	 */
-	public void insert(Order c);
+	public Order insert(Order c);
 
 	/**
 	 * Gets the list by buyer id.

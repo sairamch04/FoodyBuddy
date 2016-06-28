@@ -32,8 +32,9 @@ public class OrderDAOImpl implements OrderDAO {
 	/* (non-Javadoc)
 	 * @see com.foodybuddy.dao.OrderDAO#insert(com.foodybuddy.model.Order)
 	 */
-	public void insert(Order order) {
-		session.persist(order);
+	public Order insert(Order order) {
+		session.save(order);
+		return order;
 	}
 
 	/* (non-Javadoc)

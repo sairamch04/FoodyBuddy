@@ -1,20 +1,18 @@
 package com.foodybuddy.service;
 
-import static org.junit.Assert.*;
-
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.runners.MethodSorters;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -25,7 +23,6 @@ import com.foodybuddy.dao.impl.DishDAOImpl;
 import com.foodybuddy.model.Buyer;
 import com.foodybuddy.model.Dish;
 import com.foodybuddy.model.Order;
-import com.foodybuddy.service.OrderService;
 import com.foodybuddy.service.impl.OrderServiceImpl;
 import com.foodybuddy.utils.OrderStatus;
 import com.foodybuddy.utils.SessionFactoryUtils;
