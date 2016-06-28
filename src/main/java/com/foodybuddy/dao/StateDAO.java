@@ -1,12 +1,48 @@
 package com.foodybuddy.dao;
 
-import java.util.List;
 import com.foodybuddy.model.State;
+import java.util.List;
 
+/**
+ * The Interface StateDAO.
+ */
 public interface StateDAO {
+	
+	/**
+	 * Gets the State by id.
+	 *
+	 * @param State Id
+	 * @return the State by id
+	 */
+	public State getById(Integer id);
+	
+	/**
+	 * Gets all the States.
+	 *
+	 * @return all the States
+	 */
 	public List<State> getAll();
-	public State getById(int id);
-	public void insert(State state);
-	public void update(State state);
+	
+	/**
+	 * Insert.
+	 *
+	 * @param State state
+	 * @return State state
+	 */
+	public State insert(State state);
+	
+	/**
+	 * Update.
+	 *
+	 * @param State state
+	 * @return State state
+	 */
+	public State update(State state);
+	
+	/**
+	 * Delete.
+	 *
+	 * @param State state
+	 */
 	public void delete(State state);
 }
