@@ -8,7 +8,7 @@ public interface DishDAO {
 
 	public void insert(Dish d);
 	public void update(Dish d);
-	public void delete(Integer id);
+	public void delete(Dish d);
 	public List<Dish> getListdish();
 	public Dish getListByDishId(Integer DishId);
 	public List<Dish> getListBySellerId(Integer SellerId);

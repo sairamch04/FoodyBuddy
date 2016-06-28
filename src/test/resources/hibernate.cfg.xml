@@ -28,7 +28,6 @@
 		<mapping class="com.foodybuddy.model.Buyer"/>
 		<mapping class="com.foodybuddy.model.Dish"/>
 
-
     </session-factory>
 
 </hibernate-configuration>

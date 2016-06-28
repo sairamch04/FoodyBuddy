@@ -6,6 +6,7 @@ import com.foodybuddy.model.Dish;
 
 public class DishDAOImpl implements DishDAO {
 	private Session session;
+	
 	public DishDAOImpl(Session session) {
         this.session = session;
     }
@@ -15,8 +16,8 @@ public class DishDAOImpl implements DishDAO {
 	public void update(Dish Dish ){
 		     session.update(Dish); 
 	}
-	public void delete(Integer id) {
-		Dish Dish = (Dish) session.load(Dish.class, new Integer(id));
+	public void delete(Dish  d) {
+		session.delete(d);
 	}
 
 	@SuppressWarnings("unchecked")

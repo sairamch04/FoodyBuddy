@@ -41,7 +41,11 @@ public class OrderServiceImpl implements OrderService {
 	 *
 	 * @param sessionFactory the session factory
 	 */
-	public OrderServiceImpl(SessionFactory sessionFactory) {
+	public OrderServiceImpl(SessionFactory sessionFactory) throws NullPointerException{
+		if(sessionFactory == null){
+			throw new NullPointerException("sessionFactory can't be null");
+			
+		}
 		this.sessionFactory = sessionFactory;
 	}
 
@@ -50,21 +54,30 @@ public class OrderServiceImpl implements OrderService {
 	 */
 	public void placeOrder(int buyerId, List<Integer> dishIds, List<Integer> orderedQuantitys)
 			throws HibernateException {
+		if(buyerId <=0){
+			throw new HibernateException("Invalid buyerId " + buyerId);
+		}
 		Transaction transaction = null;
 		Session session = null;
 		try {
-			session = this.sessionFactory.openSession();
+			session = sessionFactory.openSession();
 			transaction = session.beginTransaction();
 			OrderDAO orderDAO = new OrderDAOImpl(session);
 			BuyerDAO buyerDAO = new BuyerDAOImpl(session);
 			Order order = new Order();
-			// TODO:: change this to enum
-			order.setStatus(1);
+			order.setStatus(OrderStatus.INTIATED);
 			Buyer buyer = buyerDAO.getById(buyerId);
 
 			for (int index = 0; index < dishIds.size(); index++) {
 				int dishId = dishIds.get(index);
 				int orderedQuantity = orderedQuantitys.get(index);
+				if(dishId <= 0){
+					throw new HibernateException("Invalid buyerId " + buyerId);
+				}
+				if(orderedQuantity <= 0){
+					throw new HibernateException("Invalid buyerId " + buyerId);
+					
+				}
 				// set properties for Order and also for depended models
 				// OrderDish and Dish
 				setPropertiesForOrder(order, buyer, dishId, orderedQuantity, session);
@@ -100,33 +113,27 @@ public class OrderServiceImpl implements OrderService {
 	 * @see com.foodybuddy.service.OrderService#getOrder(int)
 	 */
 	public Order getOrder(int orderId) throws HibernateException {
-		Transaction transaction = null;
+		if(orderId <= 0){
+			throw new HibernateException("Invalid orderId" + orderId);
+		}
 		Session session = null;
 		Order order = null;
 		try {
-			session = this.sessionFactory.openSession();
+			session = sessionFactory.openSession();
 			OrderDAO orderDAO = new OrderDAOImpl(session);
 			order = orderDAO.getById(orderId);
 			log.info("seccesfully obtained object for " + orderId);
 
 		} catch (Exception ex) {
 
-			try {
-				log.error("Transaction could not be completed will be rollbacked: " + ex.getMessage());
-				throw new HibernateException(
-						"Transaction could not be completed will be rollbacked: " + ex.getMessage(), ex);
-			} catch (RuntimeException rbe) {
-				log.error("Transaction could not be completed and rollback failed: " + ex.getMessage());
-				throw new HibernateException(
-						"Transaction could not be completed and rollback failed: " + ex.getMessage(), ex);
-			}
+			throw new HibernateException("getOrder failed due to unavialble quanity or invalid orderId",ex);
+			
 		} finally {
 			if (session != null) {
 				session.close();
 			}
 		}
 		return order;
-
 	}
 
 	/* (non-Javadoc)
@@ -134,15 +141,17 @@ public class OrderServiceImpl implements OrderService {
 	 */
 	// TODO:: check if the action is within availableTill
 	public void cancelOrder(int orderId) throws HibernateException {
+		if(orderId <= 0){
+			throw new HibernateException("Invalid orderId" + orderId);
+		}
 		Transaction transaction = null;
 		Session session = null;
 		try {
-			session = this.sessionFactory.openSession();
+			session = sessionFactory.openSession();
 			transaction = session.beginTransaction();
 			OrderDAO orderDAO = new OrderDAOImpl(session);
 			Order order = orderDAO.getById(orderId);
-			// TODO:: change this to enum
-			order.setStatus(0);
+			order.setStatus(OrderStatus.CANCELLED);
 			orderDAO.update(order);
 			transaction.commit();
 			log.info("cancel of order was succesfull" + orderId);

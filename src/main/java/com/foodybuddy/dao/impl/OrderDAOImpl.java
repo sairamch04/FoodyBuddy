@@ -2,8 +2,6 @@ package com.foodybuddy.dao.impl;
 
 import java.util.List;
 
-import javax.transaction.Status;
-
 import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 
