@@ -35,6 +35,7 @@ import junit.framework.TestCase;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "/hibernate.cfg.xml")
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class OrderServiceTest extends TestCase {
 
 	/** The log. */
@@ -64,14 +65,14 @@ public class OrderServiceTest extends TestCase {
 	@Override
 	public void tearDown() throws Exception {
 		//flush the inserted table
-		//cleanUpDependentData();	
+		cleanUpDependentData();	
 	}
 
 	/**
 	 * Test for placeOrder.
 	 */
 	@Test
-	public void placeOrderTest() {
+	public void test1PlaceOrder() {
 		try {
 			OrderService orderService = new OrderServiceImpl(sessionFactory);
 			// set parameters
@@ -105,234 +106,234 @@ public class OrderServiceTest extends TestCase {
 			log.error(ex);
 		}
 	}
-	/**
-	 * Negative test
-	 * Placing the order for quantity more than available
-	 */
-	@Test(expected = Exception.class)
-	public void placeInvalidOrderTest() throws Exception{
-		try {
-			OrderService orderService = new OrderServiceImpl(sessionFactory);
-			// set parameters
-			int buyerId = 1;
-			int dishId = 1;
-			int orderedQuantity = 20;
-
-			// prepare the arguments to be passed
-			List<Integer> dishIds = new ArrayList<Integer>();
-			dishIds.add(dishId);
-			List<Integer> orderedQuantitys = new ArrayList<Integer>();
-			orderedQuantitys.add(orderedQuantity);
-
-			// place the order
-			orderService.placeOrder(buyerId, dishIds, orderedQuantitys);
-		} catch (Exception ex) {
-			log.error(ex);
-			throw ex;
-		}
-	}
-	
-	/**
-	 * Check by passing negative value of orderedQuanity.
-	 *
-	 * @throws Exception the exception
-	 */	
-	@Test(expected = Exception.class)
-	public void negativePlaceOrderTest() throws Exception{
-		OrderService orderService = new OrderServiceImpl(sessionFactory);
-		// set parameters
-		int buyerId = 1;
-		int dishId = 1;
-		int orderedQuantity = -2;
-
-		// prepare the arguments to be passed
-		List<Integer> dishIds = new ArrayList<Integer>();
-		dishIds.add(dishId);
-		List<Integer> orderedQuantitys = new ArrayList<Integer>();
-		orderedQuantitys.add(orderedQuantity);
-
-		// place the order
-		orderService.placeOrder(buyerId, dishIds, orderedQuantitys);
-			
-		
-	}
-
-	/**
-	 * Test for canceling the order, basically setting the status flag to CANCELLED.
-	 */
-	@Test
-	public void cancelOrderTest() {
-		try {
-			OrderService orderService = new OrderServiceImpl(SessionFactoryUtils.getSessionFactory());
-			// set parameters
-			int orderId = 1;
-
-			// cancel the order
-			orderService.cancelOrder(orderId);
-
-			// Fetch the cancelled order
-			Order order = orderService.getOrder(orderId);
-			// Test the fetched object
-			assertNotNull(order);
-			assertEquals(order.getStatus(), OrderStatus.CANCELLED);
-
-		} catch (Exception ex) {
-			assertTrue(false);
-			System.out.println(ex);
-			log.error(ex);
-		}
-
-	}
-	
-	/**
-	 * Negative test
-	 * Check the action on passing sessionFactory as null.
-	 *
-	 * @throws Exception the exception
-	 */
-	@Test(expected = Exception.class)
-	public void negativeServieObjectTest() throws Exception{
-		try {
-			OrderService orderService = new OrderServiceImpl(null);
-		} catch (Exception ex) {
-			System.out.println(ex);
-			log.error(ex);
-			throw ex;
-		}
-
-	}
-	
-	/**
-	 * Negative test
-	 * We check with the orderId which is not available in the database.
-	 *
-	 * @throws Exception the exception
-	 */
-	@Test(expected = Exception.class)
-	public void negativeInvalidCancelOrderTest() throws Exception {
-		try {
-			OrderService orderService = new OrderServiceImpl(SessionFactoryUtils.getSessionFactory());
-			// set parameters
-			int orderId = 100;
-
-			// cancel the order
-			orderService.cancelOrder(orderId);
-
-			// Fetch the cancelled order
-			Order order = orderService.getOrder(orderId);
-			System.out.println(order);
-
-		} catch (Exception ex) {
-			System.out.println(ex);
-			log.error(ex);
-			throw ex;
-		}
-
-	}
-	
-	/**
-	 * Negative test
-	 * We check with the orderId as negative.
-	 *
-	 * @throws Exception the exception
-	 */
-	@Test(expected = Exception.class)
-	public void negativeCancelOrderTest() throws Exception {
-		try {
-			OrderService orderService = new OrderServiceImpl(SessionFactoryUtils.getSessionFactory());
-			// set parameters
-			int orderId = -1;
-
-			// cancel the order
-			orderService.cancelOrder(orderId);
-
-			// Fetch the cancelled order
-			Order order = orderService.getOrder(orderId);
-
-		} catch (Exception ex) {
-			System.out.println(ex);
-			log.error(ex);
-			throw ex;
-		}
-
-	}
-
-	/**
-	 * Test for getting the order object by orderId.
-	 *
-	 * @return the order test
-	 */
-	@Test
-	public void getOrderTest() {
-		try {
-			OrderService orderService = new OrderServiceImpl(SessionFactoryUtils.getSessionFactory());
-			// set parameters
-			int orderId = 1;
-			// get the order
-			orderService.getOrder(orderId);
-
-			// Fetch the cancelled order
-			Order order = orderService.getOrder(orderId);
-
-			// Test the fetched object
-			assertNotNull(order);
-			assertEquals(order.getStatus(), OrderStatus.INTIATED);
-			assertNotNull(order.getBuyer());
-			assertEquals(order.getBuyer().getId(), 1);
-
-		} catch (Exception ex) {
-			assertTrue(false);
-			System.out.println(ex);
-			log.error(ex);
-		}
-
-	}
-	
-	/**
-	 * Negative test
-	 * Pass the negative orderId.
-	 *
-	 * @throws Exception the exception
-	 */
-	
-	@Test(expected = Exception.class)
-	public void negativeGetOrderTest() throws Exception{
-		try{
-			OrderService orderService = new OrderServiceImpl(SessionFactoryUtils.getSessionFactory());
-			// set parameters
-			int orderId = -11;
-			// get the order
-			orderService.getOrder(orderId);	
-			// Fetch the cancelled order
-			Order order = orderService.getOrder(orderId);
-		}
-		catch(Exception ex){
-			throw ex;		
-		}		
-	}
-	
-	/**
-	 * Negative test
-	 * Pass the  orderId which is not available in database.
-	 *
-	 * @throws Exception the exception
-	 */
-	
-	@Test(expected = Exception.class)
-	public void negativeInvalidGetOrderTest() throws Exception{
-		try{
-			OrderService orderService = new OrderServiceImpl(SessionFactoryUtils.getSessionFactory());
-			// set parameters
-			int orderId = 111;
-			// get the order
-			orderService.getOrder(orderId);	
-			// Fetch the cancelled order
-			Order order = orderService.getOrder(orderId);
-		}
-		catch(Exception ex){
-			throw ex;		
-		}		
-	}
+//	/**
+//	 * Negative test
+//	 * Placing the order for quantity more than available
+//	 */
+//	@Test(expected = Exception.class)
+//	public void test2PlaceInvalidOrderTest() throws Exception{
+//		try {
+//			OrderService orderService = new OrderServiceImpl(sessionFactory);
+//			// set parameters
+//			int buyerId = 1;
+//			int dishId = 1;
+//			int orderedQuantity = 20;
+//
+//			// prepare the arguments to be passed
+//			List<Integer> dishIds = new ArrayList<Integer>();
+//			dishIds.add(dishId);
+//			List<Integer> orderedQuantitys = new ArrayList<Integer>();
+//			orderedQuantitys.add(orderedQuantity);
+//
+//			// place the order
+//			orderService.placeOrder(buyerId, dishIds, orderedQuantitys);
+//		} catch (Exception ex) {
+//			log.error(ex);
+//			throw ex;
+//		}
+//	}
+//	
+//	/**
+//	 * Check by passing negative value of orderedQuanity.
+//	 *
+//	 * @throws Exception the exception
+//	 */	
+//	@Test(expected = Exception.class)
+//	public void test3NegativePlaceOrderTest() throws Exception{
+//		OrderService orderService = new OrderServiceImpl(sessionFactory);
+//		// set parameters
+//		int buyerId = 1;
+//		int dishId = 1;
+//		int orderedQuantity = -2;
+//
+//		// prepare the arguments to be passed
+//		List<Integer> dishIds = new ArrayList<Integer>();
+//		dishIds.add(dishId);
+//		List<Integer> orderedQuantitys = new ArrayList<Integer>();
+//		orderedQuantitys.add(orderedQuantity);
+//
+//		// place the order
+//		orderService.placeOrder(buyerId, dishIds, orderedQuantitys);
+//			
+//		
+//	}
+//
+//	/**
+//	 * Test for canceling the order, basically setting the status flag to CANCELLED.
+//	 */
+//	@Test
+//	public void test4CancelOrderTest() {
+//		try {
+//			OrderService orderService = new OrderServiceImpl(SessionFactoryUtils.getSessionFactory());
+//			// set parameters
+//			int orderId = 1;
+//
+//			// cancel the order
+//			orderService.cancelOrder(orderId);
+//
+//			// Fetch the cancelled order
+//			Order order = orderService.getOrder(orderId);
+//			// Test the fetched object
+//			assertNotNull(order);
+//			assertEquals(order.getStatus(), OrderStatus.CANCELLED);
+//
+//		} catch (Exception ex) {
+//			assertTrue(false);
+//			System.out.println(ex);
+//			log.error(ex);
+//		}
+//
+//	}
+//	
+//	/**
+//	 * Negative test
+//	 * Check the action on passing sessionFactory as null.
+//	 *
+//	 * @throws Exception the exception
+//	 */
+//	@Test(expected = Exception.class)
+//	public void test5NegativeServieObjectTest() throws Exception{
+//		try {
+//			OrderService orderService = new OrderServiceImpl(null);
+//		} catch (Exception ex) {
+//			System.out.println(ex);
+//			log.error(ex);
+//			throw ex;
+//		}
+//
+//	}
+//	
+//	/**
+//	 * Negative test
+//	 * We check with the orderId which is not available in the database.
+//	 *
+//	 * @throws Exception the exception
+//	 */
+//	@Test(expected = Exception.class)
+//	public void test6NegativeInvalidCancelOrderTest() throws Exception {
+//		try {
+//			OrderService orderService = new OrderServiceImpl(SessionFactoryUtils.getSessionFactory());
+//			// set parameters
+//			int orderId = 100;
+//
+//			// cancel the order
+//			orderService.cancelOrder(orderId);
+//
+//			// Fetch the cancelled order
+//			Order order = orderService.getOrder(orderId);
+//			System.out.println(order);
+//
+//		} catch (Exception ex) {
+//			System.out.println(ex);
+//			log.error(ex);
+//			throw ex;
+//		}
+//
+//	}
+//	
+//	/**
+//	 * Negative test
+//	 * We check with the orderId as negative.
+//	 *
+//	 * @throws Exception the exception
+//	 */
+//	@Test(expected = Exception.class)
+//	public void test7NegativeCancelOrderTest() throws Exception {
+//		try {
+//			OrderService orderService = new OrderServiceImpl(SessionFactoryUtils.getSessionFactory());
+//			// set parameters
+//			int orderId = -1;
+//
+//			// cancel the order
+//			orderService.cancelOrder(orderId);
+//
+//			// Fetch the cancelled order
+//			Order order = orderService.getOrder(orderId);
+//
+//		} catch (Exception ex) {
+//			System.out.println(ex);
+//			log.error(ex);
+//			throw ex;
+//		}
+//
+//	}
+//
+//	/**
+//	 * Test for getting the order object by orderId.
+//	 *
+//	 * @return the order test
+//	 */
+//	@Test
+//	public void test8GetOrderTest() {
+//		try {
+//			OrderService orderService = new OrderServiceImpl(SessionFactoryUtils.getSessionFactory());
+//			// set parameters
+//			int orderId = 1;
+//			// get the order
+//			orderService.getOrder(orderId);
+//
+//			// Fetch the cancelled order
+//			Order order = orderService.getOrder(orderId);
+//
+//			// Test the fetched object
+//			assertNotNull(order);
+//			assertEquals(order.getStatus(), OrderStatus.INTIATED);
+//			assertNotNull(order.getBuyer());
+//			assertEquals(order.getBuyer().getId(), 1);
+//
+//		} catch (Exception ex) {
+//			assertTrue(false);
+//			System.out.println(ex);
+//			log.error(ex);
+//		}
+//
+//	}
+//	
+//	/**
+//	 * Negative test
+//	 * Pass the negative orderId.
+//	 *
+//	 * @throws Exception the exception
+//	 */
+//	
+//	@Test(expected = Exception.class)
+//	public void test9NegativeGetOrderTest() throws Exception{
+//		try{
+//			OrderService orderService = new OrderServiceImpl(SessionFactoryUtils.getSessionFactory());
+//			// set parameters
+//			int orderId = -11;
+//			// get the order
+//			orderService.getOrder(orderId);	
+//			// Fetch the cancelled order
+//			Order order = orderService.getOrder(orderId);
+//		}
+//		catch(Exception ex){
+//			throw ex;		
+//		}		
+//	}
+//	
+//	/**
+//	 * Negative test
+//	 * Pass the  orderId which is not available in database.
+//	 *
+//	 * @throws Exception the exception
+//	 */
+//	
+//	@Test(expected = Exception.class)
+//	public void test10egativeInvalidGetOrderTest() throws Exception{
+//		try{
+//			OrderService orderService = new OrderServiceImpl(SessionFactoryUtils.getSessionFactory());
+//			// set parameters
+//			int orderId = 111;
+//			// get the order
+//			orderService.getOrder(orderId);	
+//			// Fetch the cancelled order
+//			Order order = orderService.getOrder(orderId);
+//		}
+//		catch(Exception ex){
+//			throw ex;		
+//		}		
+//	}
 
 	/**
 	 * Pre-processing
@@ -382,34 +383,33 @@ public class OrderServiceTest extends TestCase {
 	/**
 	 * Post-processing code : for cleaning up database tables
 	 */
-//	private void cleanUpDependentData() throws Exception{
-//		Session session = null;
-//		try {
-//
-//			if(sessionFactory == null){
-//				throw new NullPointerException("session can't be null");
-//			}
-//			session = sessionFactory.openSession();
-//			session.beginTransaction();
-//			//delete buyer
-//			BuyerDAO buyerDAO= new BuyerDAOImpl(session);
-//			Buyer buyer = buyerDAO.getById(1);
-//			buyerDAO.delete(buyer);
-//			//delete Dish
-//			DishDAO dishDAO = new DishDAOImpl(session);
-//			Dish dish = dishDAO.getListByDishId(1);
-//			dishDAO.delete(dish);
-//			session.getTransaction().commit();
-//		} catch (Exception ex) {
-//			ex.printStackTrace();
-//			log.error(ex);
-//			throw ex;
-//		}
-//		finally{
-//			if(session!=null)
-//				session.close();
-//			
-//		}
-//		
-//	}
+	private void cleanUpDependentData() throws Exception{
+		Session session = null;
+		try {
+			if(sessionFactory == null){
+				throw new NullPointerException("session can't be null");
+			}
+			session = sessionFactory.openSession();
+			session.beginTransaction();
+			//delete buyer
+			BuyerDAO buyerDAO= new BuyerDAOImpl(session);
+			Buyer buyer = buyerDAO.getById(1);
+			buyerDAO.delete(buyer);
+			//delete Dish
+			DishDAO dishDAO = new DishDAOImpl(session);
+			Dish dish = dishDAO.getListByDishId(1);
+			dishDAO.delete(dish);
+			session.getTransaction().commit();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			log.error(ex);
+			throw ex;
+		}
+		finally{
+			if(session!=null)
+				session.close();
+			
+		}
+		
+	}
 }
