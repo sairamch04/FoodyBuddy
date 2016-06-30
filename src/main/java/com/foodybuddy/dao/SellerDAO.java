@@ -8,7 +8,7 @@ import com.foodybuddy.model.Seller;
  */
 public interface SellerDAO {
 
-	/**
+	public void save(Seller s);
 	 * Insert.
 	 *
 	 * @param s the s
@@ -30,10 +30,7 @@ public interface SellerDAO {
 	 * @param id the id
 	 */
 	public void delete(Integer id);
-	
-	/**
-	 * Gets the list seller.
-	 *
+	public List<Seller> list();
 	 * @return the list seller
 	 */
 	public List<Seller> getSellerList();

@@ -1,5 +1,4 @@
 package com.foodybuddy.dao.impl;
-
 import java.util.List;
 import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
@@ -13,10 +12,10 @@ import com.foodybuddy.model.Seller;
  */
 @Repository
 public class SellerDAOImpl implements SellerDAO {
+	private Session session;
 	
 	/** The session. */
 	private Session session;
-
 	/**
 	 * Instantiates a new seller DAO impl.
 	 *
@@ -61,7 +60,7 @@ public class SellerDAOImpl implements SellerDAO {
 		List<Seller> SellerList = session.createQuery("from Seller").list();
 		return SellerList;
 	}
-
+    	public Seller getListBySellerId(Integer sellerId){
 	/* (non-Javadoc)
 	 * @see com.foodybuddy.dao.SellerDAO#getListBySellerId(java.lang.Integer)
 	 */
@@ -69,8 +68,8 @@ public class SellerDAOImpl implements SellerDAO {
 		String query = "FROM Seller WHERE id = " + sellerId;
 		Seller seller = (Seller) session.createQuery(query).uniqueResult();
 		return seller;
-	}
-
+    	}
+	@SuppressWarnings("unchecked")
 	/* (non-Javadoc)
 	 * @see com.foodybuddy.dao.SellerDAO#getListByApartmentId(java.lang.Integer)
 	 */
@@ -79,6 +78,8 @@ public class SellerDAOImpl implements SellerDAO {
 		String query = "FROM Seller WHERE apartment_id = " + apartmentId;
 		List<Seller> sellerList = session.createQuery(query).list();
 		return sellerList;
+	    String query= "FROM Seller WHERE email = " + email;
+	    Seller seller = (Seller) session.createQuery(query).uniqueResult();
+        return seller;    
 	}
-
 }

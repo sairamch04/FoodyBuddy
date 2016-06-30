@@ -49,6 +49,9 @@ public class Seller{
     @JoinColumn(name = "apartment_id")
     private Apartment apartment;
 	
+	@Column(name="is_active")
+	private Boolean isActive;
+	
 	/** The is active. */
 	@Column(name="is_active")
 	private Boolean isActive;
@@ -57,6 +60,14 @@ public class Seller{
 	@Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created_at")
     private Date createdAt;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "updated_at")
+    private Date updatedAt;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	 @Column(name = "deleted_at")
+    private Date deletedAt;
 	
 	/** The updated at. */
 	@Temporal(TemporalType.TIMESTAMP)
