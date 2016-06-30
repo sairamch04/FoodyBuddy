@@ -51,17 +51,29 @@ public class CityServiceImpl implements CityService {
 	 * 
 	 * @see com.foodybuddy.service.CityService#getById(java.lang.Integer)
 	 */
-	public City getById(Integer id) {
-
-		if (id == null || id <= 0) {
-			throw ObjectNullException;
-		}
-
+	public City getById(Integer id) throws Exception {
+		
 		Session session = null;
-
-		session = this.sessionFactory.openSession();
-		CityDAO cityDAO = new CityDAOImpl(session);
-		return cityDAO.getById(id);
+		try {
+			if (id == null || id <= 0) {
+				if (id == null) {
+					throw new RuntimeException("ID is null");
+				} else {
+					throw new RuntimeException("ID is invalid");
+				}
+			}
+			
+			session = this.sessionFactory.openSession();
+			CityDAO cityDAO = new CityDAOImpl(session);
+			return cityDAO.getById(id);
+			
+		} catch (Exception exception) {
+			throw exception;
+		} finally {
+			if (session != null) {
+				session.close();
+			}
+		}
 	}
 
 	/*
@@ -69,11 +81,22 @@ public class CityServiceImpl implements CityService {
 	 * 
 	 * @see com.foodybuddy.service.CityService#getAll()
 	 */
-	public List<City> getAll() {
+	public List<City> getAll() throws Exception {
 		Session session = null;
-		session = this.sessionFactory.openSession();
-		CityDAO cityDAO = new CityDAOImpl(session);
-		return cityDAO.getAll();
+		try {
+			session = this.sessionFactory.openSession();
+			CityDAO cityDAO = new CityDAOImpl(session);
+			List<City> cityList = cityDAO.getAll();
+			if (cityList.size() == 0)
+				throw new RuntimeException("Empty Country List");
+			return cityList;
+		} catch (Exception exception) {
+			throw exception;
+		} finally {
+			if (session != null) {
+				session.close();
+			}
+		}
 	}
 
 	/*
@@ -84,14 +107,29 @@ public class CityServiceImpl implements CityService {
 	 */
 	public City insert(String name, Integer stateId) throws TransactionException {
 
-		if (name == null || stateId == null || stateId <= 0 || name.trim().length() == 0) {
-			throw ObjectNullException;
-		}
-
 		Session session = null;
 		Transaction transaction = null;
 
 		try {
+			
+			if (name == null || stateId == null || stateId <= 0 || name.trim().length() == 0) {
+
+				if (name == null) {
+					throw new RuntimeException("Name is null");
+				}
+
+				else if (stateId == null) {
+					throw new RuntimeException("StateId is null");
+				}
+
+				else if (stateId <= 0) {
+					throw new RuntimeException("StateId is null");
+				}
+
+				else {
+					throw new RuntimeException("Name is invalid");
+				}
+			}
 			session = this.sessionFactory.openSession();
 			transaction = session.beginTransaction();
 			transaction.setTimeout(10);
@@ -115,7 +153,8 @@ public class CityServiceImpl implements CityService {
 
 		catch (Exception exception) {
 			try {
-				transaction.rollback();
+				if (transaction != null)
+					transaction.rollback();
 				throw TransactionFailureException;
 			}
 
@@ -142,8 +181,35 @@ public class CityServiceImpl implements CityService {
 		Transaction transaction = null;
 
 		try {
-			if (city == null || city.getName().trim().length() == 0 || city.getState() == null) {
-				throw ObjectNullException;
+			if (city == null || city.getName().trim().length() == 0 
+					|| city.getState() == null || city.getState().getName().trim().length() == 0
+						|| city.getState().getCountry() == null
+							|| city.getState().getCountry().getName().trim().length() == 0) {
+				
+				if (city == null) {
+					throw new RuntimeException("City Object is null");
+				}
+
+				else if (city.getName().trim().length() == 0) {
+					throw new RuntimeException("City Name is Invalid");
+				}
+
+				else if (city.getState() == null) {
+					throw new RuntimeException("State Object is null");
+				}
+				
+				else if(city.getState().getName().trim().length() == 0){
+					throw new RuntimeException("State Name is Invalid");
+				}
+				
+				else if (city.getState().getCountry() == null) {
+					throw new RuntimeException("Country Object is null");
+				}
+				
+				else {
+					throw new RuntimeException("Country Name is Invalid");
+				}
+				
 			}
 
 			session = this.sessionFactory.openSession();
@@ -158,7 +224,8 @@ public class CityServiceImpl implements CityService {
 
 		catch (Exception exception) {
 			try {
-				transaction.rollback();
+				if (transaction != null)
+					transaction.rollback();
 				throw TransactionFailureException;
 			}
 
@@ -169,6 +236,7 @@ public class CityServiceImpl implements CityService {
 
 		finally {
 			if (session != null) {
+				System.out.println("Hello");
 				session.close();
 			}
 		}
@@ -181,14 +249,15 @@ public class CityServiceImpl implements CityService {
 	 * @see com.foodybuddy.service.CityService#delete(com.foodybuddy.model.City)
 	 */
 	public void delete(City city) throws TransactionException {
-		if (city == null) {
-			throw ObjectNullException;
-		}
+		
 
 		Session session = null;
 		Transaction transaction = null;
 
 		try {
+			if (city == null) {
+				throw new RuntimeException("Country Object is null");
+			}
 			session = sessionFactory.openSession();
 			transaction = session.beginTransaction();
 			transaction.setTimeout(10);
@@ -200,7 +269,8 @@ public class CityServiceImpl implements CityService {
 
 		catch (Exception exception) {
 			try {
-				transaction.rollback();
+				if (transaction != null)
+					transaction.rollback();
 				throw TransactionFailureException;
 			}
 
