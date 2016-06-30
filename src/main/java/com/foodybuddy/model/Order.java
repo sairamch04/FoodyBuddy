@@ -25,7 +25,7 @@ public class Order {
 
 	/** The id. */
 	@Id
-	@Column(name = "id")
+	@Column(name = "id", nullable =false)
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
