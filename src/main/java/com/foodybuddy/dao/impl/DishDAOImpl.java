@@ -1,39 +1,84 @@
 package com.foodybuddy.dao.impl;
+
 import java.util.List;
 import org.hibernate.Session;
-import com.foodybuddy.dao.DishDAO;
-import com.foodybuddy.model.Dish;
+import org.springframework.stereotype.Repository;
 
-public class DishDAOImpl implements DishDAO {
-	private Session session;
+import com.foodybuddy.dao.SellerDAO;
+import com.foodybuddy.model.Seller;
+
+// TODO: Auto-generated Javadoc
+/**
+ * The Class SellerDAOImpl.
+ */
+@Repository
+public class SellerDAOImpl implements SellerDAO {
 	
-	public DishDAOImpl(Session session) {
-        this.session = session;
-    }
-	public void insert(Dish d) {
-		session.persist(d);
-	}
-	public void update(Dish Dish ){
-		     session.update(Dish); 
-	}
-	public void delete(Integer id) {
-		Dish Dish = (Dish) session.load(Dish.class, new Integer(id));
+	/** The session. */
+	private Session session;
+
+	/**
+	 * Instantiates a new seller DAO impl.
+	 *
+	 * @param session the session
+	 * @throws NullPointerException the null pointer exception
+	 */
+	public SellerDAOImpl(Session session) throws NullPointerException {
+		if (session == null) {
+			throw new NullPointerException("Session is null");
+		}
+		this.session = session;
 	}
 
-	@SuppressWarnings("unchecked")
-	public List<Dish> getListdish() {
-		List<Dish> DishList = session.createQuery("from Dish").list();
-		return DishList;
+	/* (non-Javadoc)
+	 * @see com.foodybuddy.dao.SellerDAO#insert(com.foodybuddy.model.Seller)
+	 */
+	public Seller insert(Seller s) {
+		session.persist(s);
+		return s;
 	}
-    public Dish getListByDishId(Integer DishId){
-        String query= "FROM Dish WHERE id = " + DishId;
-        Dish dish = (Dish) session.createQuery(query).list().get(0);
-        return dish;    
-    }
+ 
+	/* (non-Javadoc)
+	 * @see com.foodybuddy.dao.SellerDAO#update(com.foodybuddy.model.Seller)
+	 */
+	public Seller update(Seller seller) {
+		session.update(seller);
+		return seller;
+	}
+ 
+	/* (non-Javadoc)
+	 * @see com.foodybuddy.dao.SellerDAO#delete(java.lang.Integer)
+	 */
+	public void delete(Integer id) {
+		session.createQuery("delete from Seller where id="+id);
+	}
+
+	/* (non-Javadoc)
+	 * @see com.foodybuddy.dao.SellerDAO#getListSeller()
+	 */
 	@SuppressWarnings("unchecked")
-    public List<Dish> getListBySellerId(Integer sellerid){
-        String query= "FROM Dish WHERE aseller_id = " + sellerid;
-        List<Dish> Dish_by_seller_id = session.createQuery(query).list();
-        return Dish_by_seller_id;    
-    }
+	public List<Seller> getSellerList() {
+		List<Seller> SellerList = session.createQuery("from Seller").list();
+		return SellerList;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.foodybuddy.dao.SellerDAO#getListBySellerId(java.lang.Integer)
+	 */
+	public Seller getBySellerId(Integer sellerId) {
+		String query = "FROM Seller WHERE id = " + sellerId;
+		Seller seller = (Seller) session.createQuery(query).uniqueResult();
+		return seller;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.foodybuddy.dao.SellerDAO#getListByApartmentId(java.lang.Integer)
+	 */
+	@SuppressWarnings("unchecked")
+	public List<Seller> getListByApartmentId(Integer apartmentId) {
+		String query = "FROM Seller WHERE apartment_id = " + apartmentId;
+		List<Seller> sellerList = session.createQuery(query).list();
+		return sellerList;
+	}
+
 }
