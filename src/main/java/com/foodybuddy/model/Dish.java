@@ -165,6 +165,9 @@ public class Dish {
 		this.quantityAvailable = quantityAvailable;
 	}
 
+	public Dish(){
+	}
+	
 	public Dish(String name, String description, Seller seller, Integer price, Date orderBy, Date dishAvailableStart,
 			Date dishAvailableEnd, Boolean isVeg, Boolean isActive, Integer quantityAvailable) {
 		super();
