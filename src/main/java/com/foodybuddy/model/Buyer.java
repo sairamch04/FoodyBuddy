@@ -1,8 +1,10 @@
 package com.foodybuddy.model;
+
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -17,14 +19,14 @@ import org.hibernate.envers.Audited;
 public class Buyer{
 	
 	@Id
-	@Column(name = "id")
-	@GeneratedValue
+	@Column(name = "id", nullable = false)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	
-//	@Column(name = "apartment_id", nullable = false)
-//	@ManyToOne
-//	@JoinColumn(name = "id")
-//	private Apartment apartment;
+	
+	@ManyToOne
+	@JoinColumn(name = "apartment_id")
+	private Apartment apartment;
 	
 	@Column(name = "last_modified_by_id")
 	private int lastModifiedById;
@@ -42,34 +44,34 @@ public class Buyer{
 	private String flatNumber;
 	
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "created_at")
+	@Column(name = "created_at", columnDefinition="TIMESTAMP default CURRENT_TIMESTAMP")
 	private Date createdAt;
 	
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "updated_at")
+	@Column(name = "updated_at", columnDefinition="TIMESTAMP default CURRENT_TIMESTAMP")
 	private Date updatedAt;
 	
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "deleted_at")
+	@Column(name = "deleted_at", columnDefinition="TIMESTAMP default CURRENT_TIMESTAMP")
 	private Date deletedAt;
 
-	@Column(name="is_active" , columnDefinition = "boolean default true")
+	@Column(name="is_active" , nullable = false , columnDefinition = "boolean default true")
     	private Boolean isActive;
 	
 	public Buyer(){}
 	
-//	public Buyer(Apartment apartment, int lastModifiedById, String name, String mobileNumber, String email, String flatNumber, Date createdAt, Date updatedAt, Date deletedAt, Boolean isActive){		
-//		this.apartment = apartment;
-//		this.lastModifiedById = lastModifiedById;
-//		this.name = name;
-//		this.mobileNumber = mobileNumber;
-//		this.email = email;
-//		this.flatNumber = flatNumber;
-//		this.createdAt = createdAt;
-//		this.updatedAt = updatedAt;
-//		this.deletedAt = deletedAt;
-//		this.isActive = isActive;
-//	}
+	public Buyer(Apartment apartment, int lastModifiedById, String name, String mobileNumber, String email, String flatNumber, Date createdAt, Date updatedAt, Date deletedAt, Boolean isActive){		
+		this.apartment = apartment;
+		this.lastModifiedById = lastModifiedById;
+		this.name = name;
+		this.mobileNumber = mobileNumber;
+		this.email = email;
+		this.flatNumber = flatNumber;
+		this.createdAt = createdAt;
+		this.updatedAt = updatedAt;
+		this.deletedAt = deletedAt;
+		this.isActive = isActive;
+	}
 
 	public int getId(){
 		return id;
@@ -79,14 +81,14 @@ public class Buyer{
 		this.id = id;
 	}
 
-//	public Apartment getApartment(){
-//		return apartment;
-//	}
-//
-//	public void setApartment(Apartment apartment){
-//		this.apartment = apartment;
-//	}
-//	
+	public Apartment getApartment(){
+		return apartment;
+	}
+
+	public void setApartment(Apartment apartment){
+		this.apartment = apartment;
+	}
+	
 	public int getLastModifiedById(){
 		return lastModifiedById;
 	}
@@ -202,7 +204,7 @@ public class Buyer{
     
     @Override
     public String toString() {
-        return "Buyer [id=" + id + ", name=" + name + ", email=" + email + ", mobileNumber=" + mobileNumber + ", flatNumber=" + flatNumber
+        return "Seller [id=" + id + ", name=" + name + ", email=" + email + ", mobileNumber=" + mobileNumber + ", flatNumber=" + flatNumber
                 + ", isActive=" + isActive + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + ", deletedAt="
                 + deletedAt + "lastModifiedById" + lastModifiedById + "]";
     }
