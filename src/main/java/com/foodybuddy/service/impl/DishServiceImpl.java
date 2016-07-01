@@ -67,6 +67,9 @@ public class DishServiceImpl implements DishService {
 			transaction.commit();
 		} catch (Exception ex) {
 			try {
+				if (transaction == null) {
+                    throw new Exception("Transaction could not be completed: " + ex.getMessage(), ex);
+				}
 				transaction.rollback();
 				throw new Exception("Transaction could not be completed will be rollbacked: " + ex.getMessage(), ex);
 			} catch (RuntimeException rbe) {
@@ -103,6 +106,9 @@ public class DishServiceImpl implements DishService {
 				transaction.commit();
 		} catch (Exception ex) {
 			try {
+				if (transaction == null) {
+                    throw new Exception("Transaction could not be completed: " + ex.getMessage(), ex);
+				}
 				transaction.rollback();
 				throw new Exception("Transaction could not be completed will be rollbacked: " + ex.getMessage(), ex);
 			} catch (RuntimeException rbe) {
@@ -163,6 +169,9 @@ public class DishServiceImpl implements DishService {
 			transaction.commit();
 		} catch (Exception ex) {
 			try {
+				if (transaction == null) {
+                    throw new Exception("Transaction could not be completed: " + ex.getMessage(), ex);
+				}
 				transaction.rollback();
 				throw new Exception("Transaction could not be completed will be rollbacked: " + ex.getMessage(), ex);
 			} catch (RuntimeException rbe) {
@@ -199,6 +208,9 @@ public class DishServiceImpl implements DishService {
 			transaction.commit();
 		} catch (Exception ex) {
 			try {
+				if (transaction == null) {
+                    throw new Exception("Transaction could not be completed: " + ex.getMessage(), ex);
+				}
 				transaction.rollback();
 				throw new Exception("Transaction could not be completed will be rollbacked: " + ex.getMessage(), ex);
 			} catch (RuntimeException rbe) {
