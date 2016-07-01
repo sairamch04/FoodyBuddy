@@ -22,7 +22,6 @@ public class OrderDishServiceImpl implements OrderDishService {
 	private SessionFactory sessionFactory;
 
 	public List<OrderDish> getListOrderByDishId(int dishId) throws Exception {
-		sessionFactory = SessionFactoryUtils.getSessionFactory();
 		Session session = null;
 		try {
 			if (dishId <= 0) {
@@ -46,7 +45,6 @@ public class OrderDishServiceImpl implements OrderDishService {
 	}
 
 	public List<OrderDish> getListOrderByOrderId(int orderId) throws Exception {
-		sessionFactory = SessionFactoryUtils.getSessionFactory();
 		Session session = null;
 		try {
 			if (orderId < 0) {
@@ -65,7 +63,6 @@ public class OrderDishServiceImpl implements OrderDishService {
 		}
 	}
 	public OrderDish insertOrderDish(Order order, Dish dish) throws Exception{
-		sessionFactory = SessionFactoryUtils.getSessionFactory();
 		Session session = null;
 		Transaction transaction = null;
 		try{
@@ -102,7 +99,6 @@ public class OrderDishServiceImpl implements OrderDishService {
 	}
 
 	public OrderDish updateOrderDishQuantity(int orderDishId, int updatedQuantity) throws Exception {
-		sessionFactory = SessionFactoryUtils.getSessionFactory();
 		Session session = null;
 		Transaction transaction = null;
 		try {
