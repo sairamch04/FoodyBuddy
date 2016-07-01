@@ -67,6 +67,10 @@ public class OrderServiceImpl implements OrderService {
 			Order order = new Order();
 			order.setStatus(OrderStatus.INTIATED);
 			Buyer buyer = buyerDAO.getById(buyerId);
+			if(buyer == null){
+				log.error("Invalid buyerId " + buyerId);
+				throw new Exception("Invalid buyer Id " + buyerId);
+			}
 
 			for (int index = 0; index < dishIds.size(); index++) {
 				int dishId = dishIds.get(index);
@@ -189,8 +193,7 @@ public class OrderServiceImpl implements OrderService {
 		// create the required DAOs
 		DishDAO dishDAO = new DishDAOImpl(session);
 		OrderDishDAO orderDishDAO = new OrderDishDAOImpl(session);
-
-		Dish dish = dishDAO.getListByDishId(dishId);
+		Dish dish = dishDAO.getByDishId(dishId);
 		if (dish == null) {
 			log.info(dishId + " is not valid ");
 			throw new Exception("Invalid dishId : " + dishId);

@@ -1,12 +1,15 @@
 package com.foodybuddy.service;
 
+import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.TransactionException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
@@ -16,20 +19,26 @@ import org.junit.runners.MethodSorters;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.foodybuddy.dao.BuyerDAO;
-import com.foodybuddy.dao.DishDAO;
-import com.foodybuddy.dao.impl.BuyerDAOImpl;
-import com.foodybuddy.dao.impl.DishDAOImpl;
+import com.foodybuddy.dao.ApartmentDAO;
+import com.foodybuddy.dao.impl.ApartmentDAOImpl;
+import com.foodybuddy.model.Apartment;
 import com.foodybuddy.model.Buyer;
-import com.foodybuddy.model.Dish;
+import com.foodybuddy.model.Locality;
 import com.foodybuddy.model.Order;
+import com.foodybuddy.service.impl.ApartmentServiceImpl;
+import com.foodybuddy.service.impl.BuyerServiceImpl;
+import com.foodybuddy.service.impl.CityServiceImpl;
+import com.foodybuddy.service.impl.CountryServiceImpl;
+import com.foodybuddy.service.impl.DishServiceImpl;
+import com.foodybuddy.service.impl.LocalityServiceImpl;
 import com.foodybuddy.service.impl.OrderServiceImpl;
+import com.foodybuddy.service.impl.SellerServiceImpl;
+import com.foodybuddy.service.impl.StateServiceImpl;
 import com.foodybuddy.utils.OrderStatus;
 import com.foodybuddy.utils.SessionFactoryUtils;
 
 import junit.framework.TestCase;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class OrderServiceTest.
  */
@@ -40,6 +49,8 @@ public class OrderServiceTest extends TestCase {
 
 	/** The log. */
 	static Log log = LogFactory.getLog(OrderServiceTest.class.getName());
+	
+	/** The is first. */
 	boolean isFirst = true;	
 	/** The session factory. */
 	SessionFactory sessionFactory = null;
@@ -64,8 +75,10 @@ public class OrderServiceTest extends TestCase {
 	@After
 	@Override
 	public void tearDown() throws Exception {
-		//flush the inserted table
-		cleanUpDependentData();	
+		//close the sessionfactory
+		if(sessionFactory != null){
+			sessionFactory.close();
+		}
 	}
 
 	/**
@@ -106,9 +119,12 @@ public class OrderServiceTest extends TestCase {
 			log.error(ex);
 		}
 	}
+	
 	/**
 	 * Negative test
-	 * Placing the order for quantity more than available
+	 * Placing the order for quantity more than available.
+	 *
+	 * @throws Exception the exception
 	 */
 	@Test(expected = Exception.class)
 	public void placeInvalidOrderTest() throws Exception{
@@ -342,23 +358,48 @@ public class OrderServiceTest extends TestCase {
 	 *
 	 * @throws Exception the exception
 	 */
+	@SuppressWarnings("deprecation")
 	private void insertDependentData()  throws Exception{
+		if(sessionFactory == null){
+			throw new NullPointerException("session can't be null");
+		}
 		Session session = null;
-		if(sessionFactory == null){
-			throw new NullPointerException("session can't be null");
+		try{
+			//create required services for inserting dependent data
+			CountryService countryService = new CountryServiceImpl(sessionFactory);
+			StateService stateService = new StateServiceImpl(sessionFactory);
+			CityService cityService = new CityServiceImpl(sessionFactory);
+			LocalityService localityService = new LocalityServiceImpl(sessionFactory);
+			ApartmentService apartmentService = new ApartmentServiceImpl(sessionFactory);
+			BuyerService buyerService = new BuyerServiceImpl(sessionFactory);
+			SellerService sellerService = new SellerServiceImpl(sessionFactory);
+			DishService dishService = new DishServiceImpl(sessionFactory);
+			//use services to create data
+			//
+			session = sessionFactory.openSession();
+			session.beginTransaction();
+            ApartmentDAO aptDAO = new ApartmentDAOImpl(session);
+            Apartment apt = new Apartment("apt1",loc,1);
+            aptDAO.insert(apt);
+            session.getTransaction().commit();
+            //
+			countryService.insert("India");
+			stateService.insert("Bangalore", 1);
+			//localityService.insert(locality);
+			//apartmentService.insert(apartment);
+			//buyerService.insert(buyer;)
+			//buyerService.addBudder("FoodyBuudy","sairamch04@foodybuddy.com", "8676903268","200 B",1 ,true);
+			sellerService.addSeller("sairam","sairamch04@foodybuddy.com", "8676903268","200 B",1,true);
+			dishService.addDish("Biryani", "Hyderabadi style ", 1, 100, new Date(2016,5,21), new Date(2016, 5, 22), new Date(2016, 5, 22), true, true, 10);
 		}
-		BuyerService buyerService  = new BuyerServiceImpl(sessionFactory);
-		buyerService.addBudder("FoodyBuudy","sairamch04@foodybuddy.com", "8676903268","200 B");
-		DishService dishService = new DishServiceImpl(sessionFactory);
-		dishService.addDish("Biryani","little sweet", true, 10);	
-	}
-	/**
-	 * Post-processing code : for cleaning up database tables
-	 */
-	private void cleanUpDependentData() throws Exception{
-		if(sessionFactory == null){
-			throw new NullPointerException("session can't be null");
+		catch(Exception ex){
+			log.error("Unbale to create dependant data " + ex);
+			throw ex;
 		}
-		//No cleanup required
+		finally{
+			if(session != null){
+				session.close();
+			}
+		}
 	}
 }
