@@ -53,7 +53,7 @@ public class OrderDAOImpl implements OrderDAO {
 	@SuppressWarnings("unchecked")
 	public Order getById(int orderId) {
 		String query = "FROM Order WHERE id = " + orderId;
-		Order order = (Order) session.createQuery(query).list().get(0);
+		Order order = (Order) session.createQuery(query).uniqueResult();
 		return order;
 	}
 

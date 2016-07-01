@@ -55,7 +55,7 @@ public class Buyer{
 	@Column(name = "deleted_at", columnDefinition="TIMESTAMP default CURRENT_TIMESTAMP")
 	private Date deletedAt;
 
-	@Column(name="is_active" , nullable = false , columnDefinition = "boolean default true")
+	@Column(name="is_active")
     	private Boolean isActive;
 	
 	public Buyer(){}

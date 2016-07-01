@@ -31,7 +31,7 @@ public class SessionFactoryUtils {
 	 */
 	private static SessionFactory buildSessionFactory() {
 		try {
-			if (sessionFactory == null) {
+			if (sessionFactory == null || sessionFactory.isClosed()) {
 				Configuration configuration = new Configuration()
 						.configure(SessionFactoryUtils.class.getResource("/hibernate.cfg.xml"));
 				StandardServiceRegistryBuilder serviceRegistryBuilder = new StandardServiceRegistryBuilder();
@@ -52,7 +52,7 @@ public class SessionFactoryUtils {
 	 * @return the session factory
 	 */
 	public static SessionFactory getSessionFactory() {
-		if (sessionFactory == null || (sessionFactory != null && sessionFactory.isClosed())) {
+		if (sessionFactory == null || sessionFactory.isClosed()) {
 			sessionFactory = buildSessionFactory();
 		}
 		return sessionFactory;
@@ -62,6 +62,7 @@ public class SessionFactoryUtils {
 	 * Close.
 	 */
 	public static void close() {
-		sessionFactory.close();
+		if(sessionFactory != null  && !sessionFactory.isClosed())
+			sessionFactory.close();
 	}
 }

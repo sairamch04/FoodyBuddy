@@ -35,6 +35,9 @@ public class Locality {
 		this.pincode = pincode;
 		this.city = city;
 	}
+	public Locality(){
+		
+	}
 	
 	public int getId(){
 		return id;

@@ -26,7 +26,14 @@
 		<mapping class="com.foodybuddy.model.Order"/>
 		<mapping class="com.foodybuddy.model.OrderDish"/>
 		<mapping class="com.foodybuddy.model.Buyer"/>
+		<mapping class="com.foodybuddy.model.Seller"/>
+		<mapping class="com.foodybuddy.model.Apartment"/>
+		<mapping class="com.foodybuddy.model.Country"/>
+		<mapping class="com.foodybuddy.model.State"/>
+		<mapping class="com.foodybuddy.model.City"/>
+		<mapping class="com.foodybuddy.model.Locality"/>
 		<mapping class="com.foodybuddy.model.Dish"/>
+		
 
     </session-factory>
 

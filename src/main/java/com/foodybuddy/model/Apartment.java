@@ -35,6 +35,9 @@ public class Apartment {
 		this.locality = locality;
 		this.blockNumber = blockNumber;
 	}
+	public Apartment(){
+		
+	}
 	
 	public int getId(){
 		return id;

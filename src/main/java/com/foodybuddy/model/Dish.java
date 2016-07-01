@@ -149,6 +149,9 @@ public class Dish{
         this.isActive = isActive;
         this.quantityAvailable = quantityAvailable;
     }
+    public Dish(){
+    	
+    }
     @Override
     public int hashCode() {
         final int prime = 31;

@@ -22,7 +22,7 @@ import com.foodybuddy.model.Dish;
 import com.foodybuddy.model.Order;
 import com.foodybuddy.model.OrderDish;
 import com.foodybuddy.service.OrderService;
-import com.foodybuddy.utils.OrderStatus;
+import com.foodybuddy.utils.OrderStatusEnum;
 
 /**
  * The Class OrderServiceImpl.
@@ -65,7 +65,7 @@ public class OrderServiceImpl implements OrderService {
 			OrderDAO orderDAO = new OrderDAOImpl(session);
 			BuyerDAO buyerDAO = new BuyerDAOImpl(session);
 			Order order = new Order();
-			order.setStatus(OrderStatus.INTIATED);
+			order.setStatus(OrderStatusEnum.INTIATED.getValue());
 			Buyer buyer = buyerDAO.getById(buyerId);
 			if(buyer == null){
 				log.error("Invalid buyerId " + buyerId);
@@ -126,11 +126,15 @@ public class OrderServiceImpl implements OrderService {
 			session = sessionFactory.openSession();
 			OrderDAO orderDAO = new OrderDAOImpl(session);
 			order = orderDAO.getById(orderId);
-			log.info("seccesfully obtained object for " + orderId);
+			if(order == null){
+				throw new Exception("Invalid orderId " + orderId);
+				
+			}
+			log.info("succesfully obtained object for " + orderId);
 
-		} catch (Exception ex) {
-
-			throw new HibernateException("getOrder failed due to unavialble quanity or invalid orderId",ex);
+		} catch (Exception  ex) {
+			log.error(ex);
+			throw new HibernateException("getOrder could not be completed ", ex);
 			
 		} finally {
 			if (session != null) {
@@ -155,7 +159,7 @@ public class OrderServiceImpl implements OrderService {
 			transaction = session.beginTransaction();
 			OrderDAO orderDAO = new OrderDAOImpl(session);
 			Order order = orderDAO.getById(orderId);
-			order.setStatus(OrderStatus.CANCELLED);
+			order.setStatus(OrderStatusEnum.CANCELLED.getValue());
 			orderDAO.update(order);
 			transaction.commit();
 			log.info("cancel of order was succesfull" + orderId);
@@ -198,7 +202,6 @@ public class OrderServiceImpl implements OrderService {
 			log.info(dishId + " is not valid ");
 			throw new Exception("Invalid dishId : " + dishId);
 		}
-		// TODO:: check if ordered times is before AvialaleTill
 		if (dish.getQuantityAvailable() >= orderedQuantity) {
 			OrderDish orderDish = new OrderDish();
 			orderDish.setOrder(order);
