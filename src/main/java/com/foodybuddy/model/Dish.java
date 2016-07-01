@@ -14,154 +14,270 @@ import javax.persistence.TemporalType;
 
 import org.hibernate.envers.Audited;
 
+/**
+ * The Class Dish.
+ */
 @Entity
 @Audited
 @Table(name="Dish")
 public class Dish{
 	
+	/** The id. */
 	@Id
 	@Column(name="id")
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private int id;
+	private Integer id;
 	
-	@Column(name="name")
+	/** The name. */
+	@Column(name="name" , nullable=false)
 	private String name;
 
+	/** The description. */
 	@Column(name="description")
 	private String description;
 	
+    /** The seller. */
     @ManyToOne
-    @JoinColumn(name = "seller_id")
+    @JoinColumn(name = "seller_id" ,nullable=false)
     private Seller  seller;
 
-	@Column(name="price")
-	private int price;
+	/** The price. */
+	@Column(name="price",nullable=false)
+	private Integer price;
 
-	@Column(name="order_by")
+	/** The order by. */
+	@Column(name="order_by",nullable=false)
 	private Date orderBy;
 	
-	@Column(name="dish_available_start")
+	/** The dish available start. */
+	@Column(name="dish_available_start",nullable=false)
 	private Date dishAvailableStart;
 
-	@Column(name="dish_available_end")
+	/** The dish available end. */
+	@Column(name="dish_available_end",nullable=false)
 	private Date dishAvailableEnd;
 	
-	@Column(name="is_veg" , nullable = false , columnDefinition = "boolean default false")
+	/** The is veg. */
+	@Column(name="is_veg",nullable = false )
 	private Boolean isVeg;
 
-	@Column(name="quantity_available")
-	private int quantityAvailable;
+	/** The quantity available. */
+	@Column(name="quantity_available",nullable=false)
+	private Integer quantityAvailable;
 	
+	/** The is active. */
+	@Column(name="is_active" ,nullable=false)
+	private Boolean isActive;
 
+	/** The created at. */
 	@Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created_at", columnDefinition="TIMESTAMP default CURRENT_TIMESTAMP")
     private Date createdAt;
 	
+	/** The updated at. */
 	@Temporal(TemporalType.TIMESTAMP)
     @Column(name = "updated_at", columnDefinition="TIMESTAMP default CURRENT_TIMESTAMP")
     private Date updatedAt;
 	
+	/** The deleted at. */
 	@Temporal(TemporalType.TIMESTAMP)
 	 @Column(name = "deleted_at", columnDefinition="TIMESTAMP default CURRENT_TIMESTAMP")
     private Date deletedAt;
 
 	
 
+	/**
+	 * Gets the id.
+	 *
+	 * @return the id
+	 */
 	public int getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	/**
+	 * Sets the id.
+	 *
+	 * @param id the new id
+	 */
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
+	/**
+	 * Gets the name.
+	 *
+	 * @return the name
+	 */
 	public String getName() {
 		return name;
 	}
 
+	/**
+	 * Sets the name.
+	 *
+	 * @param name the new name
+	 */
 	public void setName(String name) {
 		this.name = name;
 	}
 
+	/**
+	 * Gets the description.
+	 *
+	 * @return the description
+	 */
 	public String getDescription() {
 		return description;
 	}
 
+	/**
+	 * Sets the description.
+	 *
+	 * @param description the new description
+	 */
 	public void setDescription(String description) {
 		this.description = description;
 	}
 
+	/**
+	 * Gets the seller.
+	 *
+	 * @return the seller
+	 */
 	public Seller getSeller() {
 		return seller;
 	}
 
+	/**
+	 * Sets the seller.
+	 *
+	 * @param seller the new seller
+	 */
 	public void setSeller(Seller seller) {
 		this.seller = seller;
 	}
 
+	/**
+	 * Gets the price.
+	 *
+	 * @return the price
+	 */
 	public int getPrice() {
 		return price;
 	}
 
-	public void setPrice(int price) {
+	/**
+	 * Sets the price.
+	 *
+	 * @param price the new price
+	 */
+	public void setPrice(Integer price) {
 		this.price = price;
 	}
 
+	/**
+	 * Gets the order by.
+	 *
+	 * @return the order by
+	 */
 	public Date getOrderBy() {
 		return orderBy;
 	}
 
+	/**
+	 * Sets the order by.
+	 *
+	 * @param orderBy the new order by
+	 */
 	public void setOrderBy(Date orderBy) {
 		this.orderBy = orderBy;
 	}
 
+	public Boolean getIsActive() {
+		return isActive;
+	}
+
+	public void setIsActive(Boolean isActive) {
+		this.isActive = isActive;
+	}
+
+	/**
+	 * Gets the dish available start.
+	 *
+	 * @return the dish available start
+	 */
 	public Date getDishAvailableStart() {
 		return dishAvailableStart;
 	}
 
+	/**
+	 * Sets the dish available start.
+	 *
+	 * @param dishAvailableStart the new dish available start
+	 */
 	public void setDishAvailableStart(Date dishAvailableStart) {
 		this.dishAvailableStart = dishAvailableStart;
 	}
 
+	/**
+	 * Gets the dish available end.
+	 *
+	 * @return the dish available end
+	 */
 	public Date getDishAvailableEnd() {
 		return dishAvailableEnd;
 	}
 
+	/**
+	 * Sets the dish available end.
+	 *
+	 * @param dishAvailableEnd the new dish available end
+	 */
 	public void setDishAvailableEnd(Date dishAvailableEnd) {
 		this.dishAvailableEnd = dishAvailableEnd;
 	}
 
+	/**
+	 * Gets the checks if is veg.
+	 *
+	 * @return the checks if is veg
+	 */
 	public Boolean getIsVeg() {
 		return isVeg;
 	}
 
+	/**
+	 * Sets the checks if is veg.
+	 *
+	 * @param isVeg the new checks if is veg
+	 */
 	public void setIsVeg(Boolean isVeg) {
 		this.isVeg = isVeg;
 	}
 
+	/**
+	 * Gets the quantity available.
+	 *
+	 * @return the quantity available
+	 */
 	public int getQuantityAvailable() {
 		return quantityAvailable;
 	}
 
-	public void setQuantityAvailable(int quantityAvailable) {
+	/**
+	 * Sets the quantity available.
+	 *
+	 * @param quantityAvailable the new quantity available
+	 */
+	public void setQuantityAvailable(Integer quantityAvailable) {
 		this.quantityAvailable = quantityAvailable;
 	}
 	
+	/**
+	 * Instantiates a new dish.
+	 */
 	public Dish(){
-	}
-	
-	public Dish(String name, String description, Seller seller, int price, Date orderBy, Date dishAvailableStart,
-			Date dishAvailableEnd, Boolean isVeg, int quantityAvailable) {
-		super();
-		this.name = name;
-		this.description = description;
-		this.seller = seller;
-		this.price = price;
-		this.orderBy = orderBy;
-		this.dishAvailableStart = dishAvailableStart;
-		this.dishAvailableEnd = dishAvailableEnd;
-		this.isVeg = isVeg;
-		this.quantityAvailable = quantityAvailable;
 	}
 
 	@Override
@@ -171,11 +287,12 @@ public class Dish{
 		result = prime * result + ((description == null) ? 0 : description.hashCode());
 		result = prime * result + ((dishAvailableEnd == null) ? 0 : dishAvailableEnd.hashCode());
 		result = prime * result + ((dishAvailableStart == null) ? 0 : dishAvailableStart.hashCode());
+		result = prime * result + ((isActive == null) ? 0 : isActive.hashCode());
 		result = prime * result + ((isVeg == null) ? 0 : isVeg.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + ((orderBy == null) ? 0 : orderBy.hashCode());
-		result = prime * result + price;
-		result = prime * result + quantityAvailable;
+		result = prime * result + ((price == null) ? 0 : price.hashCode());
+		result = prime * result + ((quantityAvailable == null) ? 0 : quantityAvailable.hashCode());
 		result = prime * result + ((seller == null) ? 0 : seller.hashCode());
 		return result;
 	}
@@ -204,6 +321,11 @@ public class Dish{
 				return false;
 		} else if (!dishAvailableStart.equals(other.dishAvailableStart))
 			return false;
+		if (isActive == null) {
+			if (other.isActive != null)
+				return false;
+		} else if (!isActive.equals(other.isActive))
+			return false;
 		if (isVeg == null) {
 			if (other.isVeg != null)
 				return false;
@@ -219,9 +341,15 @@ public class Dish{
 				return false;
 		} else if (!orderBy.equals(other.orderBy))
 			return false;
-		if (price != other.price)
+		if (price == null) {
+			if (other.price != null)
+				return false;
+		} else if (!price.equals(other.price))
 			return false;
-		if (quantityAvailable != other.quantityAvailable)
+		if (quantityAvailable == null) {
+			if (other.quantityAvailable != null)
+				return false;
+		} else if (!quantityAvailable.equals(other.quantityAvailable))
 			return false;
 		if (seller == null) {
 			if (other.seller != null)
@@ -231,11 +359,27 @@ public class Dish{
 		return true;
 	}
 
+	public Dish(String name, String description, Seller seller, Integer price, Date orderBy, Date dishAvailableStart,
+			Date dishAvailableEnd, Boolean isVeg, Integer quantityAvailable, Boolean isActive) {
+		this.name = name;
+		this.description = description;
+		this.seller = seller;
+		this.price = price;
+		this.orderBy = orderBy;
+		this.dishAvailableStart = dishAvailableStart;
+		this.dishAvailableEnd = dishAvailableEnd;
+		this.isVeg = isVeg;
+		this.quantityAvailable = quantityAvailable;
+		this.isActive = isActive;
+	}
+
 	@Override
 	public String toString() {
 		return "Dish [id=" + id + ", name=" + name + ", description=" + description + ", seller=" + seller + ", price="
 				+ price + ", orderBy=" + orderBy + ", dishAvailableStart=" + dishAvailableStart + ", dishAvailableEnd="
-				+ dishAvailableEnd + ", isVeg=" + isVeg + ", quantityAvailable=" + quantityAvailable + "]";
+				+ dishAvailableEnd + ", isVeg=" + isVeg + ", quantityAvailable=" + quantityAvailable + ", isActive="
+				+ isActive + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + ", deletedAt=" + deletedAt + "]";
 	}
+	
 	
 }
