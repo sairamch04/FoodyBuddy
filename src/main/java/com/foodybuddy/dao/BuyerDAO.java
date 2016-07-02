@@ -1,12 +1,48 @@
 package com.foodybuddy.dao;
 
-import java.util.List;
 import com.foodybuddy.model.Buyer;
+import java.util.List;
 
-public interface BuyerDAO{
-	public Buyer getById(int id);
+/**
+ * The Interface BuyerDAO.
+ */
+public interface BuyerDAO {
+	
+	/**
+	 * Gets the by id.
+	 *
+	 * @param id the id
+	 * @return the by id
+	 */
+	public Buyer getById(Integer id);
+	
+	/**
+	 * Gets the all.
+	 *
+	 * @return the all
+	 */
 	public List<Buyer> getAll();
-	public void insert(Buyer buyer);
-	public void update(Buyer buyer);
+	
+	/**
+	 * Insert.
+	 *
+	 * @param buyer the buyer
+	 * @return the buyer
+	 */
+	public Buyer insert(Buyer buyer);
+	
+	/**
+	 * Update.
+	 *
+	 * @param buyer the buyer
+	 * @return the buyer
+	 */
+	public Buyer update(Buyer buyer);
+	
+	/**
+	 * Delete.
+	 *
+	 * @param buyer the buyer
+	 */
 	public void delete(Buyer buyer);
 }

@@ -1,45 +1,87 @@
 package com.foodybuddy.dao.impl;
 
+import com.foodybuddy.dao.ApartmentDAO;
+import com.foodybuddy.model.Apartment;
 import java.util.List;
-
 import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 
-import com.foodybuddy.dao.ApartmentDAO;
-import com.foodybuddy.model.Apartment;
-
-
+/**
+ * The Class ApartmentDAOImpl.
+ */
 @Repository
 public class ApartmentDAOImpl implements ApartmentDAO {
 	
-	private Session session = null;
+	/** The session. */
+	private Session session;
 	
+	/** The Object null exception. */
+	RuntimeException ObjectNullException = new RuntimeException("Object is null");
+	
+	/**
+	 * Instantiates a new apartment DAO impl.
+	 *
+	 * @param session the session
+	 */
 	public ApartmentDAOImpl(Session session){
+		if(session == null){
+			throw ObjectNullException;
+		}
 		this.session = session;
 	}
 
-	public void insert(Apartment apartment) {
-		session.persist(apartment);
-	}
-
-	public void update(Apartment apartment) {
-		session.update(apartment);
-	}
-
-	@SuppressWarnings("unchecked")
-	public List<Apartment> getAll() {
-		List<Apartment> ApartmentsList = session.createQuery("FROM Apartment").list();
-		return ApartmentsList;
-	}
-
-	public Apartment getById(int id) {		
-		String query = "FROM Apartment WHERE id = " + id;
-		Apartment apartment = (Apartment)session.createQuery(query).uniqueResult();
+	/* (non-Javadoc)
+	 * @see com.foodybuddy.dao.ApartmentDAO#insert(com.foodybuddy.model.Apartment)
+	 */
+	public Apartment insert(Apartment apartment) {
+		if(apartment == null){
+			throw ObjectNullException;
+		}
+		this.session.persist(apartment);
 		return apartment;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.foodybuddy.dao.ApartmentDAO#update(com.foodybuddy.model.Apartment)
+	 */
+	public Apartment update(Apartment apartment) {
+		if(apartment == null){
+			throw ObjectNullException;
+		}
+		this.session.update(apartment);
+		return apartment;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.foodybuddy.dao.ApartmentDAO#getAll()
+	 */
+	@SuppressWarnings("unchecked")
+	public List<Apartment> getAll() {
+		String query = "FROM Apartment";
+		List<Apartment> citiesList = this.session.createQuery(query).list();
+		return citiesList;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.foodybuddy.dao.ApartmentDAO#getById(java.lang.Integer)
+	 */
+	public Apartment getById(Integer id) {	
+		if(id == null){
+			throw ObjectNullException;
+		}
+		String query = "FROM Apartment WHERE id = "+id;
+		Apartment apartment = (Apartment) this.session.createQuery(query).uniqueResult();
+		return apartment;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.foodybuddy.dao.ApartmentDAO#delete(com.foodybuddy.model.Apartment)
+	 */
 	public void delete(Apartment apartment) {
-		session.delete(apartment);
+		if(apartment == null){
+			throw ObjectNullException;
+		}
+		this.session.delete(apartment);
 	}
 
 }
