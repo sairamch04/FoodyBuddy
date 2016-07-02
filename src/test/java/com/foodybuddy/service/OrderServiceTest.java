@@ -47,8 +47,6 @@ public class OrderServiceTest extends TestCase {
 	/** The log. */
 	static Log log = LogFactory.getLog(OrderServiceTest.class.getName());
 
-	/** The is first. */
-	boolean isFirst = true;
 	/** The session factory. */
 	SessionFactory sessionFactory = null;
 
