@@ -58,8 +58,8 @@ public class LocalityDAOImpl implements LocalityDAO {
 	@SuppressWarnings("unchecked")
 	public List<Locality> getAll() {
 		String query = "FROM Locality";
-		List<Locality> citiesList = this.session.createQuery(query).list();
-		return citiesList;
+		List<Locality> localitiesList = this.session.createQuery(query).list();
+		return localitiesList;
 	}
 
 	/* (non-Javadoc)

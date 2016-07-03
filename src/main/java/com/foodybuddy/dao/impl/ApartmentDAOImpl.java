@@ -58,8 +58,8 @@ public class ApartmentDAOImpl implements ApartmentDAO {
 	@SuppressWarnings("unchecked")
 	public List<Apartment> getAll() {
 		String query = "FROM Apartment";
-		List<Apartment> citiesList = this.session.createQuery(query).list();
-		return citiesList;
+		List<Apartment> apartmentsList = this.session.createQuery(query).list();
+		return apartmentsList;
 	}
 
 	/* (non-Javadoc)
