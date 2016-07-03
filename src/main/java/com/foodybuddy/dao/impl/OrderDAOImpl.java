@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import com.foodybuddy.dao.OrderDAO;
 import com.foodybuddy.model.Order;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class OrderDAOImpl.
  */
@@ -21,6 +22,7 @@ public class OrderDAOImpl implements OrderDAO {
 	 * Instantiates a new order DAO impl.
 	 *
 	 * @param session the session
+	 * @throws NullPointerException the null pointer exception
 	 */
 	public OrderDAOImpl(Session session) throws NullPointerException{
 		if(session == null){
@@ -69,6 +71,14 @@ public class OrderDAOImpl implements OrderDAO {
 	 */
 	public void delete(Order order) {
 		session.delete(order);
+	}
+
+	/* (non-Javadoc)
+	 * @see com.foodybuddy.dao.OrderDAO#save(com.foodybuddy.model.Order)
+	 */
+	public Order save(Order order) {
+		session.save(order);
+		return order;
 	}
 
 }
