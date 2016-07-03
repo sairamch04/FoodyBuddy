@@ -22,10 +22,16 @@
         <property name="show_sql">true</property>
         
         <property name="hbm2ddl.auto">create</property>
-         <!-- "Import" the mapping resources here -->
+        <!-- "Import" the mapping resources here -->
 		<mapping class="com.foodybuddy.model.Order"/>
 		<mapping class="com.foodybuddy.model.OrderDish"/>
 		<mapping class="com.foodybuddy.model.Buyer"/>
+		<mapping class="com.foodybuddy.model.Seller"/>
+		<mapping class="com.foodybuddy.model.Apartment"/>
+		<mapping class="com.foodybuddy.model.Country"/>
+		<mapping class="com.foodybuddy.model.State"/>
+		<mapping class="com.foodybuddy.model.City"/>
+		<mapping class="com.foodybuddy.model.Locality"/>
 		<mapping class="com.foodybuddy.model.Dish"/>
 
 

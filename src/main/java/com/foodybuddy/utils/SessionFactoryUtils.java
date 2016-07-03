@@ -7,14 +7,31 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 
+/**
+ * The Class SessionFactoryUtils.
+ */
 public class SessionFactoryUtils {
+	
+	/** The log. */
 	static Log log = LogFactory.getLog(SessionFactoryUtils.class.getName());
+	
+	/** The session factory. */
 	private static SessionFactory sessionFactory = buildSessionFactory();
-	private SessionFactoryUtils(){}
 
+	/**
+	 * Instantiates a new session factory utils.
+	 */
+	private SessionFactoryUtils() {
+	}
+
+	/**
+	 * Builds the session factory.
+	 *
+	 * @return the session factory
+	 */
 	private static SessionFactory buildSessionFactory() {
 		try {
-			if (sessionFactory == null) {
+			if (sessionFactory == null || sessionFactory.isClosed()) {
 				Configuration configuration = new Configuration()
 						.configure(SessionFactoryUtils.class.getResource("/hibernate.cfg.xml"));
 				StandardServiceRegistryBuilder serviceRegistryBuilder = new StandardServiceRegistryBuilder();
@@ -29,7 +46,23 @@ public class SessionFactoryUtils {
 		}
 	}
 
+	/**
+	 * Gets the session factory.
+	 *
+	 * @return the session factory
+	 */
 	public static SessionFactory getSessionFactory() {
+		if (sessionFactory == null || sessionFactory.isClosed()) {
+			sessionFactory = buildSessionFactory();
+		}
 		return sessionFactory;
+	}
+
+	/**
+	 * Close.
+	 */
+	public static void close() {
+		if(sessionFactory != null  && !sessionFactory.isClosed())
+			sessionFactory.close();
 	}
 }
