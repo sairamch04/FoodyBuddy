@@ -39,14 +39,18 @@ public class OrderDishServiceImpl implements OrderDishService {
 		}
 	}
 
-	public OrderDishServiceImpl(SessionFactory sessionFactory) {
-		this.sessionFactory = sessionFactory;
+	public OrderDishServiceImpl(SessionFactory sessionFactory) throws Exception{
+		if(sessionFactory == null) {
+			throw new Exception("Sessionfactory is null");
+		}
+		else
+			this.sessionFactory = sessionFactory;
 	}
 
 	public List<OrderDish> getListOrderByOrderId(int orderId) throws Exception {
 		Session session = null;
 		try {
-			if (orderId < 0) {
+			if (orderId <= 0) {
 				throw new Exception("invalid orderId ");
 			}
 			session = this.sessionFactory.openSession();
