@@ -12,10 +12,18 @@ public interface OrderDAO {
 	/**
 	 * Insert.
 	 *
-	 * @param c the c
-	 * @return 
+	 * @param order the order
+	 * @return the order
 	 */
-	public Order insert(Order c);
+	public Order insert(Order order);
+	
+	/**
+	 * Save. Returns the Identifier immediately
+	 *
+	 * @param order the order
+	 * @return the order
+	 */
+	public Order save(Order order);
 
 	/**
 	 * Gets the list by buyer id.

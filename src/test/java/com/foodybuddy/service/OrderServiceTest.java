@@ -2,7 +2,6 @@ package com.foodybuddy.service;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
@@ -17,10 +16,6 @@ import org.junit.runners.MethodSorters;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.foodybuddy.model.Apartment;
-import com.foodybuddy.model.Buyer;
-import com.foodybuddy.model.City;
-import com.foodybuddy.model.Locality;
 import com.foodybuddy.model.Order;
 import com.foodybuddy.service.impl.ApartmentServiceImpl;
 import com.foodybuddy.service.impl.BuyerServiceImpl;
@@ -91,11 +86,12 @@ public class OrderServiceTest extends TestCase {
 			// Test the fetched object
 			assertNotNull(order);
 			assertNotNull(order.getBuyer());
-			assertEquals(order.getNetOrderAmount(), 200); // 2 biryani's cost =  2*100															
-			assertEquals(order.getBuyer().getId(), buyerId);
+			assertEquals(order.getNetOrderAmount(), 200); // 2 biryani's cost =  2*100					
+			assertEquals(order.getBuyer().getId(), new Integer(buyerId));
 			assertEquals(order.getBuyer().getName(), "Buyer");
 			assertEquals(order.getStatus(), OrderStatusEnum.INTIATED.getValue());
 		} catch (Exception ex) {
+			ex.printStackTrace();
 			assertTrue(false);
 			log.error(ex);
 		}
@@ -179,8 +175,7 @@ public class OrderServiceTest extends TestCase {
 			assertEquals(order.getStatus(), OrderStatusEnum.CANCELLED.getValue());
 
 		} catch (Exception ex) {
-			// assertTrue(false);
-			System.out.println(ex);
+			assertTrue(false);
 			log.error(ex);
 		}
 
@@ -197,7 +192,6 @@ public class OrderServiceTest extends TestCase {
 		try {
 			OrderService orderService = new OrderServiceImpl(null);
 		} catch (Exception ex) {
-			System.out.println(ex);
 			log.error(ex);
 			throw ex;
 		}
@@ -223,10 +217,8 @@ public class OrderServiceTest extends TestCase {
 
 			// Fetch the cancelled order
 			Order order = orderService.getOrder(orderId);
-			System.out.println(order);
 
 		} catch (Exception ex) {
-			System.out.println(ex);
 			log.error(ex);
 			throw ex;
 		}
@@ -254,7 +246,6 @@ public class OrderServiceTest extends TestCase {
 			Order order = orderService.getOrder(orderId);
 
 		} catch (Exception ex) {
-			System.out.println(ex);
 			log.error(ex);
 			throw ex;
 		}
@@ -275,7 +266,6 @@ public class OrderServiceTest extends TestCase {
 			int orderId = 1;
 			// get the order
 			orderService.getOrder(orderId);
-
 			// Fetch the cancelled order
 			Order order = orderService.getOrder(orderId);
 
@@ -283,11 +273,10 @@ public class OrderServiceTest extends TestCase {
 			assertNotNull(order);
 			assertEquals(order.getStatus(), OrderStatusEnum.INTIATED.getValue());
 			assertNotNull(order.getBuyer());
-			assertEquals(order.getBuyer().getId(), 1);
+			assertEquals(order.getBuyer().getId(), new Integer(1));
 
 		} catch (Exception ex) {
 			assertTrue(false);
-			System.out.println(ex);
 			log.error(ex);
 		}
 
@@ -350,7 +339,7 @@ public class OrderServiceTest extends TestCase {
 			int orderId = 1;
 			Order order = orderService.getOrder(orderId);
 
-			// cancel the order
+			// update status of order
 			orderService.updateOrderStatus(orderId, OrderStatusEnum.READY);
 
 			// Fetch the updated order
@@ -362,7 +351,6 @@ public class OrderServiceTest extends TestCase {
 
 		} catch (Exception ex) {
 			assertTrue(false);
-			System.out.println(ex);
 			log.error(ex);
 		}
 		
@@ -389,7 +377,6 @@ public class OrderServiceTest extends TestCase {
 			orderService.updateOrderStatus(orderId, OrderStatusEnum.CANCELLED);
 
 		} catch (Exception ex) {
-			System.out.println(ex);
 			log.error(ex);
 			throw ex;
 		}
@@ -433,7 +420,6 @@ public class OrderServiceTest extends TestCase {
 	 * @throws Exception
 	 *             the exception
 	 */
-	@SuppressWarnings("deprecation")
 	private void insertDependentData() throws Exception {
 		if (sessionFactory == null) {
 			throw new NullPointerException("session can't be null");
@@ -453,21 +439,9 @@ public class OrderServiceTest extends TestCase {
 			countryService.insert("India");
 			stateService.insert("Bangalore", 1);
 			cityService.insert("Bangalore", 1);
-			City city = cityService.getById(1);
-			//
-			Locality locality = new Locality("Kalyani Magnum", "a", city);
-			localityService.insert(locality);
-			locality = localityService.getById(1);
-			Apartment apartment = new Apartment("Rainbow PG", locality, 1);
-			apartment.setLocality(locality);
-			apartmentService.insert(apartment);
-			apartment = apartmentService.getById(1);
-			Buyer buyer = new Buyer();
-			buyer.setApartment(apartment);
-			buyer.setEmail("sairamch04@foodybuddy.com");
-			buyer.setName("Buyer");
-			buyerService.insert(buyer);
-			// buyerService.addBudder("FoodyBuudy","sairamch04@foodybuddy.com","8676903268","200 B",1 ,true);
+			localityService.insert("Kalyani Magnum", 1, "500035");
+			apartmentService.insert("Rainbow Apartments", 1,23 );
+			buyerService.insert("Buyer",1,1,"1234567890","buyer@gmail.com","2101",true);
 			sellerService.addSeller("sairam", "sairamch04@foodybuddy.com", "8676903268", "200 B", 1, true);
 			//insert dish
 			SimpleDateFormat sdf = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
@@ -481,7 +455,7 @@ public class OrderServiceTest extends TestCase {
 			 orderBy = "05-06-2016 10:20:56";
 			 availableFrom = "10-07-2016 10:20:56";
 			 availableTill = "11-08-2016 10:20:56";				
-			dishService.addDish("Tandoori", "Very spicy ", 1, 100, sdf.parse(orderBy), sdf.parse(availableFrom),
+			 dishService.addDish("Tandoori", "Very spicy ", 1, 100, sdf.parse(orderBy), sdf.parse(availableFrom),
 					sdf.parse(availableTill), true, true, 10);			
 			
 		} catch (Exception ex) {

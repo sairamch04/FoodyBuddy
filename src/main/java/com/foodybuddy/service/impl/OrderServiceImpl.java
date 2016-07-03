@@ -79,7 +79,10 @@ public class OrderServiceImpl implements OrderService {
 				log.error("Invalid buyerId " + buyerId);
 				throw new Exception("Invalid buyer Id " + buyerId);
 			}
-
+			order.setBuyer(buyer);
+			// Inserting order to db to get the orderId immediately
+			order = orderDAO.insert(order);
+			
 			for (int index = 0; index < dishIds.size(); index++) {
 				int dishId = dishIds.get(index);
 				int orderedQuantity = orderedQuantitys.get(index);
@@ -94,8 +97,7 @@ public class OrderServiceImpl implements OrderService {
 				// OrderDish and Dish
 				setPropertiesForOrder(order, buyer, dishId, orderedQuantity, session);
 			}
-			// Inserting order to db
-			orderDAO.insert(order);
+			
 			transaction.commit();
 			log.info("The transaction for update was done succesfully");
 		} catch (Exception ex) {
@@ -171,7 +173,7 @@ public class OrderServiceImpl implements OrderService {
 			OrderDAO orderDAO = new OrderDAOImpl(session);
 			Order order = orderDAO.getById(orderId);
 			if(order == null){
-				throw new HibernateException("order not avilable " + orderId);
+				throw new HibernateException("order not available " + orderId);
 			}
 			//TODO::check whether the operation allowed wrt Timestamps
 			//Check if order is in CANCELLable state
@@ -291,8 +293,6 @@ public class OrderServiceImpl implements OrderService {
 				dish.setQuantityAvailable(dish.getQuantityAvailable() - orderedQuantity);
 				orderDish.setQuantity(orderedQuantity);
 				orderDish.setNetDishPrice(orderedQuantity * dish.getPrice());
-				order.setBuyer(buyer);
-
 				orderDishDAO.insert(orderDish);
 				order.setNetOrderAmount(order.getNetOrderAmount() + orderDish.getNetDishPrice());
 			} else {				
