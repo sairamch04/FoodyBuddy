@@ -8,7 +8,6 @@ import org.springframework.stereotype.Repository;
 import com.foodybuddy.dao.OrderDAO;
 import com.foodybuddy.model.Order;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class OrderDAOImpl.
  */

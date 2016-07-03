@@ -175,8 +175,7 @@ public class OrderServiceTest extends TestCase {
 			assertEquals(order.getStatus(), OrderStatusEnum.CANCELLED.getValue());
 
 		} catch (Exception ex) {
-			// assertTrue(false);
-			System.out.println(ex);
+			assertTrue(false);
 			log.error(ex);
 		}
 
@@ -193,7 +192,6 @@ public class OrderServiceTest extends TestCase {
 		try {
 			OrderService orderService = new OrderServiceImpl(null);
 		} catch (Exception ex) {
-			System.out.println(ex);
 			log.error(ex);
 			throw ex;
 		}
@@ -219,10 +217,8 @@ public class OrderServiceTest extends TestCase {
 
 			// Fetch the cancelled order
 			Order order = orderService.getOrder(orderId);
-			System.out.println(order);
 
 		} catch (Exception ex) {
-			System.out.println(ex);
 			log.error(ex);
 			throw ex;
 		}
@@ -250,7 +246,6 @@ public class OrderServiceTest extends TestCase {
 			Order order = orderService.getOrder(orderId);
 
 		} catch (Exception ex) {
-			System.out.println(ex);
 			log.error(ex);
 			throw ex;
 		}
@@ -271,11 +266,8 @@ public class OrderServiceTest extends TestCase {
 			int orderId = 1;
 			// get the order
 			orderService.getOrder(orderId);
-			System.out.println("REACHED !");
 			// Fetch the cancelled order
 			Order order = orderService.getOrder(orderId);
-			System.out.println("REACHED !");
-			System.out.println(order);
 
 			// Test the fetched object
 			assertNotNull(order);
@@ -285,7 +277,6 @@ public class OrderServiceTest extends TestCase {
 
 		} catch (Exception ex) {
 			assertTrue(false);
-			System.out.println(ex);
 			log.error(ex);
 		}
 
@@ -360,7 +351,6 @@ public class OrderServiceTest extends TestCase {
 
 		} catch (Exception ex) {
 			assertTrue(false);
-			System.out.println(ex);
 			log.error(ex);
 		}
 		
@@ -387,7 +377,6 @@ public class OrderServiceTest extends TestCase {
 			orderService.updateOrderStatus(orderId, OrderStatusEnum.CANCELLED);
 
 		} catch (Exception ex) {
-			System.out.println(ex);
 			log.error(ex);
 			throw ex;
 		}
