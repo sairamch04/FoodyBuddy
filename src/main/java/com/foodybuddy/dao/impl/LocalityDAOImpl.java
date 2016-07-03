@@ -1,46 +1,87 @@
 package com.foodybuddy.dao.impl;
 
+import com.foodybuddy.dao.LocalityDAO;
+import com.foodybuddy.model.Locality;
 import java.util.List;
-
 import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 
-import com.foodybuddy.dao.LocalityDAO;
-import com.foodybuddy.model.Locality;
-
-
+/**
+ * The Class LocalityDAOImpl.
+ */
 @Repository
-public  class LocalityDAOImpl implements LocalityDAO {
+public class LocalityDAOImpl implements LocalityDAO {
 	
-	private Session session = null;
+	/** The session. */
+	private Session session;
 	
+	/** The Object null exception. */
+	RuntimeException ObjectNullException = new RuntimeException("Object is null");
+	
+	/**
+	 * Instantiates a new locality DAO impl.
+	 *
+	 * @param session the session
+	 */
 	public LocalityDAOImpl(Session session){
+		if(session == null){
+			throw ObjectNullException;
+		}
 		this.session = session;
 	}
 
-	public void insert(Locality locality) {
-		session.persist(locality);
+	/* (non-Javadoc)
+	 * @see com.foodybuddy.dao.LocalityDAO#insert(com.foodybuddy.model.Locality)
+	 */
+	public Locality insert(Locality locality) {
+		if(locality == null){
+			throw ObjectNullException;
+		}
+		this.session.persist(locality);
+		return locality;
 	}
 
-	public void update(Locality locality) {
-		session.update(locality);
+	/* (non-Javadoc)
+	 * @see com.foodybuddy.dao.LocalityDAO#update(com.foodybuddy.model.Locality)
+	 */
+	public Locality update(Locality locality) {
+		if(locality == null){
+			throw ObjectNullException;
+		}
+		this.session.update(locality);
+		return locality;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.foodybuddy.dao.LocalityDAO#getAll()
+	 */
 	@SuppressWarnings("unchecked")
 	public List<Locality> getAll() {
 		String query = "FROM Locality";
-		List<Locality> localitiesList = session.createQuery(query).list();
-		return localitiesList;
+		List<Locality> citiesList = this.session.createQuery(query).list();
+		return citiesList;
 	}
 
-	public Locality getById(int id) {		
-		String query = "FROM Locality where id = "+id;
-		Locality locality = (Locality)session.createQuery(query).uniqueResult();
+	/* (non-Javadoc)
+	 * @see com.foodybuddy.dao.LocalityDAO#getById(java.lang.Integer)
+	 */
+	public Locality getById(Integer id) {	
+		if(id == null){
+			throw ObjectNullException;
+		}
+		String query = "FROM Locality WHERE id = "+id;
+		Locality locality = (Locality) this.session.createQuery(query).uniqueResult();
 		return locality;
 	}
-	
+
+	/* (non-Javadoc)
+	 * @see com.foodybuddy.dao.LocalityDAO#delete(com.foodybuddy.model.Locality)
+	 */
 	public void delete(Locality locality) {
-		session.delete(locality);
+		if(locality == null){
+			throw ObjectNullException;
+		}
+		this.session.delete(locality);
 	}
 
 }
