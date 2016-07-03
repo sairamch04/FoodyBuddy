@@ -58,8 +58,8 @@ public class BuyerDAOImpl implements BuyerDAO {
 	@SuppressWarnings("unchecked")
 	public List<Buyer> getAll() {
 		String query = "FROM Buyer";
-		List<Buyer> citiesList = this.session.createQuery(query).list();
-		return citiesList;
+		List<Buyer> buyersList = this.session.createQuery(query).list();
+		return buyersList;
 	}
 
 	/* (non-Javadoc)
