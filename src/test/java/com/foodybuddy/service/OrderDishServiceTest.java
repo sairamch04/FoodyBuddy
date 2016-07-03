@@ -2,7 +2,6 @@ package com.foodybuddy.service;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
@@ -17,11 +16,6 @@ import org.junit.runners.MethodSorters;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.foodybuddy.model.Apartment;
-import com.foodybuddy.model.Buyer;
-import com.foodybuddy.model.City;
-import com.foodybuddy.model.Locality;
-import com.foodybuddy.model.Order;
 import com.foodybuddy.model.OrderDish;
 import com.foodybuddy.service.impl.ApartmentServiceImpl;
 import com.foodybuddy.service.impl.BuyerServiceImpl;
@@ -33,7 +27,6 @@ import com.foodybuddy.service.impl.OrderDishServiceImpl;
 import com.foodybuddy.service.impl.OrderServiceImpl;
 import com.foodybuddy.service.impl.SellerServiceImpl;
 import com.foodybuddy.service.impl.StateServiceImpl;
-import com.foodybuddy.utils.OrderStatusEnum;
 import com.foodybuddy.utils.SessionFactoryUtils;
 
 import junit.framework.TestCase;
@@ -168,6 +161,8 @@ public class OrderDishServiceTest extends TestCase {
 			DishService dishService = new DishServiceImpl(sessionFactory);
 			OrderService orderService = new OrderServiceImpl(sessionFactory);
 			orderDishService.insertOrderDish(orderService.getOrder(1), dishService.getById(1));
+			assertEquals(orderService.getOrder(1),orderDishService.getListOrderByDishId(1).get(0).getOrder());
+			assertEquals(dishService.getById(1),orderDishService.getListOrderByDishId(1).get(0).getDish());
 		} catch (Exception ex) {
 			log.error(ex);
 			throw ex;
@@ -238,7 +233,6 @@ public class OrderDishServiceTest extends TestCase {
 		try {
 			OrderDishService orderDishService = new OrderDishServiceImpl(sessionFactory);
 			// set parameters
-			int buyerId = 1;
 			int dishId = 2;
 			int orderedQuantity = 2;
 
@@ -268,7 +262,6 @@ public class OrderDishServiceTest extends TestCase {
 		try {
 			OrderDishService orderDishService = new OrderDishServiceImpl(sessionFactory);
 			// set parameters
-			int buyerId = 1;
 			int dishId = 2;
 			int orderedQuantity = 2;
 
@@ -297,7 +290,6 @@ public class OrderDishServiceTest extends TestCase {
 		try {
 			OrderDishService orderDishService = new OrderDishServiceImpl(sessionFactory);
 			// set parameters
-			int buyerId = 1;
 			int dishId = 2;
 			int orderedQuantity = 2;
 
