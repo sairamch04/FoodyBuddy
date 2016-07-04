@@ -1,5 +1,6 @@
 package com.foodybuddy.model;
 
+import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,7 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import org.hibernate.envers.Audited;
 
 // TODO: Auto-generated Javadoc
@@ -39,6 +41,56 @@ public class Locality {
 	@JoinColumn(name="city_id", nullable=false)
 	private City city;
 	
+	/** The is active. */
+	@Column(name = "is_active")
+	private Boolean isActive;
+
+	public Boolean getIsActive() {
+		return isActive;
+	}
+
+	public void setIsActive(Boolean isActive) {
+		this.isActive = isActive;
+	}
+
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public Date getUpdatedAt() {
+		return updatedAt;
+	}
+
+	public void setModifiedAt(Date updatedAt) {
+		this.updatedAt = updatedAt;
+	}
+
+	public Date getDeletedAt() {
+		return deletedAt;
+	}
+
+	public void setDeletedAt(Date deletedAt) {
+		this.deletedAt = deletedAt;
+	}
+
+	/** The created at. */
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "created_at", nullable = false)
+	private Date createdAt;
+
+	/** The updated at. */
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "updated_at")
+	private Date updatedAt;
+
+	/** The deleted at. */
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "deleted_at")
+	private Date deletedAt;
 	/**
 	 * Instantiates a new locality.
 	 */
