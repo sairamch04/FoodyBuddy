@@ -91,9 +91,34 @@ public class OrderServiceTest extends TestCase {
 			assertEquals(order.getBuyer().getName(), "Buyer");
 			assertEquals(order.getStatus(), OrderStatusEnum.INTIATED.getValue());
 		} catch (Exception ex) {
-			ex.printStackTrace();
 			assertTrue(false);
 			log.error(ex);
+		}
+	}
+	/**
+	 * Negative Test for placeOrder.
+	 * Test with invalid Buyer Id
+	 */
+	@Test(expected = Exception.class)
+	public void placeOrderInvalidBuyerTest() throws Exception {
+		try {
+			OrderService orderService = new OrderServiceImpl(sessionFactory);
+			// set parameters
+			int buyerId = 10;
+			int dishId = 1;
+			int orderedQuantity = 20;
+
+			// prepare the arguments to be passed
+			List<Integer> dishIds = new ArrayList<Integer>();
+			dishIds.add(dishId);
+			List<Integer> orderedQuantitys = new ArrayList<Integer>();
+			orderedQuantitys.add(orderedQuantity);
+
+			// place the order
+			orderService.placeOrder(buyerId, dishIds, orderedQuantitys);
+		} catch (Exception ex) {
+			log.error(ex);
+			throw ex;
 		}
 	}
 
@@ -281,6 +306,54 @@ public class OrderServiceTest extends TestCase {
 		}
 
 	}
+	/**
+	 * Test for getting the orders of buyerId.
+	 *
+	 * @return the order test
+	 */
+	@Test
+	public void getOrdersOfBuyerTest() {
+		try {
+			OrderService orderService = new OrderServiceImpl(sessionFactory);
+			insertOrderUtil(orderService);
+			// set parameters
+			int buyerId = 1;
+			// get the order
+			List<Order> orderList = orderService.getOrdersOfBuyer(buyerId);
+
+			// Test the fetched object
+			assertNotNull(orderList);
+			assertEquals(orderList.get(0).getBuyer().getId(),new Integer( buyerId));
+			assertEquals(orderList.get(0).getNetOrderAmount(),200);
+
+		} catch (Exception ex) {
+			assertTrue(false);
+			log.error(ex);
+		}
+
+	}
+	/**
+	 * Negative Test for getting the orders of buyerId.
+	 * Invalid buyer Id
+	 * @return the order test
+	 */
+	@Test
+	public void getOrdersOfBuyerWithInvalidBuyerTest(){
+		try {
+			OrderService orderService = new OrderServiceImpl(sessionFactory);
+			insertOrderUtil(orderService);
+			// set parameters
+			int buyerId = 10;
+			// get the order
+			List<Order> orderList = orderService.getOrdersOfBuyer(buyerId);
+			assertEquals(orderList.size(), 0);
+			
+		} catch (Exception ex) {
+			assertTrue(false);
+			log.error(ex);
+			
+		}
+	}
 
 	/**
 	 * Negative test Pass the negative orderId.
@@ -348,6 +421,35 @@ public class OrderServiceTest extends TestCase {
 			// Test the fetched object
 			assertNotNull(order);
 			assertEquals(order.getStatus(), OrderStatusEnum.READY.getValue());
+
+		} catch (Exception ex) {
+			assertTrue(false);
+			log.error(ex);
+		}
+		
+	}
+	/**
+	 * Update status test.
+	 * Update the status again to INTIATED
+	 */
+	@Test
+	public void updateWithSameStatusTest() {
+		try {
+			OrderService orderService = new OrderServiceImpl(SessionFactoryUtils.getSessionFactory());
+			insertOrderUtil(orderService);
+
+			int orderId = 1;
+			Order order = orderService.getOrder(orderId);
+
+			// update status of order
+			orderService.updateOrderStatus(orderId, OrderStatusEnum.INTIATED);
+
+			// Fetch the updated order
+			order = orderService.getOrder(orderId);
+
+			// Test the fetched object
+			assertNotNull(order);
+			assertEquals(order.getStatus(), OrderStatusEnum.INTIATED.getValue());
 
 		} catch (Exception ex) {
 			assertTrue(false);

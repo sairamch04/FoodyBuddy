@@ -7,6 +7,7 @@ import org.hibernate.HibernateException;
 import com.foodybuddy.model.Order;
 import com.foodybuddy.utils.OrderStatusEnum;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Interface OrderService.
  */
@@ -45,6 +46,15 @@ public interface OrderService{
 	 * @param orderId the order id
 	 * @param orderStatus the order status
 	 */
-	public void updateOrderStatus(int orderId, OrderStatusEnum orderStatus);
+	public void updateOrderStatus(int orderId, OrderStatusEnum orderStatus) throws HibernateException;
+	
+	/**
+	 * Gets the orders of buyer.
+	 *
+	 * @param buyerId the buyer id
+	 * @return the orders of buyer
+	 * @throws HibernateException the hibernate exception
+	 */
+	public List<Order> getOrdersOfBuyer(int buyerId) throws HibernateException;
 	
 }

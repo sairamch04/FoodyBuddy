@@ -215,7 +215,7 @@ public class OrderServiceImpl implements OrderService {
 	/* (non-Javadoc)
 	 * @see com.foodybuddy.service.OrderService#updateOrderStatus(int, com.foodybuddy.utils.OrderStatusEnum)
 	 */
-	public void updateOrderStatus(int orderId, OrderStatusEnum orderStatus) {
+	public void updateOrderStatus(int orderId, OrderStatusEnum orderStatus) throws HibernateException {
 		if (orderId <= 0) {
 			throw new HibernateException("Invalid orderId" + orderId);
 		}
@@ -325,5 +325,33 @@ public class OrderServiceImpl implements OrderService {
 			return false;
 		}		
 
+	}
+
+	/* (non-Javadoc)
+	 * @see com.foodybuddy.service.OrderService#getOrdersOfBuyer(int)
+	 */
+	public List<Order> getOrdersOfBuyer(int buyerId) throws HibernateException {
+		if(buyerId <= 0){
+			throw new HibernateException("Invalid buyerID " + buyerId);
+		}
+		Session session = null;
+		List<Order> orderList = null;
+		try {
+			session = sessionFactory.openSession();
+			OrderDAO orderDAO = new OrderDAOImpl(session);
+			orderList = orderDAO.getListByBuyerId(buyerId);
+			log.info("succesfully obtained orders of buyer with id : " + buyerId);
+
+		} catch (Exception ex) {
+			log.error(ex);
+			throw new HibernateException("getOrdersOfBuyer could not be completed ", ex);
+
+		} finally {
+			if (session != null) {
+				session.close();
+			}
+		}
+		return orderList;
+		
 	}
 }
