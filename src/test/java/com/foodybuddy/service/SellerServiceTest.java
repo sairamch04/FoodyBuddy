@@ -385,7 +385,7 @@ public class SellerServiceTest {
 			cityService.insert("Bangalore", 1);
 			City city = cityService.getById(1);
 			localityService.insert("loc1", 1, "5678990");
-            apartmentService.insert("Rainbow PG", 1, 1);
+			apartmentService.insert("Rainbow PG", 1, 1);
 			
 		}
 		catch(Exception ex){
