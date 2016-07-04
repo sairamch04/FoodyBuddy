@@ -26,7 +26,6 @@ import com.foodybuddy.model.OrderDish;
 import com.foodybuddy.service.OrderService;
 import com.foodybuddy.utils.OrderStatusEnum;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class OrderServiceImpl.
  */
