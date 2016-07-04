@@ -70,10 +70,10 @@ public class OrderDishServiceTest extends TestCase {
 	}
 
 	/**
-	 * Positive test listing by dishId
+	 * Positive test listing by dishId.
 	 *
-	 * @throws Exception
-	 *             the exception
+	 * @return the listby dish id test
+	 * @throws Exception             the exception
 	 */
 	@Test
 	public void getListbyDishIdTest() throws Exception {
@@ -92,10 +92,9 @@ public class OrderDishServiceTest extends TestCase {
 	}
 	
 	/**
-	 * Negative test listing by dishId
+	 * Negative test listing by dishId.
 	 *
-	 * @throws Exception
-	 *             the exception
+	 * @throws Exception             the exception
 	 */
 	@Test(expected = Exception.class)
 	public void negativeGetListbyDishIdTest() throws Exception {
@@ -109,10 +108,10 @@ public class OrderDishServiceTest extends TestCase {
 	}
 
 	/**
-	 * Positive test listing by orderId
+	 * Positive test listing by orderId.
 	 *
-	 * @throws Exception
-	 *             the exception
+	 * @return the listby order id test
+	 * @throws Exception             the exception
 	 */
 	@Test
 	public void getListbyOrderIdTest() throws Exception {
@@ -131,10 +130,9 @@ public class OrderDishServiceTest extends TestCase {
 	}
 	
 	/**
-	 * Negative test listing by orderId
+	 * Negative test listing by orderId.
 	 *
-	 * @throws Exception
-	 *             the exception
+	 * @throws Exception             the exception
 	 */
 	@Test(expected = Exception.class)
 	public void negativeGetListbyOrderIdTest() throws Exception {
@@ -149,10 +147,9 @@ public class OrderDishServiceTest extends TestCase {
 
 
 	/**
-	 * Positive test inserting orderdish
+	 * Positive test inserting orderdish.
 	 *
-	 * @throws Exception
-	 *             the exception
+	 * @throws Exception             the exception
 	 */
 	@Test
 	public void insertOrderDishTest() throws Exception {
@@ -170,10 +167,9 @@ public class OrderDishServiceTest extends TestCase {
 	}
 	
 	/**
-	 * Negative test inserting orderdish where dish is null
+	 * Negative test inserting orderdish where dish is null.
 	 *
-	 * @throws Exception
-	 *             the exception
+	 * @throws Exception             the exception
 	 */
 	@Test(expected = Exception.class)
 	public void negativeInsertOrderDishTest() throws Exception {
@@ -188,10 +184,9 @@ public class OrderDishServiceTest extends TestCase {
 	}
 	
 	/**
-	 * Negative test inserting orderdish where order is null
+	 * Negative test inserting orderdish where order is null.
 	 *
-	 * @throws Exception
-	 *             the exception
+	 * @throws Exception             the exception
 	 */
 	@Test(expected = Exception.class)
 	public void negativeInsertOrderDishTest2() throws Exception {

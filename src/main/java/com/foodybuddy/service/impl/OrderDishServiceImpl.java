@@ -16,10 +16,19 @@ import com.foodybuddy.model.Order;
 import com.foodybuddy.model.OrderDish;
 import com.foodybuddy.service.OrderDishService;
 
+
+/**
+ * The Class OrderDishServiceImpl.
+ */
 @Service
 public class OrderDishServiceImpl implements OrderDishService {
+	
+	/** The session factory. */
 	private SessionFactory sessionFactory;
 
+	/* (non-Javadoc)
+	 * @see com.foodybuddy.service.OrderDishService#getListOrderByDishId(int)
+	 */
 	public List<OrderDish> getListOrderByDishId(int dishId) throws Exception {
 		Session session = null;
 		try {
@@ -39,6 +48,12 @@ public class OrderDishServiceImpl implements OrderDishService {
 		}
 	}
 
+	/**
+	 * Instantiates a new order dish service impl.
+	 *
+	 * @param sessionFactory the session factory
+	 * @throws Exception the exception
+	 */
 	public OrderDishServiceImpl(SessionFactory sessionFactory) throws Exception{
 		if(sessionFactory == null) {
 			throw new Exception("Sessionfactory is null");
@@ -47,6 +62,9 @@ public class OrderDishServiceImpl implements OrderDishService {
 			this.sessionFactory = sessionFactory;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.foodybuddy.service.OrderDishService#getListOrderByOrderId(int)
+	 */
 	public List<OrderDish> getListOrderByOrderId(int orderId) throws Exception {
 		Session session = null;
 		try {
@@ -65,6 +83,10 @@ public class OrderDishServiceImpl implements OrderDishService {
 			}
 		}
 	}
+	
+	/* (non-Javadoc)
+	 * @see com.foodybuddy.service.OrderDishService#insertOrderDish(com.foodybuddy.model.Order, com.foodybuddy.model.Dish)
+	 */
 	public OrderDish insertOrderDish(Order order, Dish dish) throws Exception{
 		Session session = null;
 		Transaction transaction = null;
@@ -101,6 +123,9 @@ public class OrderDishServiceImpl implements OrderDishService {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see com.foodybuddy.service.OrderDishService#updateOrderDishQuantity(int, int)
+	 */
 	public OrderDish updateOrderDishQuantity(int orderDishId, int updatedQuantity) throws Exception {
 		Session session = null;
 		Transaction transaction = null;
