@@ -14,7 +14,7 @@ import com.foodybuddy.dao.impl.SellerDAOImpl;
 import com.foodybuddy.model.Apartment;
 import com.foodybuddy.model.Seller;
 import com.foodybuddy.service.SellerService;
-// TODO: Auto-generated Javadoc
+
 
 /**
  * The Class SellerServiceImpl.
