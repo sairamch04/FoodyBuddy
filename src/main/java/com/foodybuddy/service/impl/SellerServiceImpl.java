@@ -142,6 +142,29 @@ public class SellerServiceImpl implements SellerService {
 
 	}
 
+
+	/* (non-Javadoc)
+	 * @see com.foodybuddy.service.SellerService#getList()
+	 */
+	public List<Seller> getList() throws Exception {
+		
+		Session session = null;
+		List<Seller> SellerList = null;
+		try {
+			session = this.sessionFactory.openSession();
+			SellerDAO sellerDAO = new SellerDAOImpl(session);
+			SellerList = sellerDAO.getSellerList();
+		} catch (Exception ex) {
+			throw new Exception(ex.getMessage(), ex);
+		} finally {
+			if (session != null) {
+				session.close();
+			}
+		}
+		return SellerList;
+
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 
