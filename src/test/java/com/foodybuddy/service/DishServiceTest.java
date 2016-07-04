@@ -358,9 +358,8 @@ public class DishServiceTest {
 			stateService.insert("Bangalore", 1);
 			cityService.insert("Bangalore", 1);
 			City city = cityService.getById(1);
-			//
-            localityService.insert("loc1", 1, "5678990");
-            apartmentService.insert("Rainbow PG", 1, 1);
+			localityService.insert("loc1", 1, "5678990");
+			apartmentService.insert("Rainbow PG", 1, 1);
 			sellerService.addSeller("sairam","sairamch04@foodybuddy.com", "8676903268","200 B",1,true);
 		}
 		catch(Exception ex){
