@@ -31,11 +31,17 @@ public class Country{
 	@Column(name="name", nullable = false)
 	private String name;
 	
+	/** The is active. */
+	@Column(name = "is_active")
+	private Boolean isActive;
+	
 	/** The created at. */
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "created_at")
+	@Column(name = "created_at", nullable = false)
 	private Date createdAt;
 	
+	
+
 	/** The modified at. */
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "modified_at")
@@ -156,6 +162,14 @@ public class Country{
 	 */
 	public void setModifiedById(Integer modifiedById) {
 		this.modifiedById = modifiedById;
+	}
+	
+	public Boolean getIsActive() {
+		return isActive;
+	}
+
+	public void setIsActive(Boolean isActive) {
+		this.isActive = isActive;
 	}
 
 	/* (non-Javadoc)

@@ -1,5 +1,6 @@
 package com.foodybuddy.model;
 
+import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,7 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import org.hibernate.envers.Audited;
 
 /**
@@ -38,6 +40,71 @@ public class Apartment {
 	@Column(name="block_number", nullable=false)
 	private Integer blockNumber;
 	
+	/** The is active. */
+	@Column(name = "is_active")
+	private Boolean isActive;
+	
+	/** The created at. */
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "created_at", nullable = false)
+	private Date createdAt;
+	
+	
+
+	/** The modified at. */
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "modified_at")
+	private Date modifiedAt;
+	
+	/** The deleted at. */
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "deleted_at")
+	private Date deletedAt;
+	
+	/** The modified by id. */
+	@Column(name = "modified_by_id")
+	private Integer modifiedById;
+
+	public Boolean getIsActive() {
+		return isActive;
+	}
+
+	public void setIsActive(Boolean isActive) {
+		this.isActive = isActive;
+	}
+
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public Date getModifiedAt() {
+		return modifiedAt;
+	}
+
+	public void setModifiedAt(Date modifiedAt) {
+		this.modifiedAt = modifiedAt;
+	}
+
+	public Date getDeletedAt() {
+		return deletedAt;
+	}
+
+	public void setDeletedAt(Date deletedAt) {
+		this.deletedAt = deletedAt;
+	}
+
+	public Integer getModifiedById() {
+		return modifiedById;
+	}
+
+	public void setModifiedById(Integer modifiedById) {
+		this.modifiedById = modifiedById;
+	}
+
 	/**
 	 * Instantiates a new apartment.
 	 */

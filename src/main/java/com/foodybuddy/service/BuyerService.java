@@ -1,9 +1,7 @@
 package com.foodybuddy.service;
 
 import com.foodybuddy.model.Buyer;
-
 import java.util.List;
-
 import org.hibernate.TransactionException;
 
 /**

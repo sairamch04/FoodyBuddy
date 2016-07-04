@@ -1,13 +1,5 @@
 package com.foodybuddy.service.impl;
 
-import java.util.List;
-
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
-import org.hibernate.TransactionException;
-import org.springframework.stereotype.Service;
-
 import com.foodybuddy.dao.ApartmentDAO;
 import com.foodybuddy.dao.LocalityDAO;
 import com.foodybuddy.dao.impl.ApartmentDAOImpl;
@@ -15,6 +7,13 @@ import com.foodybuddy.dao.impl.LocalityDAOImpl;
 import com.foodybuddy.model.Apartment;
 import com.foodybuddy.model.Locality;
 import com.foodybuddy.service.ApartmentService;
+import java.sql.Timestamp;
+import java.util.List;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.TransactionException;
+import org.springframework.stereotype.Service;
 
 /**
  * The Class ApartmentServiceImpl.
@@ -88,8 +87,6 @@ public class ApartmentServiceImpl implements ApartmentService {
 			session = this.sessionFactory.openSession();
 			ApartmentDAO apartmentDAO = new ApartmentDAOImpl(session);
 			List<Apartment> apartmentList = apartmentDAO.getAll();
-			if (apartmentList.size() == 0)
-				throw new RuntimeException("Empty Country List");
 			return apartmentList;
 		} catch (Exception exception) {
 			throw exception;
@@ -146,23 +143,25 @@ public class ApartmentServiceImpl implements ApartmentService {
 			apartment.setName(name);
 			apartment.setLocality(locality);
 			apartment.setBlockNumber(blockNumber);
-
+			apartment.setIsActive(true);
+			
 			ApartmentDAO apartmentDAO = new ApartmentDAOImpl(session);
+			java.util.Date date = new java.util.Date();
+			apartment.setCreatedAt(new Timestamp(date.getTime()));
 			apartmentDAO.insert(apartment);
 			transaction.commit();
 			return apartment;
 		}
 
 		catch (Exception exception) {
-			try {
-				if (transaction != null)
-					transaction.rollback();
-				throw TransactionFailureException;
-			}
 
-			catch (RuntimeException runtimeException) {
+			if (transaction != null) {
+				transaction.rollback();
+				throw TransactionFailureException;
+			} else {
 				throw RollbackFailureException;
 			}
+
 		}
 
 		finally {
@@ -184,9 +183,7 @@ public class ApartmentServiceImpl implements ApartmentService {
 
 		try {
 			if (apartment == null || apartment.getName().trim().length() == 0 
-					|| apartment.getLocality() == null || apartment.getLocality().getName().trim().length() == 0
-						|| apartment.getLocality().getCity() == null
-							|| apartment.getLocality().getCity().getName().trim().length() == 0) {
+					|| apartment.getLocality() == null || apartment.getLocality().getCity() == null) {
 				
 				if (apartment == null) {
 					throw new RuntimeException("Apartment Object is null");
@@ -200,16 +197,8 @@ public class ApartmentServiceImpl implements ApartmentService {
 					throw new RuntimeException("Locality Object is null");
 				}
 				
-				else if(apartment.getLocality().getName().trim().length() == 0){
-					throw new RuntimeException("Locality Name is Invalid");
-				}
-				
 				else if (apartment.getLocality().getCity() == null) {
 					throw new RuntimeException("City Object is null");
-				}
-				
-				else {
-					throw new RuntimeException("City Name is Invalid");
 				}
 				
 			}
@@ -219,21 +208,22 @@ public class ApartmentServiceImpl implements ApartmentService {
 			transaction.setTimeout(10);
 
 			ApartmentDAO apartmentDAO = new ApartmentDAOImpl(session);
+			java.util.Date date = new java.util.Date();
+			apartment.setModifiedAt(new Timestamp(date.getTime()));
 			apartmentDAO.update(apartment);
 			transaction.commit();
 			return apartment;
 		}
 
 		catch (Exception exception) {
-			try {
-				if (transaction != null)
-					transaction.rollback();
-				throw TransactionFailureException;
-			}
 
-			catch (RuntimeException runtimeException) {
+			if (transaction != null) {
+				transaction.rollback();
+				throw TransactionFailureException;
+			} else {
 				throw RollbackFailureException;
 			}
+
 		}
 
 		finally {
@@ -264,20 +254,22 @@ public class ApartmentServiceImpl implements ApartmentService {
 			transaction.setTimeout(10);
 
 			ApartmentDAO apartmentDao = new ApartmentDAOImpl(session);
-			apartmentDao.delete(apartment);
+			apartment.setIsActive(false);
+			java.util.Date date = new java.util.Date();
+			apartment.setDeletedAt(new Timestamp(date.getTime()));
+			apartmentDao.update(apartment);
 			transaction.commit();
 		}
 
 		catch (Exception exception) {
-			try {
-				if (transaction != null)
-					transaction.rollback();
-				throw TransactionFailureException;
-			}
 
-			catch (RuntimeException runtimeException) {
+			if (transaction != null) {
+				transaction.rollback();
+				throw TransactionFailureException;
+			} else {
 				throw RollbackFailureException;
 			}
+
 		}
 
 		finally {
