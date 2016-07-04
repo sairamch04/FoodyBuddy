@@ -57,4 +57,13 @@ public interface SellerService {
 	 * @throws Exception the exception
 	 */
 	public Seller activateSeller(Integer id) throws Exception;
+
+	/**
+	 * Gets the list.
+	 *
+	 * @return the list
+	 * @throws Exception the exception
+	 */
+	public List<Seller> getList() throws Exception ;
 }
+
