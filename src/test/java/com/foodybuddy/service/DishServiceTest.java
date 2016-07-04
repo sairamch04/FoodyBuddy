@@ -7,7 +7,6 @@ import java.util.Date;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.junit.After;
 import org.junit.Before;
@@ -18,33 +17,16 @@ import org.junit.runners.MethodSorters;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.foodybuddy.dao.ApartmentDAO;
-import com.foodybuddy.dao.CityDAO;
-import com.foodybuddy.dao.CountryDAO;
-import com.foodybuddy.dao.LocalityDAO;
-import com.foodybuddy.dao.StateDAO;
-import com.foodybuddy.dao.impl.StateDAOImpl;
-import com.foodybuddy.model.Apartment;
 import com.foodybuddy.model.City;
-import com.foodybuddy.model.Country;
-import com.foodybuddy.model.Locality;
-import com.foodybuddy.model.Seller;
 import com.foodybuddy.model.Dish;
-import com.foodybuddy.model.State;
-import com.foodybuddy.service.impl.DishServiceImpl;
-import com.foodybuddy.service.impl.SellerServiceImpl;
-import com.foodybuddy.utils.SessionFactoryUtils;
-import com.foodybuddy.dao.impl.ApartmentDAOImpl;
-import com.foodybuddy.dao.impl.CityDAOImpl;
-import com.foodybuddy.dao.impl.CountryDAOImpl;
-import com.foodybuddy.dao.impl.LocalityDAOImpl;
 import com.foodybuddy.service.impl.ApartmentServiceImpl;
 import com.foodybuddy.service.impl.CityServiceImpl;
 import com.foodybuddy.service.impl.CountryServiceImpl;
-import com.foodybuddy.service.impl.SellerServiceImpl;
+import com.foodybuddy.service.impl.DishServiceImpl;
 import com.foodybuddy.service.impl.LocalityServiceImpl;
+import com.foodybuddy.service.impl.SellerServiceImpl;
 import com.foodybuddy.service.impl.StateServiceImpl;
-// TODO: Auto-generated Javadoc
+import com.foodybuddy.utils.SessionFactoryUtils;
 /**
  * The Class DishServiceTest.
  */
@@ -57,8 +39,14 @@ public class DishServiceTest {
 	/** The log. */
 	static Log log = LogFactory.getLog(DishServiceTest.class.getName());
 
+	/** The session factory. */
 	SessionFactory sessionFactory = null;
 
+	/**
+	 * Sets the up.
+	 *
+	 * @throws Exception the exception
+	 */
 	/* (non-Javadoc)
 	 * @see junit.framework.TestCase#setUp()
 	 */
@@ -69,6 +57,11 @@ public class DishServiceTest {
 		insertDependentData();	
 	}
 
+	/**
+	 * Tear down.
+	 *
+	 * @throws Exception the exception
+	 */
 	/* (non-Javadoc)
 	 * @see junit.framework.TestCase#tearDown()
 	 */
@@ -80,6 +73,9 @@ public class DishServiceTest {
 	}
 
 	
+	/**
+	 * Test 1 insert dish.
+	 */
 	@Test
 	public void test1InsertDish() {
 		try {
@@ -101,6 +97,9 @@ public class DishServiceTest {
 	}
 
 	
+	/**
+	 * Test 2 update dish.
+	 */
 	@Test
 	public void test2UpdateDish() {
 		String updatedName = "sanj";
@@ -117,6 +116,9 @@ public class DishServiceTest {
 	}
 
 	
+	/**
+	 * Test 3 deactivate.
+	 */
 	@Test
 	public void test3Deactivate() {
 		int id = 1;
@@ -135,6 +137,9 @@ public class DishServiceTest {
 	}
 
 	
+	/**
+	 * Test 4 activate.
+	 */
 	@Test
 	public void test4Activate() {
 		int id = 1;
@@ -154,6 +159,11 @@ public class DishServiceTest {
 	
 
 	
+	/**
+	 * Test 6 update dishnegative.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test(expected = Exception.class)
 	public void test6UpdateDishnegative() throws Exception {
 		try {
@@ -167,6 +177,11 @@ public class DishServiceTest {
 	}
 
 	
+	/**
+	 * Test 7 deactivate negative.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test(expected = Exception.class)
 	public void test7DeactivateNegative() throws Exception {
 		int id = 10;
@@ -182,6 +197,11 @@ public class DishServiceTest {
 	}
 
 
+	/**
+	 * Test 8 activate negative.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test(expected = Exception.class)
 	public void test8ActivateNegative() throws Exception {
 		int id = 10;
@@ -195,6 +215,11 @@ public class DishServiceTest {
 		}
 	}
 	
+	/**
+	 * Test 1 insert dish negative.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test(expected = Exception.class)
 	public void test1InsertDishNegative() throws Exception {
 		try {
@@ -216,6 +241,11 @@ public class DishServiceTest {
 
 	}
 
+	/**
+	 * Test 1 insert dish negative null.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test(expected = Exception.class)
 	public void test1InsertDishNegativeNull() throws Exception {
 		try {
@@ -230,6 +260,11 @@ public class DishServiceTest {
 		}
 	}
 
+	/**
+	 * Test negative null deactivate.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test(expected = Exception.class)
 	public void testNegativeNullDeactivate() throws Exception {
 		int id = 0;
@@ -243,6 +278,12 @@ public class DishServiceTest {
 			throw e;
 		}
 	}
+	
+	/**
+	 * Test 6 update dish null negative.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test(expected = Exception.class)
 	public void test6UpdateDishNullNegative() throws Exception {
 		try {
@@ -256,6 +297,11 @@ public class DishServiceTest {
 	}
 
 	
+	/**
+	 * Test negative null activate.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test(expected = Exception.class)
 	public void testNegativeNullActivate() throws Exception {
 		int id = 0;
@@ -269,6 +315,11 @@ public class DishServiceTest {
 		}
 	}
 	
+	/**
+	 * Test 9 negative.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test(expected = Exception.class)
 	public void test9Negative() throws Exception {
 	
@@ -283,6 +334,11 @@ public class DishServiceTest {
 		}
 	}
 
+	/**
+	 * Insert dependent data.
+	 *
+	 * @throws Exception the exception
+	 */
 	private void insertDependentData()  throws Exception{
 		if(sessionFactory == null){
 			throw new NullPointerException("session can't be null");
