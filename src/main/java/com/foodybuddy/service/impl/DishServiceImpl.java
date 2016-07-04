@@ -16,6 +16,7 @@ import com.foodybuddy.model.Dish;
 import com.foodybuddy.model.Seller;
 import com.foodybuddy.service.DishService;
 
+
 /**
  * The Class DishServiceImpl.
  */
@@ -46,12 +47,13 @@ public class DishServiceImpl implements DishService {
 	 */
 	public Dish addDish(String name, String description, Integer sellerId, Integer price, Date orderBy, Date dishAvailableStart,
 			Date dishAvailableEnd, Boolean isVeg, Boolean isActive, Integer quantityAvailable) throws Exception {
-		if(name==null || description==null || sellerId<1 || orderBy==null || price<0 || dishAvailableStart == null ||
-				 dishAvailableEnd== null || isVeg== null || isActive== null || quantityAvailable== null ) throw new Exception("Invalid Input");
 		Session session = null;
 		Transaction transaction = null;
 		Dish newDish = null;
 		try {
+		if(name==null || description==null || sellerId<1 || orderBy==null || price<0 || dishAvailableStart == null ||
+				 dishAvailableEnd== null || isVeg== null || isActive== null || quantityAvailable== null ) throw new Exception("Invalid Input");
+		
 			session = this.sessionFactory.openSession();
 			transaction = session.beginTransaction();
 			transaction.setTimeout(10);
@@ -90,11 +92,11 @@ public class DishServiceImpl implements DishService {
 	 * Dish)
 	 */
 	public Dish updateDish(Integer id, String newName) throws Exception {
-		if(id<1 || newName==null)throw new Exception("Invalid Input");
 		Session session = null;
 		Transaction transaction = null;
 		Dish updatedDish;
 		try {
+			if(id<1 || newName==null)throw new Exception("Invalid Input");
 			session = this.sessionFactory.openSession();
 			transaction = session.beginTransaction();
 			transaction.setTimeout(10);
@@ -128,10 +130,10 @@ public class DishServiceImpl implements DishService {
 	 * @see com.foodybuddy.service.DishService#getById(java.lang.Integer)
 	 */
 	public Dish getById(Integer id) throws Exception {
-		if(id<1)throw new Exception("Invalid Input");
 		Session session = null;
 		Dish getDish = null;
 		try {
+			if(id<1)throw new Exception("Invalid Input");
 			session = this.sessionFactory.openSession();
 			DishDAO DishDAO = new DishDAOImpl(session);
 			getDish = DishDAO.getByDishId(id);
@@ -153,11 +155,11 @@ public class DishServiceImpl implements DishService {
 	 * com.foodybuddy.service.DishService#deactivateUser(java.lang.Integer)
 	 */
 	public Dish deactivateDish(Integer id) throws Exception {
-		if(id<1)throw new Exception("Invalid Input");
 		Session session = null;
 		Transaction transaction = null;
 		Dish deactivaedDish = null;
 		try {
+			if(id<1)throw new Exception("Invalid Input");
 			session = this.sessionFactory.openSession();
 			transaction = session.beginTransaction();
 			transaction.setTimeout(10);
@@ -191,12 +193,12 @@ public class DishServiceImpl implements DishService {
 	 * @see com.foodybuddy.service.DishService#activateUser(java.lang.Integer)
 	 */
 	public Dish activateDish(Integer id) throws Exception {
-		if(id<1)throw new Exception("Invalid Input");
 		Session session = null;
 		Transaction transaction = null;
 		Dish activaedDish = null;
 		Dish getDish = null;
 		try {
+			if(id<1)throw new Exception("Invalid Input");
 			session = this.sessionFactory.openSession();
 			transaction = session.beginTransaction();
 			transaction.setTimeout(10);

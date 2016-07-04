@@ -15,6 +15,7 @@ import com.foodybuddy.model.Apartment;
 import com.foodybuddy.model.Seller;
 import com.foodybuddy.service.SellerService;
 
+
 /**
  * The Class SellerServiceImpl.
  */
@@ -45,11 +46,20 @@ public class SellerServiceImpl implements SellerService {
 	 */
 	public Seller addSeller(String name, String email, String mobile, String flatNumber, int apartmentId,
 			boolean isActive) throws Exception {
-		if(name==null || email==null || mobile==null || flatNumber==null || apartmentId<1) throw new Exception("Invalid Input");
 		Session session = null;
 		Transaction transaction = null;
 		Seller newSeller = null;
 		try {
+			if (name == null)
+				throw new Exception("Invalid name");
+			if (email == null)
+				throw new Exception("Invalid email");
+			if (mobile == null)
+				throw new Exception("Invalid mobile");
+			if (flatNumber == null)
+				throw new Exception("Invalid flatNumber");
+			if (apartmentId <1)
+				throw new Exception("Invalid apartmentId");
 			session = this.sessionFactory.openSession();
 			transaction = session.beginTransaction();
 			transaction.setTimeout(10);
@@ -65,7 +75,7 @@ public class SellerServiceImpl implements SellerService {
 			ex.printStackTrace();
 			try {
 				if (transaction == null) {
-                    throw new Exception("Transaction could not be completed: " + ex.getMessage(), ex);
+					throw new Exception("Transaction could not be completed: " + ex.getMessage(), ex);
 				}
 				transaction.rollback();
 				throw new Exception("Transaction could not be completed will be rollbacked: " + ex.getMessage(), ex);
@@ -88,23 +98,24 @@ public class SellerServiceImpl implements SellerService {
 	 * Seller)
 	 */
 	public Seller updateSeller(Integer id, String newName) throws Exception {
-		if(id<1 || newName==null)throw new Exception("Invalid Input");
 		Session session = null;
 		Transaction transaction = null;
 		Seller updatedSeller;
 		try {
+			if (id < 1 || newName == null)
+				throw new Exception("Invalid Input");
 			session = this.sessionFactory.openSession();
 			transaction = session.beginTransaction();
 			transaction.setTimeout(10);
 			SellerDAO sellerDAO = new SellerDAOImpl(session);
 			Seller seller = sellerDAO.getBySellerId(id);
-				seller.setName(newName);
-				updatedSeller = sellerDAO.update(seller);
-				transaction.commit();
+			seller.setName(newName);
+			updatedSeller = sellerDAO.update(seller);
+			transaction.commit();
 		} catch (Exception ex) {
 			try {
 				if (transaction == null) {
-                    throw new Exception("Transaction could not be completed: " + ex.getMessage(), ex);
+					throw new Exception("Transaction could not be completed: " + ex.getMessage(), ex);
 				}
 				transaction.rollback();
 				throw new Exception("Transaction could not be completed will be rollbacked: " + ex.getMessage(), ex);
@@ -126,15 +137,16 @@ public class SellerServiceImpl implements SellerService {
 	 * @see com.foodybuddy.service.SellerService#getById(java.lang.Integer)
 	 */
 	public Seller getById(Integer id) throws Exception {
-		if(id<1)throw new Exception("Invalid Input");
 		Session session = null;
 		Seller getSeller = null;
 		try {
+			if (id < 1)
+				throw new Exception("Invalid Input");
 			session = this.sessionFactory.openSession();
 			SellerDAO sellerDAO = new SellerDAOImpl(session);
 			getSeller = sellerDAO.getBySellerId(id);
 		} catch (Exception ex) {
-				throw new Exception(ex.getMessage(), ex);
+			throw new Exception(ex.getMessage(), ex);
 		} finally {
 			if (session != null) {
 				session.close();
@@ -143,7 +155,6 @@ public class SellerServiceImpl implements SellerService {
 		return getSeller;
 
 	}
-
 
 	/* (non-Javadoc)
 	 * @see com.foodybuddy.service.SellerService#getList()
@@ -166,7 +177,6 @@ public class SellerServiceImpl implements SellerService {
 		return SellerList;
 
 	}
-	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -174,11 +184,12 @@ public class SellerServiceImpl implements SellerService {
 	 * com.foodybuddy.service.SellerService#deactivateUser(java.lang.Integer)
 	 */
 	public Seller deactivateSeller(Integer id) throws Exception {
-		if(id<1)throw new Exception("Invalid Input");
 		Session session = null;
 		Transaction transaction = null;
 		Seller deactivaedSeller = null;
 		try {
+			if (id < 1)
+				throw new Exception("Invalid Input");
 			session = this.sessionFactory.openSession();
 			transaction = session.beginTransaction();
 			transaction.setTimeout(10);
@@ -190,7 +201,7 @@ public class SellerServiceImpl implements SellerService {
 		} catch (Exception ex) {
 			try {
 				if (transaction == null) {
-                    throw new Exception("Transaction could not be completed: " + ex.getMessage(), ex);
+					throw new Exception("Transaction could not be completed: " + ex.getMessage(), ex);
 				}
 				transaction.rollback();
 				throw new Exception("Transaction could not be completed will be rollbacked: " + ex.getMessage(), ex);
@@ -212,12 +223,13 @@ public class SellerServiceImpl implements SellerService {
 	 * @see com.foodybuddy.service.SellerService#activateUser(java.lang.Integer)
 	 */
 	public Seller activateSeller(Integer id) throws Exception {
-		if(id<1)throw new Exception("Invalid Input");
 		Session session = null;
 		Transaction transaction = null;
 		Seller activaedSeller = null;
 		Seller getSeller = null;
 		try {
+			if (id < 1)
+				throw new Exception("Invalid Input");
 			session = this.sessionFactory.openSession();
 			transaction = session.beginTransaction();
 			transaction.setTimeout(10);
@@ -229,7 +241,7 @@ public class SellerServiceImpl implements SellerService {
 		} catch (Exception ex) {
 			try {
 				if (transaction == null) {
-                    throw new Exception("Transaction could not be completed: " + ex.getMessage(), ex);
+					throw new Exception("Transaction could not be completed: " + ex.getMessage(), ex);
 				}
 				transaction.rollback();
 				throw new Exception("Transaction could not be completed will be rollbacked: " + ex.getMessage(), ex);
@@ -243,4 +255,5 @@ public class SellerServiceImpl implements SellerService {
 		}
 		return activaedSeller;
 	}
+
 }

@@ -28,27 +28,17 @@ import com.foodybuddy.service.impl.CountryServiceImpl;
 import com.foodybuddy.service.impl.LocalityServiceImpl;
 import com.foodybuddy.service.impl.StateServiceImpl;
 
-/**
- * The Class SellerServiceTest.
- */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/hibernate.cfg.xml" })
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class SellerServiceTest {
 
 	
-	/** The log. */
 	static Log log = LogFactory.getLog(SellerServiceTest.class.getName());
 
 	
-	/** The session factory. */
 	SessionFactory sessionFactory = null;
 
-	/**
-	 * Sets the up.
-	 *
-	 * @throws Exception the exception
-	 */
 	@Before
 
 	public void setUp() throws Exception {
@@ -57,11 +47,6 @@ public class SellerServiceTest {
 	}
 
 	
-	/**
-	 * Tear down.
-	 *
-	 * @throws Exception the exception
-	 */
 	@After
 
 	public void tearDown() throws Exception {
@@ -69,9 +54,6 @@ public class SellerServiceTest {
 	}
 
 	
-	/**
-	 * Test 1 insert seller.
-	 */
 	@Test
 	public void test1InsertSeller() {
 		try {
@@ -85,9 +67,6 @@ public class SellerServiceTest {
 	}
 
 	
-	/**
-	 * Test 2 update seller.
-	 */
 	@Test
 	public void test2UpdateSeller() {
 		String updatedName = "sanj";
@@ -103,9 +82,6 @@ public class SellerServiceTest {
 		}
 	}
 	
-	/**
-	 * Test 3 deactivate.
-	 */
 	@Test
 	public void test3Deactivate() {
 		int id = 1;
@@ -123,9 +99,6 @@ public class SellerServiceTest {
 		}
 	}
 
-	/**
-	 * Test 4 activate.
-	 */
 	@Test
 	public void test4Activate() {
 		int id = 1;
@@ -143,11 +116,6 @@ public class SellerServiceTest {
 		}
 	}
 	
-	/**
-	 * Test 5 get seller.
-	 *
-	 * @throws Exception the exception
-	 */
 	@Test
 	public void test5getSeller() throws Exception {
 		try {
@@ -160,12 +128,6 @@ public class SellerServiceTest {
 			throw ex;
 		}
 	}
-	
-	/**
-	 * Test 5 get seller list.
-	 *
-	 * @throws Exception the exception
-	 */
 	@Test
 	public void test5getSellerList() throws Exception {
 		try {
@@ -180,16 +142,58 @@ public class SellerServiceTest {
 	}
 	
 	
-	/**
-	 * Test insert seller null negative.
-	 *
-	 * @throws Exception the exception
-	 */
 	@Test(expected = Exception.class)
-	public void testInsertSellerNullNegative() throws Exception {
+	public void testInsertSellerNullName() throws Exception {
 		try {
 			SellerService sellerService = new SellerServiceImpl(SessionFactoryUtils.getSessionFactory());
-			Seller newSeller = sellerService.addSeller(null, null, null, null, 20, true);
+			Seller newSeller = sellerService.addSeller(null,"sa@gmail.com", "9876543210","200 B",20,true);
+		} catch (Exception ex) {
+			System.out.println(ex);
+			log.error(ex);
+			throw ex;
+		}
+	}
+	
+	@Test(expected = Exception.class)
+	public void testInsertSellerNullEmail() throws Exception {
+		try {
+			SellerService sellerService = new SellerServiceImpl(SessionFactoryUtils.getSessionFactory());
+			Seller newSeller = sellerService.addSeller("sanjana",null, "9876543210","200 B",20,true);
+		} catch (Exception ex) {
+			System.out.println(ex);
+			log.error(ex);
+			throw ex;
+		}
+	}
+	
+	@Test(expected = Exception.class)
+	public void testInsertSellerNullMob() throws Exception {
+		try {
+			SellerService sellerService = new SellerServiceImpl(SessionFactoryUtils.getSessionFactory());
+			Seller newSeller = sellerService.addSeller("sanjana","as@gmail.com",null,"200 B",20,true);
+		} catch (Exception ex) {
+			System.out.println(ex);
+			log.error(ex);
+			throw ex;
+		}
+	}
+	
+	@Test(expected = Exception.class)
+	public void testInsertSellerNullFlat() throws Exception {
+		try {
+			SellerService sellerService = new SellerServiceImpl(SessionFactoryUtils.getSessionFactory());
+			Seller newSeller = sellerService.addSeller("sanjana","as@gmail.com","9876543210",null,20,true);
+		} catch (Exception ex) {
+			System.out.println(ex);
+			log.error(ex);
+			throw ex;
+		}
+	}
+	@Test(expected = Exception.class)
+	public void testInsertSellerNullApatment() throws Exception {
+		try {
+			SellerService sellerService = new SellerServiceImpl(SessionFactoryUtils.getSessionFactory());
+			Seller newSeller = sellerService.addSeller("sanjana","as@gmail.com","9876543210","200 B",0,true);
 		} catch (Exception ex) {
 			System.out.println(ex);
 			log.error(ex);
@@ -198,11 +202,6 @@ public class SellerServiceTest {
 	}
 
 
-	/**
-	 * Test insert seller negative.
-	 *
-	 * @throws Exception the exception
-	 */
 	@Test(expected = Exception.class)
 	public void testInsertSellerNegative() throws Exception{
 		try {
@@ -216,11 +215,6 @@ public class SellerServiceTest {
 		}
 	}
 
-	/**
-	 * Test 6 update sellernegative.
-	 *
-	 * @throws Exception the exception
-	 */
 	@Test(expected = Exception.class)
 	public void test6UpdateSellernegative() throws Exception {
 		try {
@@ -233,16 +227,23 @@ public class SellerServiceTest {
 		}
 	}
 	
-	/**
-	 * Test 6 update seller nullnegative.
-	 *
-	 * @throws Exception the exception
-	 */
 	@Test(expected = Exception.class)
-	public void test6UpdateSellerNullnegative() throws Exception {
+	public void test6UpdateSellerNullId() throws Exception {
 		try {
 			SellerService sellerservice = new SellerServiceImpl(SessionFactoryUtils.getSessionFactory());
-			Seller updatedSeller = sellerservice.updateSeller(0,null);
+			Seller updatedSeller = sellerservice.updateSeller(0,"updatedName");
+		} catch (Exception e) {
+			e.printStackTrace();
+			log.error(e);
+			throw e;
+		}
+	}
+	
+	@Test(expected = Exception.class)
+	public void test6UpdateSellerNullName() throws Exception {
+		try {
+			SellerService sellerservice = new SellerServiceImpl(SessionFactoryUtils.getSessionFactory());
+			Seller updatedSeller = sellerservice.updateSeller(1,null);
 		} catch (Exception e) {
 			e.printStackTrace();
 			log.error(e);
@@ -250,11 +251,6 @@ public class SellerServiceTest {
 		}
 	}
 
-	/**
-	 * Test 7 deactivate negative.
-	 *
-	 * @throws Exception the exception
-	 */
 	@Test(expected = Exception.class)
 	public void test7DeactivateNegative() throws Exception {
 		int id = 10;
@@ -268,12 +264,6 @@ public class SellerServiceTest {
 			throw e;
 		}
 	}
-	
-	/**
-	 * Test 7 deactivate null negative.
-	 *
-	 * @throws Exception the exception
-	 */
 	@Test(expected = Exception.class)
 	public void test7DeactivateNullNegative() throws Exception {
 		int id = 0;
@@ -288,11 +278,6 @@ public class SellerServiceTest {
 		}
 	}        
 
-	/**
-	 * Test 8 activate negative.
-	 *
-	 * @throws Exception the exception
-	 */
 	@Test(expected = Exception.class)
 	public void test8ActivateNegative() throws Exception {
 		int id = 10;
@@ -307,11 +292,6 @@ public class SellerServiceTest {
 	}
 
 
-	/**
-	 * Test 9 activate null negative.
-	 *
-	 * @throws Exception the exception
-	 */
 	@Test(expected = Exception.class)
 	public void test9ActivateNullNegative() throws Exception {
 		int id = -1;
@@ -326,11 +306,6 @@ public class SellerServiceTest {
 	}
 	
 	
-	/**
-	 * Testget seller null negative.
-	 *
-	 * @throws Exception the exception
-	 */
 	@Test(expected = Exception.class)
 	public void testgetSellerNullNegative() throws Exception {
 		try {
@@ -342,12 +317,6 @@ public class SellerServiceTest {
 			throw ex;
 		}
 	}
-	
-	/**
-	 * Test 12 negative.
-	 *
-	 * @throws Exception the exception
-	 */
 	@Test(expected = Exception.class)
 	public void test12Negative() throws Exception {
 	
@@ -362,11 +331,6 @@ public class SellerServiceTest {
 		}
 	}
 
-	/**
-	 * Insert dependent data.
-	 *
-	 * @throws Exception the exception
-	 */
 	private void insertDependentData()  throws Exception{
 		if(sessionFactory == null){
 			throw new NullPointerException("session can't be null");
@@ -384,8 +348,13 @@ public class SellerServiceTest {
 			stateService.insert("Bangalore", 1);
 			cityService.insert("Bangalore", 1);
 			City city = cityService.getById(1);
-			localityService.insert("loc1", 1, "5678990");
-			apartmentService.insert("Rainbow PG", 1, 1);
+            Locality locality = new Locality("loc1","a",city);
+            localityService.insert(locality);
+            locality = localityService.getById(1);
+            Apartment apartment = new Apartment("Rainbow PG",locality,1);
+            apartment.setLocality(locality);
+            apartmentService.insert(apartment);
+            apartment = apartmentService.getById(1);
 			
 		}
 		catch(Exception ex){
