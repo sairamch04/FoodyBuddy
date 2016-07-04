@@ -66,7 +66,7 @@ public class SellerController {
 	 * @return Seller seller
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/seller/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/seller/{id}", method = RequestMethod.PUT,consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Seller> update(@PathVariable("id") Integer id, @RequestParam("newName") String newName) throws Exception{
 		Seller currentSeller = sellerService.getById(id);
 		if(currentSeller == null){
