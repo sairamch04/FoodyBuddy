@@ -41,8 +41,13 @@ public class City {
 	private State state;
 	
 	/** The created at. */
+	/** The is active. */
+	@Column(name = "is_active")
+	private Boolean isActive;
+	
+	/** The created at. */
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "created_at")
+	@Column(name = "created_at", nullable = false)
 	private Date createdAt;
 	
 	/** The modified at. */
@@ -58,6 +63,7 @@ public class City {
 	/** The modified by id. */
 	@Column(name = "modified_by_id")
 	private Integer modifiedById;
+
 	
 	/**
 	 * Gets the id.
@@ -185,6 +191,13 @@ public class City {
 		this.modifiedById = modifiedById;
 	}
 
+	public Boolean getIsActive() {
+		return isActive;
+	}
+
+	public void setIsActive(Boolean isActive) {
+		this.isActive = isActive;
+	}
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */

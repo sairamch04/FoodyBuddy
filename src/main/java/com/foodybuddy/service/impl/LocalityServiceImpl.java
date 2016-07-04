@@ -1,13 +1,5 @@
 package com.foodybuddy.service.impl;
 
-import java.util.List;
-
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
-import org.hibernate.TransactionException;
-import org.springframework.stereotype.Service;
-
 import com.foodybuddy.dao.CityDAO;
 import com.foodybuddy.dao.LocalityDAO;
 import com.foodybuddy.dao.impl.CityDAOImpl;
@@ -15,6 +7,13 @@ import com.foodybuddy.dao.impl.LocalityDAOImpl;
 import com.foodybuddy.model.City;
 import com.foodybuddy.model.Locality;
 import com.foodybuddy.service.LocalityService;
+import java.sql.Timestamp;
+import java.util.List;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.TransactionException;
+import org.springframework.stereotype.Service;
 
 /**
  * The Class LocalityServiceImpl.
@@ -88,8 +87,6 @@ public class LocalityServiceImpl implements LocalityService {
 			session = this.sessionFactory.openSession();
 			LocalityDAO localityDAO = new LocalityDAOImpl(session);
 			List<Locality> localityList = localityDAO.getAll();
-			if (localityList.size() == 0)
-				throw new RuntimeException("Empty Country List");
 			return localityList;
 		} catch (Exception exception) {
 			throw exception;
@@ -147,9 +144,14 @@ public class LocalityServiceImpl implements LocalityService {
 			}
 
 			Locality locality = new Locality();
+			
 			locality.setName(name);
 			locality.setCity(city);
 			locality.setPincode(pincode);
+			locality.setIsActive(true);
+			java.util.Date date = new java.util.Date();
+			locality.setCreatedAt(new Timestamp(date.getTime()));
+			
 
 			LocalityDAO localityDAO = new LocalityDAOImpl(session);
 			localityDAO.insert(locality);
@@ -158,15 +160,14 @@ public class LocalityServiceImpl implements LocalityService {
 		}
 
 		catch (Exception exception) {
-			try {
-				if (transaction != null)
-					transaction.rollback();
-				throw TransactionFailureException;
-			}
 
-			catch (RuntimeException runtimeException) {
+			if (transaction != null) {
+				transaction.rollback();
+				throw TransactionFailureException;
+			} else {
 				throw RollbackFailureException;
 			}
+
 		}
 
 		finally {
@@ -188,9 +189,7 @@ public class LocalityServiceImpl implements LocalityService {
 
 		try {
 			if (locality == null || locality.getName().trim().length() == 0 
-					|| locality.getCity() == null || locality.getCity().getName().trim().length() == 0
-						|| locality.getCity().getState() == null
-							|| locality.getCity().getState().getName().trim().length() == 0) {
+					|| locality.getCity() == null || locality.getCity().getState() == null) {
 				
 				if (locality == null) {
 					throw new RuntimeException("Locality Object is null");
@@ -204,17 +203,10 @@ public class LocalityServiceImpl implements LocalityService {
 					throw new RuntimeException("City Object is null");
 				}
 				
-				else if(locality.getCity().getName().trim().length() == 0){
-					throw new RuntimeException("City Name is Invalid");
-				}
-				
 				else if (locality.getCity().getState() == null) {
 					throw new RuntimeException("State Object is null");
 				}
 				
-				else {
-					throw new RuntimeException("State Name is Invalid");
-				}
 				
 			}
 
@@ -223,21 +215,22 @@ public class LocalityServiceImpl implements LocalityService {
 			transaction.setTimeout(10);
 
 			LocalityDAO localityDao = new LocalityDAOImpl(session);
+			java.util.Date date = new java.util.Date();
+			locality.setModifiedAt(new Timestamp(date.getTime()));
 			localityDao.update(locality);
 			transaction.commit();
 			return locality;
 		}
 
 		catch (Exception exception) {
-			try {
-				if (transaction != null)
-					transaction.rollback();
-				throw TransactionFailureException;
-			}
 
-			catch (RuntimeException runtimeException) {
+			if (transaction != null) {
+				transaction.rollback();
+				throw TransactionFailureException;
+			} else {
 				throw RollbackFailureException;
 			}
+
 		}
 
 		finally {
@@ -268,20 +261,22 @@ public class LocalityServiceImpl implements LocalityService {
 			transaction.setTimeout(10);
 
 			LocalityDAO localityDao = new LocalityDAOImpl(session);
-			localityDao.delete(locality);
+			locality.setIsActive(false);
+			java.util.Date date = new java.util.Date();
+			locality.setDeletedAt(new Timestamp(date.getTime()));
+			localityDao.update(locality);
 			transaction.commit();
 		}
 
 		catch (Exception exception) {
-			try {
-				if (transaction != null)
-					transaction.rollback();
-				throw TransactionFailureException;
-			}
 
-			catch (RuntimeException runtimeException) {
+			if (transaction != null) {
+				transaction.rollback();
+				throw TransactionFailureException;
+			} else {
 				throw RollbackFailureException;
 			}
+
 		}
 
 		finally {

@@ -1,7 +1,6 @@
 package com.foodybuddy.model;
 
 import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,7 +11,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-
 import org.hibernate.envers.Audited;
 
 
@@ -58,21 +56,21 @@ public class Buyer{
 	
 	/** The created at. */
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "created_at", columnDefinition="TIMESTAMP default CURRENT_TIMESTAMP")
+	@Column(name = "created_at")
 	private Date createdAt;
 	
 	/** The updated at. */
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "updated_at", columnDefinition="TIMESTAMP default CURRENT_TIMESTAMP")
-	private Date updatedAt;
+	@Column(name = "modified_at")
+	private Date modifiedAt;
 	
 	/** The deleted at. */
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "deleted_at", columnDefinition="TIMESTAMP default CURRENT_TIMESTAMP")
+	@Column(name = "deleted_at")
 	private Date deletedAt;
 
 	/** The is active. */
-	@Column(name="is_active" , nullable = false , columnDefinition = "boolean default true")
+	@Column(name="is_active")
     private Boolean isActive;
 	
 	/**
@@ -245,24 +243,15 @@ public class Buyer{
 		this.createdAt = createdAt;
 	}
 
-	/**
-	 * Gets the updated at.
-	 *
-	 * @return the updated at
-	 */
-	public Date getUpdatedAt() {
-		return updatedAt;
+	
+	public Date getModifiedAt() {
+		return modifiedAt;
 	}
 
-	/**
-	 * Sets the updated at.
-	 *
-	 * @param updatedAt the new updated at
-	 */
-	public void setUpdatedAt(Date updatedAt) {
-		this.updatedAt = updatedAt;
+	public void setModifiedAt(Date modifiedAt) {
+		this.modifiedAt = modifiedAt;
 	}
-	
+
 	/**
 	 * Gets the deleted at.
 	 *
@@ -290,7 +279,7 @@ public class Buyer{
                 + ", lastModifiedById=" + lastModifiedById + ", name=" + name
                 + ", mobileNumber=" + mobileNumber + ", email=" + email
                 + ", flatNumber=" + flatNumber + ", createdAt=" + createdAt
-                + ", updatedAt=" + updatedAt + ", deletedAt=" + deletedAt
+                + ", updatedAt=" + modifiedAt + ", deletedAt=" + deletedAt
                 + ", isActive=" + isActive + "]";
     }
 
@@ -320,7 +309,7 @@ public class Buyer{
                 + ((mobileNumber == null) ? 0 : mobileNumber.hashCode());
         result = prime * result + ((name == null) ? 0 : name.hashCode());
         result = prime * result
-                + ((updatedAt == null) ? 0 : updatedAt.hashCode());
+                + ((modifiedAt == null) ? 0 : modifiedAt.hashCode());
         return result;
     }
 
@@ -386,10 +375,10 @@ public class Buyer{
                 return false;
         } else if (!name.equals(other.name))
             return false;
-        if (updatedAt == null) {
-            if (other.updatedAt != null)
+        if (modifiedAt == null) {
+            if (other.modifiedAt != null)
                 return false;
-        } else if (!updatedAt.equals(other.updatedAt))
+        } else if (!modifiedAt.equals(other.modifiedAt))
             return false;
         return true;
     }
