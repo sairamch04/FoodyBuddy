@@ -1,5 +1,7 @@
 package com.foodybuddy.service;
 
+import java.util.List;
+
 import com.foodybuddy.model.Seller;
 
 // TODO: Auto-generated Javadoc

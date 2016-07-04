@@ -289,13 +289,8 @@ public class SellerServiceTest {
 			stateService.insert("Bangalore", 1);
 			cityService.insert("Bangalore", 1);
 			City city = cityService.getById(1);
-            Locality locality = new Locality("loc1","a",city);
-            localityService.insert(locality);
-            locality = localityService.getById(1);
-            Apartment apartment = new Apartment("Rainbow PG",locality,1);
-            apartment.setLocality(locality);
-            apartmentService.insert(apartment);
-            apartment = apartmentService.getById(1);
+			localityService.insert("loc1", 1, "5678990");
+            apartmentService.insert("Rainbow PG", 1, 1);
 			
 		}
 		catch(Exception ex){

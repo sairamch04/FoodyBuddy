@@ -303,13 +303,8 @@ public class DishServiceTest {
 			cityService.insert("Bangalore", 1);
 			City city = cityService.getById(1);
 			//
-            Locality locality = new Locality("loc1","a",city);
-            localityService.insert(locality);
-            locality = localityService.getById(1);
-            Apartment apartment = new Apartment("Rainbow PG",locality,1);
-            apartment.setLocality(locality);
-            apartmentService.insert(apartment);
-            apartment = apartmentService.getById(1);
+            localityService.insert("loc1", 1, "5678990");
+            apartmentService.insert("Rainbow PG", 1, 1);
 			sellerService.addSeller("sairam","sairamch04@foodybuddy.com", "8676903268","200 B",1,true);
 		}
 		catch(Exception ex){
