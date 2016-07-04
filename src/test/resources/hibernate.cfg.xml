@@ -21,6 +21,14 @@
         <!-- Echo all executed SQL to stdout -->
         <property name="show_sql">true</property>
         
+        <!-- c3p0 configuration -->
+		<property name="connection.provider_class">org.hibernate.connection.C3P0ConnectionProvider</property>
+		<property name="c3p0.min_size">5</property>
+		<property name="c3p0.max_size">20</property>
+		<property name="c3p0.timeout">300</property>
+		<property name="c3p0.max_statements">50</property>
+		<property name="c3p0.idle_test_period">3000</property>
+        
         <property name="hbm2ddl.auto">create</property>
         <!-- "Import" the mapping resources here -->
 		<mapping class="com.foodybuddy.model.Order"/>
