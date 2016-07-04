@@ -1,15 +1,5 @@
 package com.foodybuddy.service.impl;
 
-import java.util.List;
-
-import javax.management.RuntimeErrorException;
-
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
-import org.hibernate.TransactionException;
-import org.springframework.stereotype.Service;
-
 import com.foodybuddy.dao.ApartmentDAO;
 import com.foodybuddy.dao.BuyerDAO;
 import com.foodybuddy.dao.impl.ApartmentDAOImpl;
@@ -17,6 +7,13 @@ import com.foodybuddy.dao.impl.BuyerDAOImpl;
 import com.foodybuddy.model.Apartment;
 import com.foodybuddy.model.Buyer;
 import com.foodybuddy.service.BuyerService;
+import java.sql.Timestamp;
+import java.util.List;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.TransactionException;
+import org.springframework.stereotype.Service;
 
 /**
  * The Class BuyerServiceImpl.
@@ -90,8 +87,6 @@ public class BuyerServiceImpl implements BuyerService {
             session = this.sessionFactory.openSession();
             BuyerDAO buyerDAO = new BuyerDAOImpl(session);
             List<Buyer> buyerList = buyerDAO.getAll();
-            if (buyerList.size() == 0)
-                throw new RuntimeException("Empty Country List");
             return buyerList;
         } catch (Exception exception) {
             throw exception;
@@ -108,14 +103,14 @@ public class BuyerServiceImpl implements BuyerService {
      * @see com.foodybuddy.service.BuyerService#insert(java.lang.String,
      * java.lang.Integer)
      */
-    public Buyer insert(String name, Integer apartmentId, Integer lastModifiedById, String mobileNumber, String email, String flatNumber, Boolean isActive) throws TransactionException {
+    public Buyer insert(String name, Integer apartmentId, String mobileNumber, String email, String flatNumber) throws TransactionException {
 
         Session session = null;
         Transaction transaction = null;
 
         try {
             
-            if (name == null || apartmentId == null || apartmentId <= 0 || name.trim().length() == 0 || lastModifiedById == null || mobileNumber == null || email == null || flatNumber == null || isActive == null ) {
+            if (name == null || apartmentId == null || apartmentId <= 0 || name.trim().length() == 0 ||  mobileNumber == null || email == null || flatNumber == null) {
 
                 if (name == null) {
                     throw new RuntimeException("Name is null");
@@ -132,11 +127,7 @@ public class BuyerServiceImpl implements BuyerService {
                 else if(name.trim().length() == 0) {
                     throw new RuntimeException("Name is invalid");
                 }
-                
-                else if(lastModifiedById == null) {
-                    throw new RuntimeException("lastModifiedById is null");
-                }
-                
+               
                 else if(mobileNumber == null) {
                     throw new RuntimeException("mobileNumber is null");
                 }
@@ -149,10 +140,7 @@ public class BuyerServiceImpl implements BuyerService {
                     throw new RuntimeException("flatNumber is null");
                 }
                 
-                else if(isActive == null) {
-                    throw new RuntimeException("isActive is null");
-                }
-               
+                
             }
             session = this.sessionFactory.openSession();
             transaction = session.beginTransaction();
@@ -168,29 +156,29 @@ public class BuyerServiceImpl implements BuyerService {
             Buyer buyer = new Buyer();
             buyer.setName(name);
             buyer.setApartment(apartment);
-            buyer.setLastModifiedById(lastModifiedById);
             buyer.setMobileNumber(mobileNumber);
             buyer.setEmail(email);
             buyer.setFlatNumber(flatNumber);
-            buyer.setIsActive(isActive);
+            buyer.setIsActive(true);
             
             BuyerDAO buyerDao = new BuyerDAOImpl(session);
+            java.util.Date date = new java.util.Date();
+			buyer.setCreatedAt(new Timestamp(date.getTime()));
             buyerDao.insert(buyer);
             transaction.commit();
             return buyer;
         }
 
         catch (Exception exception) {
-            try {
-                if (transaction != null)
-                    transaction.rollback();
-                throw TransactionFailureException;
-            }
 
-            catch (RuntimeException runtimeException) {
-                throw RollbackFailureException;
-            }
-        }
+			if (transaction != null) {
+				transaction.rollback();
+				throw TransactionFailureException;
+			} else {
+				throw RollbackFailureException;
+			}
+
+		}
 
         finally {
             if (session != null) {
@@ -211,9 +199,8 @@ public class BuyerServiceImpl implements BuyerService {
 
         try {
             if (buyer == null || buyer.getName().trim().length() == 0 
-                    || buyer.getApartment() == null || buyer.getApartment().getName().trim().length() == 0
-                        || buyer.getApartment().getLocality() == null
-                            || buyer.getApartment().getLocality().getName().trim().length() == 0) {
+                    || buyer.getApartment() == null
+                        || buyer.getApartment().getLocality() == null) {
                 
                 if (buyer == null) {
                     throw new RuntimeException("Buyer Object is null");
@@ -227,16 +214,9 @@ public class BuyerServiceImpl implements BuyerService {
                     throw new RuntimeException("Apartment Object is null");
                 }
                 
-                else if(buyer.getApartment().getName().trim().length() == 0){
-                    throw new RuntimeException("Apartment Name is Invalid");
-                }
                 
                 else if (buyer.getApartment().getLocality() == null) {
                     throw new RuntimeException("Locality Object is null");
-                }
-                
-                else {
-                    throw new RuntimeException("Locality Name is Invalid");
                 }
                 
             }
@@ -246,22 +226,23 @@ public class BuyerServiceImpl implements BuyerService {
             transaction.setTimeout(10);
 
             BuyerDAO buyerDAO = new BuyerDAOImpl(session);
+            java.util.Date date = new java.util.Date();
+			buyer.setModifiedAt(new Timestamp(date.getTime()));
             buyerDAO.update(buyer);
             transaction.commit();
             return buyer;
         }
 
         catch (Exception exception) {
-            try {
-                if (transaction != null)
-                    transaction.rollback();
-                throw TransactionFailureException;
-            }
 
-            catch (RuntimeException runtimeException) {
-                throw RollbackFailureException;
-            }
-        }
+			if (transaction != null) {
+				transaction.rollback();
+				throw TransactionFailureException;
+			} else {
+				throw RollbackFailureException;
+			}
+
+		}
 
         finally {
             if (session != null) {
@@ -291,21 +272,23 @@ public class BuyerServiceImpl implements BuyerService {
             transaction.setTimeout(10);
 
             BuyerDAO buyerDao = new BuyerDAOImpl(session);
-            buyerDao.delete(buyer);
+            buyer.setIsActive(false);
+			java.util.Date date = new java.util.Date();
+			buyer.setDeletedAt(new Timestamp(date.getTime()));
+            buyerDao.update(buyer);
             transaction.commit();
         }
 
         catch (Exception exception) {
-            try {
-                if (transaction != null)
-                    transaction.rollback();
-                throw TransactionFailureException;
-            }
 
-            catch (RuntimeException runtimeException) {
-                throw RollbackFailureException;
-            }
-        }
+			if (transaction != null) {
+				transaction.rollback();
+				throw TransactionFailureException;
+			} else {
+				throw RollbackFailureException;
+			}
+
+		}
 
         finally {
             if (session != null) {

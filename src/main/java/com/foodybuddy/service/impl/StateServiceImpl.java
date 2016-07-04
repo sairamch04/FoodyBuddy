@@ -7,7 +7,9 @@ import com.foodybuddy.dao.impl.StateDAOImpl;
 import com.foodybuddy.model.Country;
 import com.foodybuddy.model.State;
 import com.foodybuddy.service.StateService;
+import java.sql.Timestamp;
 import java.util.List;
+import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -29,6 +31,7 @@ public class StateServiceImpl implements StateService {
 
 	/** The session factory. */
 	private SessionFactory sessionFactory;
+	static Logger log = Logger.getLogger(StateServiceImpl.class.getName());
 
 	/**
 	 * Instantiates a new state service impl.
@@ -38,9 +41,11 @@ public class StateServiceImpl implements StateService {
 	 */
 	public StateServiceImpl(SessionFactory sessionFactory) {
 		if (sessionFactory == null) {
+			log.error("Session Factory is null!");
 			throw new RuntimeException("Session Factory is Null");
 		}
 		this.sessionFactory = sessionFactory;
+		log.info("Session Factory successfully assigned!");
 	}
 
 	/*
@@ -54,15 +59,19 @@ public class StateServiceImpl implements StateService {
 		try {
 			if (id == null || id <= 0) {
 				if (id == null) {
+					log.error("ID is null");
 					throw new RuntimeException("ID is null");
 				} else {
+					log.error("ID is invalid");
 					throw new RuntimeException("ID is invalid");
 				}
 			}
 
 			session = this.sessionFactory.openSession();
 			StateDAO stateDAO = new StateDAOImpl(session);
-			return stateDAO.getById(id);
+			State state = stateDAO.getById(id);
+			log.info("Retreived state using ID : " + state);
+			return state;
 
 		} catch (Exception exception) {
 			throw exception;
@@ -86,8 +95,7 @@ public class StateServiceImpl implements StateService {
 			session = this.sessionFactory.openSession();
 			StateDAO stateDAO = new StateDAOImpl(session);
 			List<State> statesList = stateDAO.getAll();
-			if (statesList.size() == 0)
-				throw new RuntimeException("Empty Country List");
+			log.info("Retreived list of states : " + statesList);
 			return statesList;
 		} catch (Exception exception) {
 			throw exception;
@@ -114,51 +122,66 @@ public class StateServiceImpl implements StateService {
 			if (name == null || countryId == null || countryId <= 0 || name.trim().length() == 0) {
 
 				if (name == null) {
+					log.error("Name is null");
 					throw new RuntimeException("Name is null");
 				}
 
 				else if (countryId == null) {
+					log.error("CountryId is null");
 					throw new RuntimeException("CountryId is null");
 				}
 
 				else if (countryId <= 0) {
+					log.error("CountryId is null");
 					throw new RuntimeException("CountryId is null");
 				}
 
 				else {
+					log.error("Name is invalid");
 					throw new RuntimeException("Name is invalid");
 				}
 			}
 			session = this.sessionFactory.openSession();
 			transaction = session.beginTransaction();
+			log.info("Started Transaction.");
 			transaction.setTimeout(10);
 
 			CountryDAO countryDAO = new CountryDAOImpl(session);
 			Country country = countryDAO.getById(countryId);
 
 			if (country == null) {
+				log.error("No object with specified Id");
 				throw new RuntimeException("No object with specified Id");
 			}
+			
+			log.info("Retrieved Country from database :" + country);
 			State state = new State();
 			state.setName(name);
 			state.setCountry(country);
 
 			StateDAO stateDAO = new StateDAOImpl(session);
+			java.util.Date date= new java.util.Date();
+			state.setCreatedAt(new Timestamp(date.getTime()));
+			state.setIsActive(true);
 			stateDAO.insert(state);
 			transaction.commit();
+			log.info("Committed new state to database : " + state);
 			return state;
 		}
 
 		catch (Exception exception) {
-			try {
-				if (transaction != null)
-					transaction.rollback();
+
+			if (transaction != null){
+				transaction.rollback();
+				log.error("Transaction Failed and rollbacked!");
 				throw TransactionFailureException;
 			}
-
-			catch (RuntimeException runtimeException) {
+			else{
+				log.error("Transaction and rollback Failed!");
 				throw RollbackFailureException;
 			}
+
+
 		}
 
 		finally {
@@ -180,44 +203,49 @@ public class StateServiceImpl implements StateService {
 		Transaction transaction = null;
 
 		try {
-			if (state == null || state.getName().trim().length() == 0 || state.getCountry() == null
-					|| state.getCountry().getName().trim().length() == 0) {
+			if (state == null || state.getName().trim().length() == 0 || state.getCountry() == null) {
 				if (state == null) {
+					log.error("State Object is null");
 					throw new RuntimeException("State Object is null");
 				}
 
 				else if (state.getName().trim().length() == 0) {
+					log.error("State Name is Invalid");
 					throw new RuntimeException("State Name is Invalid");
 				}
 
 				else if (state.getCountry() == null) {
+					log.error("Country Object is null");
 					throw new RuntimeException("Country Object is null");
-				}
-
-				else {
-					throw new RuntimeException("State Name is invalid");
 				}
 			}
 			session = this.sessionFactory.openSession();
 			transaction = session.beginTransaction();
+			log.info("Started Transaction.");
 			transaction.setTimeout(10);
 
 			StateDAO stateDAO = new StateDAOImpl(session);
+			java.util.Date date= new java.util.Date();
+			state.setModifiedAt(new Timestamp(date.getTime()));
 			stateDAO.update(state);
 			transaction.commit();
+			log.info("Committed updated State to Database : " + state);
 			return state;
 		}
 
 		catch (Exception exception) {
-			try {
-				if (transaction != null)
-					transaction.rollback();
+
+			if (transaction != null){
+				transaction.rollback();
+				log.error("Transaction Failed and rollbacked!");
 				throw TransactionFailureException;
 			}
-
-			catch (RuntimeException runtimeException) {
+			else{
+				log.error("Transaction and rollback Failed!");
 				throw RollbackFailureException;
 			}
+
+
 		}
 
 		finally {
@@ -245,23 +273,31 @@ public class StateServiceImpl implements StateService {
 			}
 			session = this.sessionFactory.openSession();
 			transaction = session.beginTransaction();
+			log.info("Started Transaction.");
 			transaction.setTimeout(10);
 
 			StateDAO stateDAO = new StateDAOImpl(session);
-			stateDAO.delete(state);
+			java.util.Date date= new java.util.Date();
+			state.setDeletedAt(new Timestamp(date.getTime()));
+			state.setIsActive(false);
+			stateDAO.update(state);
+			log.info("Soft deleted Object " + state);
 			transaction.commit();
 		}
 
 		catch (Exception exception) {
-			try {
-				if (transaction != null)
-					transaction.rollback();
+
+			if (transaction != null){
+				transaction.rollback();
+				log.error("Transaction Failed and rollbacked!");
 				throw TransactionFailureException;
 			}
-
-			catch (RuntimeException runtimeException) {
+			else{
+				log.error("Transaction and rollback Failed!");
 				throw RollbackFailureException;
 			}
+
+
 		}
 
 		finally {
