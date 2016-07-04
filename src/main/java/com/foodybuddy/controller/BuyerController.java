@@ -69,7 +69,7 @@ public class BuyerController {
 	 */
 	@RequestMapping(value = "/buyer", method = RequestMethod.POST, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Buyer> insert(@RequestParam("name") String name, @RequestParam("apartmentId") Integer apartmentId, @RequestParam("mobileNumber") String mobileNumber, @RequestParam("email") String email, @RequestParam("flatNumber") String flatNumber ){
-		Buyer buyer = buyerService.insert(name, apartmentId, mobileNumber, email, flatNumber);
+		Buyer buyer = buyerService.insert(name, apartmentId, new Integer(0), mobileNumber, email, flatNumber, true);
 		return new ResponseEntity<Buyer>(buyer, HttpStatus.OK);
 	}
 	

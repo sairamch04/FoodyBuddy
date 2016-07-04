@@ -103,7 +103,7 @@ public class BuyerServiceImpl implements BuyerService {
      * @see com.foodybuddy.service.BuyerService#insert(java.lang.String,
      * java.lang.Integer)
      */
-    public Buyer insert(String name, Integer apartmentId, String mobileNumber, String email, String flatNumber) throws TransactionException {
+    public Buyer insert(String name, Integer apartmentId, Integer lastModifiedById, String mobileNumber, String email, String flatNumber, boolean isActive) throws TransactionException {
 
         Session session = null;
         Transaction transaction = null;
