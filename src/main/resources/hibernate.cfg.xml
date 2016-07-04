@@ -5,36 +5,42 @@
 
 <hibernate-configuration>
 
-   <session-factory>
-        <!-- Database connection settings -->
-        <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
-        <property name="connection.url">jdbc:mysql://localhost:3306/FoodyBuddy</property>
-        <property name="connection.username">guest</property>
-        <property name="connection.password">guest</property>
+	<session-factory>
+		<!-- Database connection settings -->
+		<property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+		<property name="connection.url">jdbc:mysql://localhost:3306/FoodyBuddy?createDatabaseIfNotExist=true&amp;amp;useUnicode=true&amp;amp;characterEncoding=utf-8&amp;amp;autoReconnect=true</property>
+		<property name="connection.username">guest</property>
+		<property name="connection.password">guest</property>
 
-        <!-- JDBC connection pool (use the built-in) -->
-        <property name="connection.pool_size">1</property>
+		<!-- SQL dialect -->
+		<property name="dialect">org.hibernate.dialect.MySQLDialect</property>
 
-        <!-- SQL dialect -->
-        <property name="dialect">org.hibernate.dialect.MySQLDialect</property>
+		<!-- Echo all executed SQL to stdout -->
+		<property name="show_sql">true</property>
 
-        <!-- Echo all executed SQL to stdout -->
-        <property name="show_sql">true</property>
-        
-        <property name="hbm2ddl.auto">create</property>
-        <!-- "Import" the mapping resources here -->
-		<mapping class="com.foodybuddy.model.Order"/>
-		<mapping class="com.foodybuddy.model.OrderDish"/>
-		<mapping class="com.foodybuddy.model.Buyer"/>
-		<mapping class="com.foodybuddy.model.Seller"/>
-		<mapping class="com.foodybuddy.model.Apartment"/>
-		<mapping class="com.foodybuddy.model.Country"/>
-		<mapping class="com.foodybuddy.model.State"/>
-		<mapping class="com.foodybuddy.model.City"/>
-		<mapping class="com.foodybuddy.model.Locality"/>
-		<mapping class="com.foodybuddy.model.Dish"/>
+		<!-- c3p0 configuration -->
+		<property name="connection.provider_class">org.hibernate.connection.C3P0ConnectionProvider</property>
+		<property name="c3p0.min_size">5</property>
+		<property name="c3p0.max_size">20</property>
+		<property name="c3p0.timeout">300</property>
+		<property name="c3p0.max_statements">50</property>
+		<property name="c3p0.idle_test_period">3000</property>
 
 
-    </session-factory>
+		<property name="hbm2ddl.auto">update</property>
+		<!-- "Import" the mapping resources here -->
+		<mapping class="com.foodybuddy.model.Order" />
+		<mapping class="com.foodybuddy.model.OrderDish" />
+		<mapping class="com.foodybuddy.model.Buyer" />
+		<mapping class="com.foodybuddy.model.Seller" />
+		<mapping class="com.foodybuddy.model.Apartment" />
+		<mapping class="com.foodybuddy.model.Country" />
+		<mapping class="com.foodybuddy.model.State" />
+		<mapping class="com.foodybuddy.model.City" />
+		<mapping class="com.foodybuddy.model.Locality" />
+		<mapping class="com.foodybuddy.model.Dish" />
+
+
+	</session-factory>
 
 </hibernate-configuration>
