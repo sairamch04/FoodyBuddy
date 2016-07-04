@@ -8,9 +8,9 @@
 	<session-factory>
 		<!-- Database connection settings -->
 		<property name="connection.driver_class">com.mysql.jdbc.Driver</property>
-		<property name="connection.url">jdbc:mysql://localhost:3306/FoodyBuddy?createDatabaseIfNotExist=true&amp;amp;useUnicode=true&amp;amp;characterEncoding=utf-8&amp;amp;autoReconnect=true</property>
-		<property name="connection.username">guest</property>
-		<property name="connection.password">guest</property>
+		<property name="connection.url">jdbc:mysql://aakmacu1wa1p5j.cwussfxf1jzv.us-west-2.rds.amazonaws.com :3306/FoodyBuddy?createDatabaseIfNotExist=true&amp;amp;useUnicode=true&amp;amp;characterEncoding=utf-8&amp;amp;autoReconnect=true</property>
+		<property name="connection.username">admin</property>
+		<property name="connection.password">12345678</property>
 
 		<!-- SQL dialect -->
 		<property name="dialect">org.hibernate.dialect.MySQLDialect</property>
