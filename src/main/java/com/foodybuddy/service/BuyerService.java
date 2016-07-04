@@ -39,7 +39,7 @@ public interface BuyerService {
 	 * @return the buyer
 	 * @throws TransactionException the transaction exception
 	 */
-	public Buyer insert(String name, Integer apartmentId, String mobileNumber, String email, String flatNumber) throws TransactionException;
+	public Buyer insert(String name, Integer apartmentId, Integer lastModifiedById, String mobileNumber, String email, String flatNumber, Boolean isActive) throws TransactionException;
 	
 	/**
 	 * Update.
