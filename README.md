@@ -35,4 +35,4 @@ on your terminal. The application has started.
 
 Visit http://127.0.0.1:8080/FoodyBuddy and hit the requests to it
 
-Live on: http://ec2-52-34-50-160.us-west-2.compute.amazonaws.com:8080
+Live on: http://ec2-52-34-50-160.us-west-2.compute.amazonaws.com:8080/FoodyBuddy
