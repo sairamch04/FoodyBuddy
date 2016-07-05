@@ -44,49 +44,49 @@ Response Format - JSON
 
 #Operations
 
->Country
+Country
 >GET /country - Lists all countries
 >GET /country/:id - Lists details of country with id
 >POST /country - Add a country
 >PUT /country/:id - Lists details of country with id
 >DELETE /country/:id - Delete a country
 
->State
+State
 >GET /state - Lists all states
 >GET /state/:id - Lists details of state with id
 >POST /state - Add a state
 >PUT /state/:id - Lists details of state with id
 >DELETE /state/:id - Delete a state
 
->City
+City
 >GET /city - Lists all cities
 >GET /city/:id - Lists details of city with id
 >POST /city - Add a city
 >PUT /city/:id - Lists details of city with id
 >DELETE /city/:id - Delete a city
 
->Locality
+Locality
 >GET /locality - Lists all locality
 >GET /locality/:id - Lists details of locality with id
 >POST /locality - Add a locality
 >PUT /locality/:id - Lists details of locality with id
 >DELETE /locality/:id - Delete a locality
 
->Apartment
+Apartment
 >GET /apartment - Lists all apartments
 >GET /apartment/:id - Lists details of apartment with id
 >POST /apartment - Add an apartment
 >PUT /apartment/:id - Lists details of apartment with id
 >DELETE /apartment/:id - Delete a apartment
 
->Buyer
+Buyer
 >GET /buyer - Lists all buyers
 >GET /buyer/:id - Lists details of buyer with id
 >POST /buyer - Add a buyer
 >PUT /buyer/:id - Lists details of buyer with id
 >DELETE /buyer/:id - Delete a buyer
 
->Seller
+Seller
 >GET /seller - Lists all seller
 >GET /seller/:id - Lists details of seller with id
 >POST /seller - Add a seller
